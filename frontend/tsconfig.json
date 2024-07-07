@@ -11,6 +11,7 @@
       "baseUrl": "./",
       "paths": {
         "@/*": ["src/*"],
+        "@api/*": ["src/api/*"],
         "@app/*": ["src/components/app/*"],
         "@asset/*": ["src/assets/*"],
         "@common/*": ["src/components/common/*"],
