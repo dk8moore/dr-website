@@ -14,9 +14,8 @@ import {
   SheetTrigger,
 } from '@ui/sheet';
 
-import { GitHubLogoIcon } from '@radix-ui/react-icons';
 import { buttonVariants } from '@ui/button';
-import { Menu } from 'lucide-react';
+import { Menu, LogIn } from 'lucide-react';
 import { ModeToggle } from '@common/mode-toggle';
 import { LogoIcon } from '@common/icons';
 
@@ -98,13 +97,13 @@ export const Navbar = () => {
                   ))}
                   <a
                     rel="noreferrer noopener"
-                    href="/login" // Changed URL to the login page
+                    href="/app/login/" // Changed URL to the login page
                     className={`w-[110px] border ${buttonVariants({
                       variant: "secondary",
                     })}`}
                   >
-                    <GitHubLogoIcon className="mr-2 w-5 h-5" />
-                    Github
+                    <LogIn className="mr-2 w-5 h-5" />
+                    Login
                   </a>
                 </nav>
               </SheetContent>
@@ -130,11 +129,11 @@ export const Navbar = () => {
           <div className="hidden md:flex gap-2">
             <a
               rel="noreferrer noopener"
-              href="/login" // Changed URL to the login page
+              href="/app/login/" // Changed URL to the login page
               className={`border ${buttonVariants({ variant: "secondary" })}`}
             >
-              <GitHubLogoIcon className="mr-2 w-5 h-5" />
-              Github
+              <LogIn className="mr-2 w-5 h-5" />
+              Login
             </a>
 
             <ModeToggle />

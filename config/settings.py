@@ -186,3 +186,5 @@ LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 # Add social auth URL configuration
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
+
+AUTH_USER_MODEL = 'core.User'

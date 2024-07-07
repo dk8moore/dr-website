@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@ui/avatar';
 import { Badge } from '@ui/badge';
@@ -132,8 +133,11 @@ export const HeroCards = () => {
         </CardHeader>
 
         <CardContent>
-          <Button className="w-full">Start Free Trial</Button>
+          <Link to="/app/login" className="w-full md:w-1/3">
+            <Button className="w-full">Start Free Trial</Button>
+          </Link>
         </CardContent>
+        
 
         <hr className="w-4/5 m-auto mb-4" />
 

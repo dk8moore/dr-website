@@ -1,4 +1,6 @@
-from rest_framework import generics
+from rest_framework import generics, status
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from .models import User
 from .serializers import UserSerializer
 import json
@@ -14,6 +16,7 @@ from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.contrib.auth import authenticate  
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import PasswordResetView
+from django.core.exceptions import ValidationError
 
 # View for user list and creation
 class UserListCreate(generics.ListCreateAPIView):
@@ -52,26 +55,44 @@ class CreateCheckoutSessionView(generics.GenericAPIView):
                 'error': str(e)
             })
         
-@csrf_exempt
-def login(request):
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        username = data['username']
-        password = data['password']
-        user = authenticate(request, username=username, password=password)
+@method_decorator(csrf_exempt, name='dispatch')
+class LoginView(APIView):
+    def post(self, request):
+        email = request.data.get('email')
+        password = request.data.get('password')
+        print(f"Login attempt for email: {email}")  # For debugging
+
+        if email is None or password is None:
+            return Response({'error': 'Please provide both email and password'},
+                            status=status.HTTP_400_BAD_REQUEST)
+
+        user = authenticate(username=email, password=password)
+        
         if user is not None:
             auth_login(request, user)
-            return JsonResponse({'success': True})
+            return Response({'success': 'User logged in successfully'},
+                            status=status.HTTP_200_OK)
         else:
-            return JsonResponse({'success': False, 'error': 'Invalid credentials'}, status=400)
-    else:
-        form = AuthenticationForm()
-        return render(request, 'login.html', {'form': form})
+            return Response({'error': 'Invalid credentials'},
+                            status=status.HTTP_401_UNAUTHORIZED)
 
-def logout(request):
-    auth_logout(request)
-    return redirect('/')
-
-class CustomPasswordResetView(PasswordResetView):
-    template_name = 'password_reset.html'
-
+@method_decorator(csrf_exempt, name='dispatch')
+class SignupView(APIView):
+    def post(self, request):
+        print("Received data:", request.data)
+        try:
+            user = User.objects.create_user(
+                username=request.data['email'],
+                email=request.data['email'],
+                password=request.data['password'],
+                first_name=request.data['first_name'],
+                last_name=request.data['last_name']
+            )
+            return Response({"message": "User created successfully"}, status=status.HTTP_201_CREATED)
+        except KeyError as e:
+            return Response({"error": f"Missing field: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
+        except ValidationError as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            print(f"Error creating user: {str(e)}")
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
