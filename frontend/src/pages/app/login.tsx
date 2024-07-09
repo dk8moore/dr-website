@@ -3,21 +3,30 @@ import { Link, useNavigate } from "react-router-dom";
 import { login } from "@api/api";
 
 import { Button } from "@ui/button";
-import { Input } from "@ui/input";
+import { Input } from "@ui/input";  // Import the custom Input component
 import { Label } from "@ui/label";
 import { Card } from "@ui/card";
 import { Separator } from "@ui/separator";
-import { SiGoogle, SiFacebook, SiGithub } from "react-icons/si";
+import { SiGoogle, SiFacebook } from "react-icons/si";
+import { FiAlertCircle } from "react-icons/fi";
 
 export function LoginForm() {
     const [formData, setFormData] = useState({
         email: '',
         password: '',
     });
+    const [isError, setIsError] = useState(false);
+    const [isShaking, setIsShaking] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.id]: e.target.value });
+        // Clear error state when user starts typing
+        if (isError) {
+            setIsError(false);
+            setErrorMessage('');
+        }
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -28,7 +37,15 @@ export function LoginForm() {
             navigate('/app/dashboard');
         } catch (error) {
             console.error('Login failed:', error);
+            setIsError(true);
+            setIsShaking(true);
+            setErrorMessage('Incorrect email or password.');
         }
+    };
+
+    const handleAnimationEnd = () => {
+        // Stop the shaking animation, but keep the error state
+        setIsShaking(false);
     };
 
     return (
@@ -56,7 +73,7 @@ export function LoginForm() {
                                 Sign in to access to your dashboard, settings and projects.
                             </p>
                         </div>
-                        <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+                        <form onSubmit={handleSubmit} className="mt-8 space-y-4">
                             <div className="space-y-2">
                                 <Label htmlFor="email">Email</Label>
                                 <Input
@@ -65,6 +82,9 @@ export function LoginForm() {
                                     placeholder="john.doe@example.com"
                                     required
                                     onChange={handleChange}
+                                    isError={isError}
+                                    isShaking={isShaking}
+                                    onAnimationEnd={handleAnimationEnd}
                                 />
                             </div>
                             <div className="space-y-2">
@@ -82,7 +102,18 @@ export function LoginForm() {
                                     type="password" 
                                     required 
                                     onChange={handleChange}
+                                    isError={isError}
+                                    isShaking={isShaking}
+                                    onAnimationEnd={handleAnimationEnd}
                                 />
+                            </div>
+                            <div className="h-5 mb-1">
+                                {isError && (
+                                    <div className="flex items-center justify-center text-[hsl(var(--error))] text-sm">
+                                        <FiAlertCircle className="flex-shrink-0 mr-2" />
+                                        <p>{errorMessage}</p>
+                                    </div>
+                                )}
                             </div>
                             <Button type="submit" className="w-full font-bold bg-primary">
                                 Login

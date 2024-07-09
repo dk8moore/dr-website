@@ -60,21 +60,17 @@ class LoginView(APIView):
     def post(self, request):
         email = request.data.get('email')
         password = request.data.get('password')
-        print(f"Login attempt for email: {email}")  # For debugging
 
-        if email is None or password is None:
-            return Response({'error': 'Please provide both email and password'},
-                            status=status.HTTP_400_BAD_REQUEST)
+        if not email or not password:
+            return Response({'error': 'Please provide both email and password'}, status=status.HTTP_400_BAD_REQUEST)
 
-        user = authenticate(username=email, password=password)
+        user = authenticate(request, username=email, password=password)
         
         if user is not None:
             auth_login(request, user)
-            return Response({'success': 'User logged in successfully'},
-                            status=status.HTTP_200_OK)
+            return Response({'success': 'User logged in successfully'}, status=status.HTTP_200_OK)
         else:
-            return Response({'error': 'Invalid credentials'},
-                            status=status.HTTP_401_UNAUTHORIZED)
+            return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
 @method_decorator(csrf_exempt, name='dispatch')
 class SignupView(APIView):
