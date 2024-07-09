@@ -23,6 +23,8 @@
         --input: 210 12% 80%;
         --ring: 180 60% 40%; /* Teal */
         --radius: 0.5rem;
+        --error: 5 90% 58%; /* Coral red */
+        --error-foreground: 0 0% 100%;
     }
 
     .dark {
@@ -45,5 +47,7 @@
         --border: 210 10% 25%;
         --input: 210 10% 25%;
         --ring: 180 50% 50%; /* Darker Teal */
+        --error: 5 70% 54%; /* Slightly muted coral for dark mode */
+        --error-foreground: 0 0% 95%;
     }
 }
