@@ -174,6 +174,11 @@ module.exports = {
           from: { backgroundPosition: "50% 50%, 50% 50%" },
           to: { backgroundPosition: "350% 50%, 350% 50%" },
         },
+        shake: {
+          '0%, 100%': { transform: 'translateX(0)' },
+          '10%, 30%, 50%, 70%, 90%': { transform: 'translateX(-4px)' },
+          '20%, 40%, 60%, 80%': { transform: 'translateX(4px)' },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -189,6 +194,7 @@ module.exports = {
         "grid": "grid 15s linear infinite",
         "ripple": "ripple 3400ms ease infinite",
         "aurora": "aurora 60s linear infinite",
+        "shake": "shake 0.5s cubic-bezier(.36,.07,.19,.97) both",
       },
     },
   },
