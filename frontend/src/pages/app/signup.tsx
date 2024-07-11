@@ -7,7 +7,9 @@ import { Input } from "@ui/input";
 import { Label } from "@ui/label";
 import { Card } from "@ui/card";
 import { Separator } from "@ui/separator";
+import { Checkbox } from "@ui/checkbox";
 import { SiGoogle, SiFacebook } from "react-icons/si";
+import { Eye, EyeOff } from "lucide-react";
 
 export function SignUpForm() {
     const [formData, setFormData] = useState({
@@ -16,6 +18,8 @@ export function SignUpForm() {
         email: '',
         password: '',
     });
+    const [agreeTerms, setAgreeTerms] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,10 +28,14 @@ export function SignUpForm() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (!agreeTerms) {
+            alert("Please agree to the Terms & Privacy Policy");
+            return;
+        }
         console.log('Submitting form data:', formData);
         try {
             await signup(formData);
-            navigate('/app/login');
+            navigate('/app/dashboard');
         } catch (error) {
             console.error('Signup failed:', error);
         }
@@ -100,14 +108,39 @@ export function SignUpForm() {
                                     onChange={handleChange}
                                 />
                             </div>
-                            <div className="space-y-2 mt-3">
+                            <div className="space-y-2 mt-3 relative">
                                 <Label htmlFor="password">Password</Label>
-                                <Input
-                                    id="password"
-                                    type="password"
-                                    required
-                                    onChange={handleChange}
+                                <div className="relative">
+                                    <Input
+                                        id="password"
+                                        type={showPassword ? "text" : "password"}
+                                        required
+                                        onChange={handleChange}
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400"
+                                    >
+                                        {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="flex items-center space-x-2 mt-4">
+                                <Checkbox
+                                    id="terms"
+                                    checked={agreeTerms}
+                                    onCheckedChange={(checked) => setAgreeTerms(checked as boolean)}
                                 />
+                                <label
+                                    htmlFor="terms"
+                                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                >
+                                    I agree to the{" "}
+                                    <a href="#" className="text-primary hover:underline">
+                                        Terms & Privacy Policy
+                                    </a>
+                                </label>
                             </div>
                             <Button type="submit" className="w-full font-bold bg-primary mt-10">
                                 Create an account
