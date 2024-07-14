@@ -35,7 +35,7 @@ export function SignUpForm() {
         console.log('Submitting form data:', formData);
         try {
             await signup(formData);
-            navigate('/app/dashboard');
+            navigate('/dashboard');
         } catch (error) {
             console.error('Signup failed:', error);
         }
@@ -148,7 +148,7 @@ export function SignUpForm() {
                         </form>
                         <div className="mt-6 text-center text-sm">
                             Already have an account?{" "}
-                            <Link to="/app/login" className="font-bold text-primary hover:underline">
+                            <Link to="/login" className="font-bold text-primary hover:underline">
                                 Sign in
                             </Link>
                         </div>

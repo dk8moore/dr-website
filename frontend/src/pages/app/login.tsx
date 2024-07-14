@@ -34,7 +34,7 @@ export function LoginForm() {
         try {
             const response = await login(formData);
             console.log('Login response:', response);  // For debugging
-            navigate('/app/dashboard');
+            navigate('/dashboard');
         } catch (error) {
             console.error('Login failed:', error);
             setIsError(true);
@@ -134,7 +134,7 @@ export function LoginForm() {
                         </form>
                         <div className="mt-6 text-center text-sm">
                             Don&apos;t have an account?{" "}
-                            <Link to="/app/signup" className="font-bold text-primary hover:underline">
+                            <Link to="/signup" className="font-bold text-primary hover:underline">
                                 Sign up
                             </Link>
                         </div>

@@ -133,7 +133,7 @@ export const HeroCards = () => {
         </CardHeader>
 
         <CardContent>
-          <Link to="/app/login" className="w-full md:w-1/3">
+          <Link to="/login" className="w-full md:w-1/3">
             <Button className="w-full">Start Free Trial</Button>
           </Link>
         </CardContent>

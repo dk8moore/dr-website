@@ -32,7 +32,7 @@ export const Hero = () => {
         </p>
 
         <div className="space-y-4 md:space-y-0 md:space-x-4">
-          <Link to="/app/login" className="w-full md:w-1/3">
+          <Link to="/login" className="w-full md:w-1/3">
             <Button className="w-full md:w-1/3">
               Get Started
               <LogIn className="ml-2 w-5 h-5" />
