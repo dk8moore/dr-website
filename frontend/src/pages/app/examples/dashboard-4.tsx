@@ -1,5 +1,6 @@
 import React from 'react'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from '@/lib/use-auth';
 
 import { CircleUser, Menu, Package2, Search } from "lucide-react"
 
@@ -24,7 +25,15 @@ import {
 import { Input } from "@ui/input"
 import { Sheet, SheetContent, SheetTrigger } from "@ui/sheet"
 
-export function Dashboard() {
+export const Dashboard: React.FC = () => {
+  const { signout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+      signout();
+      navigate('/login');
+  };
+
   return (
     <div className="flex min-h-screen w-full flex-col">
       <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
@@ -141,7 +150,7 @@ export function Dashboard() {
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem>Support</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
+              <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
