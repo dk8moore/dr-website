@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { logger } from '@lib/logger';
 
 /**
  * Create an axios instance with the base URL set to the
@@ -38,12 +39,20 @@ api.interceptors.request.use(
  * @param userData 
  * @returns The response from the API
  */
-export const signup = async (userData: any) => {
-    const response = await api.post('/signup/', userData);
-    if (response.data.token) {
-        localStorage.setItem('token', response.data.token);
+export const signup = async (userData: {
+    first_name: string;
+    last_name: string;
+    email: string;
+    password: string;
+}) => {
+    try {
+        const response = await api.post('/signup/', userData);
+        logger.log('Signup response:', response.data);
+        return response;
+    } catch (error) {
+        logger.error('Signup error:', error);
+        throw error;
     }
-    return response;
 };
 
 /**
@@ -56,6 +65,7 @@ export const signup = async (userData: any) => {
 export const login = async (credentials: { email: string; password: string }) => {
     try {
         const response = await api.post('/login/', credentials);
+        logger.log('Login response:', response.data);
         
         if (response.data.access && response.data.refresh) {
             localStorage.setItem('access_token', response.data.access);
@@ -65,6 +75,7 @@ export const login = async (credentials: { email: string; password: string }) =>
             return { success: false, error: 'Invalid response from server' };
         }
     } catch (error) {
+        logger.error('Login error:', error);
         return { success: false, error: 'An error occurred during login' };
     }
 };

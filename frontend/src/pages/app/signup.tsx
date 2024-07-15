@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
-import { signup } from "@api/api";
+import { signup, login } from "@api/api";
 import { useAuth } from '@/lib/use-auth';
 import { logger } from '@/lib/logger';
 
@@ -12,6 +12,7 @@ import { Separator } from "@ui/separator";
 import { Checkbox } from "@ui/checkbox";
 import { SiGoogle, SiFacebook } from "react-icons/si";
 import { Eye, EyeOff } from "lucide-react";
+import { FiAlertCircle } from 'react-icons/fi';
 
 export function SignUpForm() {
     const [formData, setFormData] = useState({
@@ -22,27 +23,52 @@ export function SignUpForm() {
     });
     const [agreeTerms, setAgreeTerms] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const [isError, setIsError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
     const { login: authLogin } = useAuth();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.id]: e.target.value });
+        // Clear error state when user starts typing
+        if (isError) {
+            setIsError(false);
+            setErrorMessage('');
+        }
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!agreeTerms) {
-            alert("Please agree to the Terms & Privacy Policy");
+            setIsError(true);
+            setErrorMessage("Please agree to the Terms & Privacy Policy");
             return;
         }
-
+        logger.log('Signup form data:', formData);
         try {
-            await signup(formData);
-            authLogin();
-            logger.info('User signed up successfully');
-            navigate('/dashboard');
+            // Signup user
+            const signupResponse = await signup(formData);
+            logger.log('Signup successful:', signupResponse);
+
+            // Automatically login user after signup
+            const loginResponse = await login({
+                email: formData.email,
+                password: formData.password
+            });
+
+            if (loginResponse.success && loginResponse.data.access && loginResponse.data.refresh) {
+                authLogin(); // Update auth state
+                logger.info('Auto-login successful after signup, navigating to dashboard');
+                navigate('/dashboard');
+            } else {
+                logger.error('Auto-login failed after signup');
+                setIsError(true);
+                setErrorMessage('Account created successfully, but auto-login failed. Please log in manually.');
+            }
         } catch (error) {
             logger.error('Signup failed:', error);
+            setIsError(true);
+            setErrorMessage('An error occurred during signup. Please try again.');
         }
     };
 
@@ -71,7 +97,7 @@ export function SignUpForm() {
                                 Enter your information to create an account
                             </p>
                         </div>
-                        <form onSubmit={handleSubmit} className="mt-12">
+                        <form onSubmit={handleSubmit} className="mt-12 space-y-3">
                             <Button variant="outline" className="items-center justify-center space-x-2 w-full mb-4">
                                 <SiGoogle />
                                 <span className="sm:inline">Sign up with Google</span>
@@ -147,7 +173,15 @@ export function SignUpForm() {
                                     </a>
                                 </label>
                             </div>
-                            <Button type="submit" className="w-full font-bold bg-primary mt-10">
+                            <div className="h-6 mt-4">
+                                {isError && (
+                                    <div className="flex items-center justify-center text-[hsl(var(--error))] text-sm">
+                                        <FiAlertCircle className="flex-shrink-0 mr-2" />
+                                        <p>{errorMessage}</p>
+                                    </div>
+                                )}
+                            </div>
+                            <Button type="submit" className="w-full font-bold bg-primary mt-2">
                                 Create an account
                             </Button>
                         </form>
