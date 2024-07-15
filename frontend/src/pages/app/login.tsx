@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "@api/api";
 import { useAuth } from '@/lib/use-auth';
+import { logger } from '@/lib/logger';
 
 import { Button } from "@ui/button";
 import { Input } from "@ui/input";  // Import the custom Input component
@@ -39,12 +40,15 @@ export function LoginForm() {
             if (response.data.access && response.data.refresh) {
                 await checkAuthStatus(); // Check auth status immediately after login
                 authLogin();
+                logger.info('User logged in successfully')
                 navigate('/dashboard');
             } else {
+                logger.error('Invalid response from server, it does not contain expected tokens')
                 setErrorMessage('An error occurred during login. Please try again.');
                 setIsError(true);
             }
         } catch (error) {
+            logger.error('An error occurred during login:', error)
             setIsError(true);
             setIsShaking(true);
             setErrorMessage('An error occurred during login. Please try again.');

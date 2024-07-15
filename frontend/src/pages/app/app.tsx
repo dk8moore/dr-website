@@ -6,12 +6,13 @@ import { SignUpForm } from '@page/app/signup';
 import { Dashboard } from '@page/app/examples/dashboard-2';
 import { ProtectedRoute } from '@lib/protected-route';
 import { useAuth } from '@/lib/use-auth';
+import { logger } from '@/lib/logger';
 import "@style/app.css";
 
 const AppRoutes: React.FC = () => {
   const { isAuthenticated } = useAuth();
 
-  console.log('AppRoutes: isAuthenticated =', isAuthenticated);
+  logger.log('AppRoutes: isAuthenticated =', isAuthenticated);
 
   return (
     <Routes>

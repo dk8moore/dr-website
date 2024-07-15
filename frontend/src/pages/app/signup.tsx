@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { signup } from "@api/api";
 import { useAuth } from '@/lib/use-auth';
+import { logger } from '@/lib/logger';
 
 import { Button } from "@ui/button";
 import { Input } from "@ui/input";
@@ -38,9 +39,10 @@ export function SignUpForm() {
         try {
             await signup(formData);
             authLogin();
+            logger.info('User signed up successfully');
             navigate('/dashboard');
         } catch (error) {
-            console.error('Signup failed:', error);
+            logger.error('Signup failed:', error);
         }
     };
 
