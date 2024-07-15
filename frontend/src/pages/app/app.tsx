@@ -5,6 +5,7 @@ import { LoginForm } from '@page/app/login';
 import { SignUpForm } from '@page/app/signup';
 import { Dashboard } from '@page/app/examples/dashboard-2';
 import { ProtectedRoute } from '@lib/protected-route';
+import { AuthRedirect } from '@/lib/auth-redirect';
 import { useAuth } from '@/lib/use-auth';
 import { logger } from '@/lib/logger';
 import "@style/app.css";
@@ -16,8 +17,8 @@ const AppRoutes: React.FC = () => {
 
   return (
     <Routes>
-      <Route path="/login" element={<LoginForm />} />
-      <Route path="/signup" element={<SignUpForm />} />
+      <Route path="/login" element={<AuthRedirect><LoginForm /></AuthRedirect>} />
+      <Route path="/signup" element={<AuthRedirect><SignUpForm /></AuthRedirect>} />
       <Route element={<ProtectedRoute authenticationPath="/login"/>}>
         <Route path="/dashboard" element={<Dashboard />} />
       </Route>
