@@ -1,5 +1,6 @@
 import React from 'react'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from '@/lib/use-auth';
 
 import {
   Bell,
@@ -34,7 +35,16 @@ import {
 import { Input } from "@ui/input"
 import { Sheet, SheetContent, SheetTrigger } from "@ui/sheet"
 
-export function Dashboard() {
+
+export const Dashboard: React.FC = () => {
+  const { signout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+      signout();
+      navigate('/login');
+  };
+
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <div className="hidden border-r bg-muted/40 md:block">
@@ -213,7 +223,7 @@ export function Dashboard() {
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem>Support</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
+              <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </header>

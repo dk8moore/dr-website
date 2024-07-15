@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { signup } from "@api/api";
+import { useAuth } from '@/lib/use-auth';
 
 import { Button } from "@ui/button";
 import { Input } from "@ui/input";
@@ -21,6 +22,7 @@ export function SignUpForm() {
     const [agreeTerms, setAgreeTerms] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
+    const { login: authLogin } = useAuth();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -32,9 +34,10 @@ export function SignUpForm() {
             alert("Please agree to the Terms & Privacy Policy");
             return;
         }
-        console.log('Submitting form data:', formData);
+
         try {
             await signup(formData);
+            authLogin();
             navigate('/dashboard');
         } catch (error) {
             console.error('Signup failed:', error);

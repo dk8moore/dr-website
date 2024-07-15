@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "@api/api";
+import { useAuth } from '@/lib/use-auth';
 
 import { Button } from "@ui/button";
 import { Input } from "@ui/input";  // Import the custom Input component
@@ -19,6 +20,7 @@ export function LoginForm() {
     const [isShaking, setIsShaking] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
+    const { login: authLogin, checkAuthStatus } = useAuth();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -33,13 +35,19 @@ export function LoginForm() {
         e.preventDefault();
         try {
             const response = await login(formData);
-            console.log('Login response:', response);  // For debugging
-            navigate('/dashboard');
+            
+            if (response.data.access && response.data.refresh) {
+                await checkAuthStatus(); // Check auth status immediately after login
+                authLogin();
+                navigate('/dashboard');
+            } else {
+                setErrorMessage('An error occurred during login. Please try again.');
+                setIsError(true);
+            }
         } catch (error) {
-            console.error('Login failed:', error);
             setIsError(true);
             setIsShaking(true);
-            setErrorMessage('Incorrect email or password.');
+            setErrorMessage('An error occurred during login. Please try again.');
         }
     };
 
