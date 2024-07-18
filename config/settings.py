@@ -166,12 +166,9 @@ CHANNEL_LAYERS = {
 }
 
 # Stripe
-
 STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
-# STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY')
 
 # Social authentication
-
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend',
@@ -180,11 +177,23 @@ AUTHENTICATION_BACKENDS = (
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'your-google-oauth2-client-id'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'your-google-oauth2-client-secret'
 
+# Login and logout URL configuration
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
-# Add social auth URL configuration
+
+# Social auth URL configuration
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
+# User model
 AUTH_USER_MODEL = 'core.User'
+
+# Email configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_PORT = config('EMAIL_PORT', cast=int)
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD =  config('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
