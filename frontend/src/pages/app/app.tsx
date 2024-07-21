@@ -3,7 +3,7 @@ import { Route, Routes, Navigate } from 'react-router-dom';
 import { TooltipProvider } from '@ui/tooltip';
 import { LoginForm } from '@page/app/login';
 import { SignUpForm } from '@page/app/signup';
-import { Settings } from '@page/app/settings';
+import { SettingsPage } from '@page/app/settings';
 import { Dashboard } from '@page/app/examples/dashboard-2';
 import { ProtectedRoute } from '@lib/protected-route';
 import { AuthRedirect } from '@/lib/auth-redirect';
@@ -24,7 +24,7 @@ const AppRoutes: React.FC = () => {
         <Route path="/dashboard" element={<Dashboard />} />
       </Route>
       <Route element={<ProtectedRoute authenticationPath="/login"/>}>
-        <Route path="/settings" element={<Settings />} />
+        <Route path="/settings" element={<SettingsPage />} />
       </Route>
       {/* Redirect any unknown routes to dashboard if authenticated, otherwise to login */}
       <Route path="*" element={

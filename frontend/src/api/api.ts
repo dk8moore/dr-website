@@ -13,21 +13,50 @@ const api = axios.create({
 });
 
 /**
- * Add the token to the request headers before sending
- * the request to the API
+ * Add an interceptor to the axios instance to add the token
+ * to the request headers before sending the request
  * 
  * @param config - The request configuration
  * @returns The request configuration with the token added
  */
 api.interceptors.request.use(
-    (config) => {
-        const token = localStorage.getItem('token');
+    async (config) => {
+        const token = localStorage.getItem('access_token');
         if (token) {
             config.headers['Authorization'] = `Bearer ${token}`;
         }
         return config;
     },
-    (error) => {
+    (error) => Promise.reject(error)
+);
+
+
+/**
+ * Add an interceptor to the axios instance to refresh the token
+ * if the response status is 401 (Unauthorized) and retry the request
+ * 
+ * @param response - The response from the API
+ * @returns The response from the API
+ */
+api.interceptors.response.use(
+    (response) => response,
+    async (error) => {
+        const originalRequest = error.config;
+        if (error.response?.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true;
+            try {
+                const token = await refreshToken();
+                if (token) {
+                    localStorage.setItem('access_token', token);
+                    originalRequest.headers['Authorization'] = `Bearer ${token}`;
+                    return api(originalRequest);
+                }
+            } catch (refreshError) {
+                logger.error('Error refreshing token:', refreshError);
+                logout();
+                return Promise.reject(refreshError);
+            }
+        }
         return Promise.reject(error);
     }
 );
@@ -70,6 +99,7 @@ export const login = async (credentials: { email: string; password: string }) =>
         if (response.data.access && response.data.refresh) {
             localStorage.setItem('access_token', response.data.access);
             localStorage.setItem('refresh_token', response.data.refresh);
+            logger.log('Access token set:', response.data.access);
             return { success: true, data: response.data };
         } else {
             return { success: false, error: 'Invalid response from server' };
@@ -149,11 +179,14 @@ export const getUserProfile = async () => {
  * @returns The response about the updated profile
  */
 export const updateUserProfile = async (profileData: {
+    username?: string;
+    email?: string;
     first_name?: string;
     last_name?: string;
     bio?: string;
     birth_date?: string;
     phone_number?: string;
+    urls?: string[];
     address?: string;
 }) => {
     try {

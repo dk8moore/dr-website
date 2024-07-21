@@ -2,6 +2,8 @@ from rest_framework import generics, status, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 from .models import User
 from .serializers import UserSerializer
 import json
@@ -23,8 +25,11 @@ from django.contrib.auth.forms import PasswordChangeForm, PasswordResetForm
 from django.contrib.auth import authenticate  
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import PasswordResetView
+from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ValidationError
 from django.template.loader import render_to_string
+from django.db.models import F
+from django.contrib.auth import get_user_model
 
 # View for user list and creation
 class UserListCreate(generics.ListCreateAPIView):
@@ -113,9 +118,28 @@ class SignupView(APIView):
 class UserProfileView(generics.RetrieveUpdateAPIView):
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
 
     def get_object(self):
+        auth_header = self.request.headers.get('Authorization')
+        if auth_header:
+            try:
+                token = auth_header.split()[1]
+                jwt_auth = JWTAuthentication()
+                validated_token = jwt_auth.get_validated_token(token)
+                user = jwt_auth.get_user(validated_token)
+            except (InvalidToken, TokenError) as e:
+                print("Token validation error:", str(e))
+            except Exception as e:
+                print("Unexpected error:", str(e))
+        else:
+            print("No Authorization header found")
         return self.request.user
+    
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
 
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', False)

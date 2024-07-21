@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { getUserProfile, updateUserProfile } from '@api/api';
+import { getUserProfile, isAuthenticated, updateUserProfile } from '@api/api';
+import { logger } from '@lib/logger';
+
 import { Button } from "@ui/button";
 import { Input } from "@ui/input";
 import { Label } from "@ui/label";
@@ -10,7 +12,7 @@ import { Trash2 } from 'lucide-react';
 
 type SettingsTab = 'Profile' | 'Account' | 'Appearance' | 'Notifications' | 'Display';
 
-export function Settings() {
+export function SettingsPage() {
     const [activeTab, setActiveTab] = useState<SettingsTab>('Profile');
     const [profile, setProfile] = useState({
         username: '',
@@ -26,20 +28,26 @@ export function Settings() {
     const verifiedEmails = ['user@example.com', 'another@example.com'];
 
     useEffect(() => {
+        logger.log('Is authenticated:', isAuthenticated());
         fetchUserProfile();
     }, []);
 
     const fetchUserProfile = async () => {
         try {
             setIsLoading(true);
+            if (!isAuthenticated()) {
+                throw new Error('Not authenticated');
+            }
             const userData = await getUserProfile();
             setProfile({
                 username: userData.username || '',
                 email: userData.email || '',
                 bio: userData.bio || '',
-                urls: userData.urls || ['']
+                urls: Array.isArray(userData.urls) ? userData.urls : ['']
             });
+            setIsError(false);
         } catch (error) {
+            logger.error('Fetch user profile error:', error);
             setIsError(true);
             setErrorMessage('Failed to fetch user profile');
         } finally {
