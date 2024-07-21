@@ -11,6 +11,7 @@ interface UserProfile {
   phone_number?: string;
   urls?: string[];
   address?: string;
+  profile_picture?: File;
 }
 
 /**
@@ -43,9 +44,32 @@ export class UserAPI {
    * @param profileData - The updated profile data
    * @returns A promise that resolves to the updated profile data
    */
-  async updateUserProfile(profileData: UserProfile) {
+  async updateUserProfile(profileData: UserProfile | FormData) {
     try {
-      const response = await this.api.put('/profile/', profileData);
+      let formData: FormData;
+
+      if (!(profileData instanceof FormData)) {
+        formData = new FormData();
+        Object.entries(profileData).forEach(([key, value]) => {
+          if (key === 'urls' && Array.isArray(value)) {
+            value.forEach((url, index) => {
+              formData.append(`urls[${index}]`, url);
+            });
+          } else if (key === 'profile_picture' && value instanceof File) {
+            formData.append('profile_picture', value);
+          } else if (value !== undefined && value !== null) {
+            formData.append(key, value.toString());
+          }
+        });
+      } else {
+        formData = profileData;
+      }
+
+      const response = await this.api.put('/profile/', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
       logger.log('Update user profile response:', response.data);
       return response.data;
     } catch (error) {

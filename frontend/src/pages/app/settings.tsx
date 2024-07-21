@@ -1,31 +1,56 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import api from '@api';
 import { logger } from '@lib/logger';
+import { useDropzone, DropzoneOptions } from 'react-dropzone';
+import Cropper from 'react-easy-crop';
+import { Area, Point } from 'react-easy-crop/types';
 
 import { Button } from "@ui/button";
 import { Input } from "@ui/input";
 import { Label } from "@ui/label";
 import { Textarea } from "@ui/textarea";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@ui/select";
 import { Separator } from "@ui/separator";
-import { Trash2 } from 'lucide-react';
+import { Trash2, Camera } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@ui/dialog";
 
-type SettingsTab = 'Profile' | 'Account' | 'Appearance' | 'Notifications' | 'Display';
+type SettingsTab = 'Profile' | 'Account' | 'Security';
+
+interface UserProfile {
+    username: string;
+    email: string;
+    first_name: string;
+    last_name: string;
+    bio: string;
+    birth_date: string;
+    phone_number: string;
+    address: string;
+    urls: string[];
+}
 
 export function SettingsPage() {
     const [activeTab, setActiveTab] = useState<SettingsTab>('Profile');
-    const [profile, setProfile] = useState({
+    const [profile, setProfile] = useState<UserProfile>({
         username: '',
         email: '',
+        first_name: '',
+        last_name: '',
         bio: '',
+        birth_date: '',
+        phone_number: '',
+        address: '',
         urls: ['']
     });
     const [isLoading, setIsLoading] = useState(true);
     const [isError, setIsError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [isSuccess, setIsSuccess] = useState(false);
-
-    const verifiedEmails = ['user@example.com', 'another@example.com'];
+    const [newPassword, setNewPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [profilePicture, setProfilePicture] = useState<string | null>(null);
+    const [cropModalOpen, setCropModalOpen] = useState(false);
+    const [crop, setCrop] = useState<Point>({ x: 0, y: 0 });
+    const [zoom, setZoom] = useState(1);
+    const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
 
     useEffect(() => {
         logger.log('Is authenticated:', api.auth.isAuthenticated());
@@ -42,7 +67,12 @@ export function SettingsPage() {
             setProfile({
                 username: userData.username || '',
                 email: userData.email || '',
+                first_name: userData.first_name || '',
+                last_name: userData.last_name || '',
                 bio: userData.bio || '',
+                birth_date: userData.birth_date || '',
+                phone_number: userData.phone_number || '',
+                address: userData.address || '',
                 urls: Array.isArray(userData.urls) ? userData.urls : ['']
             });
             setIsError(false);
@@ -60,12 +90,6 @@ export function SettingsPage() {
         setIsError(false);
         setIsSuccess(false);
     };
-    
-    const handleEmailChange = (value: string) => {
-        setProfile({ ...profile, email: value });
-        setIsError(false);
-        setIsSuccess(false);
-    };
 
     const handleUrlChange = (index: number, value: string) => {
         const newUrls = [...profile.urls];
@@ -73,16 +97,116 @@ export function SettingsPage() {
         setProfile({ ...profile, urls: newUrls });
     };
 
+    const onDrop = useCallback((acceptedFiles: File[]) => {
+        const file = acceptedFiles[0];
+        const reader = new FileReader();
+        reader.onload = () => {
+            setProfilePicture(reader.result as string);
+            setCropModalOpen(true);
+        };
+        reader.readAsDataURL(file);
+    }, []);
+
+    const dropzoneOptions: DropzoneOptions = {
+        onDrop,
+        accept: {'image/*': []},
+        multiple: false,
+    };
+
+    const { getRootProps, getInputProps } = useDropzone(dropzoneOptions);
+
+    const onCropComplete = useCallback((croppedArea: Area, croppedAreaPixels: Area) => {
+        setCroppedAreaPixels(croppedAreaPixels);
+    }, []);
+
+    const getCroppedImage = useCallback(async (imageSrc: string, pixelCrop: Area) => {
+        const image = new Image();
+        image.src = imageSrc;
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+            throw new Error('Unable to get 2D context');
+        }
+        canvas.width = pixelCrop.width;
+        canvas.height = pixelCrop.height;
+        ctx.drawImage(
+            image,
+            pixelCrop.x,
+            pixelCrop.y,
+            pixelCrop.width,
+            pixelCrop.height,
+            0,
+            0,
+            pixelCrop.width,
+            pixelCrop.height
+        );
+        return new Promise<string>((resolve) => {
+            canvas.toBlob((blob) => {
+                if (blob) {
+                    resolve(URL.createObjectURL(blob));
+                }
+            }, 'image/jpeg');
+        });
+    }, []);
+
+    const handleCropSave = useCallback(async () => {
+        if (croppedAreaPixels && profilePicture) {
+            const croppedImage = await getCroppedImage(profilePicture, croppedAreaPixels);
+            setProfilePicture(croppedImage);
+            setCropModalOpen(false);
+        }
+    }, [croppedAreaPixels, profilePicture, getCroppedImage]);
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            await api.user.updateUserProfile(profile);
+            let profilePictureFile: File | null = null;
+            if (profilePicture) {
+                const response = await fetch(profilePicture);
+                const blob = await response.blob();
+                profilePictureFile = new File([blob], 'profile_picture.jpg', { type: 'image/jpeg' });
+            }
+
+            const formData = new FormData();
+            Object.entries(profile).forEach(([key, value]) => {
+                if (Array.isArray(value)) {
+                    value.forEach((item, index) => {
+                        formData.append(`${key}[${index}]`, item);
+                    });
+                } else {
+                    formData.append(key, value);
+                }
+            });
+            if (profilePictureFile) {
+                formData.append('profile_picture', profilePictureFile);
+            }
+
+            await api.user.updateUserProfile(formData);
             setIsSuccess(true);
         } catch (error) {
             setIsError(true);
             setErrorMessage('Failed to update profile');
         }
-    };    
+    };
+
+    const handlePasswordChange = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (newPassword !== confirmPassword) {
+            setIsError(true);
+            setErrorMessage('Passwords do not match');
+            return;
+        }
+        try {
+            // Implement password change API call here
+            // await api.user.changePassword(newPassword);
+            setIsSuccess(true);
+            setNewPassword('');
+            setConfirmPassword('');
+        } catch (error) {
+            setIsError(true);
+            setErrorMessage('Failed to change password');
+        }
+    };
 
     const addUrl = () => {
         setProfile({ ...profile, urls: [...profile.urls, ''] });
@@ -100,10 +224,24 @@ export function SettingsPage() {
             case 'Profile':
                 return (
                     <>
-                        <h2 className="text-2xl font-semibold mb-2">Profile</h2>
-                        <p className="text-muted-foreground mb-6">This is how others will see you on the site.</p>
+                        <h2 className="text-2xl font-semibold mb-2">Public Profile</h2>
+                        <p className="text-muted-foreground mb-6">This information will be displayed publicly.</p>
                         <Separator className="mb-6" />
                         <form onSubmit={handleSubmit} className="space-y-6">
+                        <div className="flex flex-col items-center mb-6">
+                                <div 
+                                    {...getRootProps()} 
+                                    className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center cursor-pointer overflow-hidden"
+                                >
+                                    <input {...getInputProps()} />
+                                    {profilePicture ? (
+                                        <img src={profilePicture} alt="Profile" className="w-full h-full object-cover" />
+                                    ) : (
+                                        <Camera className="text-gray-400" size={32} />
+                                    )}
+                                </div>
+                                <p className="text-sm text-muted-foreground mt-2">Click to upload profile picture</p>
+                            </div>
                             <div>
                                 <Label htmlFor="username">Username</Label>
                                 <Input
@@ -113,27 +251,29 @@ export function SettingsPage() {
                                     className="mt-1"
                                 />
                                 <p className="text-sm text-muted-foreground mt-1">
-                                    This is your public display name. It can be your real name or a pseudonym. You can only change this once every 30 days.
+                                    This is your public display name. It can be your real name or a pseudonym.
                                 </p>
                             </div>
 
-                            <div>
-                                <Label htmlFor="email">Email</Label>
-                                <Select onValueChange={handleEmailChange} value={profile.email}>
-                                    <SelectTrigger className="w-full mt-1">
-                                        <SelectValue placeholder="Select a verified email to display" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {verifiedEmails.map((email) => (
-                                            <SelectItem key={email} value={email}>
-                                                {email}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
-                                <p className="text-sm text-muted-foreground mt-1">
-                                    You can manage verified email addresses in your email settings.
-                                </p>
+                            <div className="flex space-x-4">
+                                <div className="flex-1">
+                                    <Label htmlFor="first_name">First Name</Label>
+                                    <Input
+                                        id="first_name"
+                                        value={profile.first_name}
+                                        onChange={handleChange}
+                                        className="mt-1"
+                                    />
+                                </div>
+                                <div className="flex-1">
+                                    <Label htmlFor="last_name">Last Name</Label>
+                                    <Input
+                                        id="last_name"
+                                        value={profile.last_name}
+                                        onChange={handleChange}
+                                        className="mt-1"
+                                    />
+                                </div>
                             </div>
 
                             <div>
@@ -178,55 +318,139 @@ export function SettingsPage() {
                                 </Button>
                             </div>
 
-                            {isError && (
-                                <div className="text-destructive">{errorMessage}</div>
-                            )}
-                            {isSuccess && (
-                                <div className="text-primary">Profile updated successfully!</div>
-                            )}
-
-                            <Button type="submit">Update profile</Button>
+                            <Button type="submit">Update public profile</Button>
                         </form>
+
+                        <Dialog open={cropModalOpen} onOpenChange={setCropModalOpen}>
+                            <DialogContent className="sm:max-w-[425px]">
+                                <DialogHeader>
+                                    <DialogTitle>Crop Profile Picture</DialogTitle>
+                                </DialogHeader>
+                                <div className="relative h-64">
+                                    {profilePicture && (
+                                        <Cropper
+                                            image={profilePicture}
+                                            crop={crop}
+                                            zoom={zoom}
+                                            aspect={1}
+                                            onCropChange={setCrop}
+                                            onZoomChange={setZoom}
+                                            onCropComplete={onCropComplete}
+                                        />
+                                    )}
+                                </div>
+                                <div className="flex justify-end space-x-2 mt-4">
+                                    <Button onClick={() => setCropModalOpen(false)} variant="outline">Cancel</Button>
+                                    <Button onClick={handleCropSave}>Save</Button>
+                                </div>
+                            </DialogContent>
+                        </Dialog>
                     </>
                 );
             case 'Account':
                 return (
                     <>
-                        <h2 className="text-2xl font-semibold mb-2">Account Settings</h2>
-                        <p className="text-muted-foreground mb-6">Manage your account details and preferences.</p>
+                        <h2 className="text-2xl font-semibold mb-2">Account Information</h2>
+                        <p className="text-muted-foreground mb-6">Manage your personal account details.</p>
                         <Separator className="mb-6" />
-                        {/* Add account settings form here */}
-                        <p>Account settings form placeholder</p>
+                        <form onSubmit={handleSubmit} className="space-y-6">
+                            <div>
+                                <Label htmlFor="birth_date">Date of Birth</Label>
+                                <Input
+                                    id="birth_date"
+                                    type="date"
+                                    value={profile.birth_date}
+                                    onChange={handleChange}
+                                    className="mt-1"
+                                />
+                                <p className="text-sm text-muted-foreground mt-1">
+                                    Your date of birth. This information helps us personalize your experience and ensure age-appropriate content.
+                                </p>
+                            </div>
+
+                            <div>
+                                <Label htmlFor="phone_number">Phone Number</Label>
+                                <Input
+                                    id="phone_number"
+                                    type="tel"
+                                    value={profile.phone_number}
+                                    onChange={handleChange}
+                                    className="mt-1"
+                                />
+                                <p className="text-sm text-muted-foreground mt-1">
+                                    A contact number where we can reach you if needed. This is optional and will be kept private.
+                                </p>
+                            </div>
+
+                            <div>
+                                <Label htmlFor="address">Address</Label>
+                                <Textarea
+                                    id="address"
+                                    value={profile.address}
+                                    onChange={handleChange}
+                                    rows={2}
+                                    className="mt-1"
+                                />
+                                <p className="text-sm text-muted-foreground mt-1">
+                                    Your current mailing address. This information is used for shipping or location-based services if applicable.
+                                </p>
+                            </div>
+
+                            <Button type="submit">Update account information</Button>
+                        </form>
                     </>
                 );
-            case 'Appearance':
+            case 'Security':
                 return (
                     <>
-                        <h2 className="text-2xl font-semibold mb-2">Appearance</h2>
-                        <p className="text-muted-foreground mb-6">Customize the look and feel of your interface.</p>
+                        <h2 className="text-2xl font-semibold mb-2">Security Settings</h2>
+                        <p className="text-muted-foreground mb-6">Manage your email and password.</p>
                         <Separator className="mb-6" />
-                        {/* Add appearance settings form here */}
-                        <p>Appearance settings form placeholder</p>
-                    </>
-                );
-            case 'Notifications':
-                return (
-                    <>
-                        <h2 className="text-2xl font-semibold mb-2">Notifications</h2>
-                        <p className="text-muted-foreground mb-6">Control how you receive notifications.</p>
-                        <Separator className="mb-6" />
-                        {/* Add notifications settings form here */}
-                        <p>Notifications settings form placeholder</p>
-                    </>
-                );
-            case 'Display':
-                return (
-                    <>
-                        <h2 className="text-2xl font-semibold mb-2">Display Settings</h2>
-                        <p className="text-muted-foreground mb-6">Adjust your display preferences.</p>
-                        <Separator className="mb-6" />
-                        {/* Add display settings form here */}
-                        <p>Display settings form placeholder</p>
+                        <form onSubmit={handleSubmit} className="space-y-6">
+                            <div>
+                                <Label htmlFor="email">Email</Label>
+                                <Input
+                                    id="email"
+                                    type="email"
+                                    value={profile.email}
+                                    onChange={handleChange}
+                                    className="mt-1"
+                                />
+                                <p className="text-sm text-muted-foreground mt-1">
+                                    Your email address. This is used for login and notifications.
+                                </p>
+                            </div>
+
+                            <Button type="submit">Update email</Button>
+                        </form>
+
+                        <Separator className="my-6" />
+
+                        <form onSubmit={handlePasswordChange} className="space-y-6">
+                            <div>
+                                <Label htmlFor="new_password">New Password</Label>
+                                <Input
+                                    id="new_password"
+                                    type="password"
+                                    value={newPassword}
+                                    onChange={(e) => setNewPassword(e.target.value)}
+                                    className="mt-1"
+                                />
+                            </div>
+
+                            <div>
+                                <Label htmlFor="confirm_password">Confirm New Password</Label>
+                                <Input
+                                    id="confirm_password"
+                                    type="password"
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                    className="mt-1"
+                                />
+                            </div>
+
+                            <Button type="submit">Change Password</Button>
+                        </form>
                     </>
                 );
         }
@@ -243,7 +467,7 @@ export function SettingsPage() {
                 <div className="flex">
                     {/* Left sidebar */}
                     <nav className="w-64 pr-8">
-                        {(['Profile', 'Account', 'Appearance', 'Notifications', 'Display'] as const).map((tab) => (
+                        {(['Profile', 'Account', 'Security'] as const).map((tab) => (
                             <a
                                 key={tab}
                                 href="#"
@@ -271,3 +495,4 @@ export function SettingsPage() {
         </div>
     );
 }
+
