@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
-import { signup, login } from "@api/api";
+import api from "@api";
 import { useAuth } from '@/lib/use-auth';
 import { logger } from '@/lib/logger';
 
@@ -47,16 +47,16 @@ export function SignUpForm() {
         logger.log('Signup form data:', formData);
         try {
             // Signup user
-            const signupResponse = await signup(formData);
+            const signupResponse = await api.auth.signup(formData);
             logger.log('Signup successful:', signupResponse);
 
             // Automatically login user after signup
-            const loginResponse = await login({
+            const loginResponse = await api.auth.login({
                 email: formData.email,
                 password: formData.password
             });
 
-            if (loginResponse.success && loginResponse.data.access && loginResponse.data.refresh) {
+            if (loginResponse.success && loginResponse.data?.access && loginResponse.data?.refresh) {
                 authLogin(); // Update auth state
                 logger.info('Auto-login successful after signup, navigating to dashboard');
                 navigate('/dashboard');

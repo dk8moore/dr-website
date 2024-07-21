@@ -11,7 +11,7 @@
       "baseUrl": "./",
       "paths": {
         "@/*": ["src/*"],
-        "@api/*": ["src/api/*"],
+        "@api": ["src/api/index.ts"],
         "@app/*": ["src/components/app/*"],
         "@asset/*": ["src/assets/*"],
         "@common/*": ["src/components/common/*"],

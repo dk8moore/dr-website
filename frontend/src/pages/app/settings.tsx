@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getUserProfile, isAuthenticated, updateUserProfile } from '@api/api';
+import api from '@api';
 import { logger } from '@lib/logger';
 
 import { Button } from "@ui/button";
@@ -28,17 +28,17 @@ export function SettingsPage() {
     const verifiedEmails = ['user@example.com', 'another@example.com'];
 
     useEffect(() => {
-        logger.log('Is authenticated:', isAuthenticated());
+        logger.log('Is authenticated:', api.auth.isAuthenticated());
         fetchUserProfile();
     }, []);
 
     const fetchUserProfile = async () => {
         try {
             setIsLoading(true);
-            if (!isAuthenticated()) {
+            if (!api.auth.isAuthenticated()) {
                 throw new Error('Not authenticated');
             }
-            const userData = await getUserProfile();
+            const userData = await api.user.getUserProfile();
             setProfile({
                 username: userData.username || '',
                 email: userData.email || '',
@@ -76,7 +76,7 @@ export function SettingsPage() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            await updateUserProfile(profile);
+            await api.user.updateUserProfile(profile);
             setIsSuccess(true);
         } catch (error) {
             setIsError(true);

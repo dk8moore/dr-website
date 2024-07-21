@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { isAuthenticated as checkAuth, logout as apiLogout, refreshToken } from '@api/api';
+import api from '@api';
 
 /**
  * Custom hook to handle authentication state
@@ -8,14 +8,14 @@ import { isAuthenticated as checkAuth, logout as apiLogout, refreshToken } from 
  * @returns An object with the authentication state and functions to login and signout
  */
 export const useAuth = () => {
-    const [isAuthenticated, setIsAuthenticated] = useState(checkAuth());
+    const [isAuthenticated, setIsAuthenticated] = useState(api.auth.isAuthenticated());
 
     const checkAuthStatus = useCallback(async () => {
-        const authStatus = checkAuth();
+        const authStatus = api.auth.isAuthenticated();
         setIsAuthenticated(authStatus);
         if (authStatus) {
             try {
-                await refreshToken();
+                await api.auth.refreshToken();
             } catch (error) {
                 setIsAuthenticated(false);
             }
@@ -33,7 +33,7 @@ export const useAuth = () => {
     }, []);
 
     const signout = useCallback(() => {
-        apiLogout();
+        api.auth.logout();
         setIsAuthenticated(false);
     }, []);
 

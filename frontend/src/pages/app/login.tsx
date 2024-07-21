@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
-import { login } from "@api/api";
+import api from "@api";
 import { useAuth } from '@/lib/use-auth';
 import { logger } from '@/lib/logger';
 
@@ -35,9 +35,9 @@ export function LoginForm() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const response = await login(formData);
+            const response = await api.auth.login(formData);
             
-            if (response.data.access && response.data.refresh) {
+            if (response.data?.access && response.data?.refresh) {
                 await checkAuthStatus(); // Check auth status immediately after login
                 authLogin();
                 logger.info('User logged in successfully')
