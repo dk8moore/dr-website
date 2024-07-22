@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import api from '@api';
 import { logger } from '@lib/logger';
 import { useDropzone, DropzoneOptions } from 'react-dropzone';
 import Cropper from 'react-easy-crop';
 import { Area, Point } from 'react-easy-crop/types';
 
+import { FeedbackButton, FeedbackButtonRef } from '@ui/feedback-button';
 import { Button } from "@ui/button";
 import { Input } from "@ui/input";
 import { Label } from "@ui/label";
@@ -53,6 +54,7 @@ export function SettingsPage() {
     const [crop, setCrop] = useState<Point>({ x: 0, y: 0 });
     const [zoom, setZoom] = useState(1);
     const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
+    const profileButtonRef = useRef<FeedbackButtonRef>(null);
 
     useEffect(() => {
         logger.log('Is authenticated:', api.auth.isAuthenticated());
@@ -159,8 +161,10 @@ export function SettingsPage() {
         }
     }, [croppedAreaPixels, profilePicture, getCroppedImage]);
 
-    const handleProfileSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
+    const handleProfileSubmit = async (e?: React.FormEvent) => {
+        if (e) {
+            e.preventDefault();
+        }
         try {
             let profilePictureFile: File | null = null;
             if (profilePicture) {
@@ -186,6 +190,7 @@ export function SettingsPage() {
         } catch (error) {
             setIsError(true);
             setErrorMessage('Failed to update profile');
+            throw error; // Rethrow the error to trigger the error state in the FeedbackButton
         }
     };
     
@@ -350,7 +355,15 @@ export function SettingsPage() {
                                 </Button>
                             </div>
 
-                            <Button type="submit">Update public profile</Button>
+                            {/* <Button type="submit">Update public profile</Button> */}
+                            <FeedbackButton
+                                ref={profileButtonRef}
+                                onClickAsync={handleProfileSubmit}
+                                loadingText="Updating profile..."
+                                successText="Profile updated successfully!"
+                                errorText="Failed to update profile"
+                                idleText="Update public profile"
+                            />
                         </form>
 
                         <Dialog open={cropModalOpen} onOpenChange={setCropModalOpen}>
