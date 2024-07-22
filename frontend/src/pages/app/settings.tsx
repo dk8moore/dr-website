@@ -43,7 +43,9 @@ export function SettingsPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [isError, setIsError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
     const [isSuccess, setIsSuccess] = useState(false);
+    const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [profilePicture, setProfilePicture] = useState<string | null>(null);
@@ -157,7 +159,7 @@ export function SettingsPage() {
         }
     }, [croppedAreaPixels, profilePicture, getCroppedImage]);
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleProfileSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
             let profilePictureFile: File | null = null;
@@ -166,26 +168,53 @@ export function SettingsPage() {
                 const blob = await response.blob();
                 profilePictureFile = new File([blob], 'profile_picture.jpg', { type: 'image/jpeg' });
             }
-
+    
             const formData = new FormData();
-            Object.entries(profile).forEach(([key, value]) => {
-                if (Array.isArray(value)) {
-                    value.forEach((item, index) => {
-                        formData.append(`${key}[${index}]`, item);
-                    });
-                } else {
-                    formData.append(key, value);
-                }
+            ['username', 'first_name', 'last_name', 'bio'].forEach(key => {
+                formData.append(key, profile[key as keyof UserProfile] as string);
+            });
+            profile.urls.forEach((url, index) => {
+                formData.append(`urls[${index}]`, url);
             });
             if (profilePictureFile) {
                 formData.append('profile_picture', profilePictureFile);
             }
-
+    
             await api.user.updateUserProfile(formData);
             setIsSuccess(true);
+            setSuccessMessage('Profile updated successfully');
         } catch (error) {
             setIsError(true);
             setErrorMessage('Failed to update profile');
+        }
+    };
+    
+    const handleAccountSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            const accountData = {
+                birth_date: profile.birth_date,
+                phone_number: profile.phone_number,
+                address: profile.address,
+            };
+            await api.user.updateUserProfile(accountData);
+            setIsSuccess(true);
+            setSuccessMessage('Account information updated successfully');
+        } catch (error) {
+            setIsError(true);
+            setErrorMessage('Failed to update account information');
+        }
+    };
+    
+    const handleSecuritySubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            await api.user.updateUserProfile({ email: profile.email });
+            setIsSuccess(true);
+            setSuccessMessage('Email updated successfully');
+        } catch (error) {
+            setIsError(true);
+            setErrorMessage('Failed to update email');
         }
     };
 
@@ -197,17 +226,20 @@ export function SettingsPage() {
             return;
         }
         try {
-            // Implement password change API call here
-            // await api.user.changePassword(newPassword);
+            await api.password.changePassword({
+                old_password: currentPassword,
+                new_password: newPassword
+            });
             setIsSuccess(true);
+            setSuccessMessage('Password changed successfully');
             setNewPassword('');
             setConfirmPassword('');
+            setCurrentPassword('');
         } catch (error) {
             setIsError(true);
             setErrorMessage('Failed to change password');
         }
     };
-
     const addUrl = () => {
         setProfile({ ...profile, urls: [...profile.urls, ''] });
     };
@@ -227,7 +259,7 @@ export function SettingsPage() {
                         <h2 className="text-2xl font-semibold mb-2">Public Profile</h2>
                         <p className="text-muted-foreground mb-6">This information will be displayed publicly.</p>
                         <Separator className="mb-6" />
-                        <form onSubmit={handleSubmit} className="space-y-6">
+                        <form onSubmit={handleProfileSubmit} className="space-y-6">
                         <div className="flex flex-col items-center mb-6">
                                 <div 
                                     {...getRootProps()} 
@@ -353,7 +385,7 @@ export function SettingsPage() {
                         <h2 className="text-2xl font-semibold mb-2">Account Information</h2>
                         <p className="text-muted-foreground mb-6">Manage your personal account details.</p>
                         <Separator className="mb-6" />
-                        <form onSubmit={handleSubmit} className="space-y-6">
+                        <form onSubmit={handleAccountSubmit} className="space-y-6">
                             <div>
                                 <Label htmlFor="birth_date">Date of Birth</Label>
                                 <Input
@@ -406,7 +438,7 @@ export function SettingsPage() {
                         <h2 className="text-2xl font-semibold mb-2">Security Settings</h2>
                         <p className="text-muted-foreground mb-6">Manage your email and password.</p>
                         <Separator className="mb-6" />
-                        <form onSubmit={handleSubmit} className="space-y-6">
+                        <form onSubmit={handleSecuritySubmit} className="space-y-6">
                             <div>
                                 <Label htmlFor="email">Email</Label>
                                 <Input
