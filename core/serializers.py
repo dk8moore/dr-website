@@ -3,40 +3,33 @@ from django.core.validators import validate_email
 from .models import User
 
 class UserSerializer(serializers.ModelSerializer):
-    """
-    Serializer for User model.
-    It also enables same validation of data (e.g. email) for signup and update operations.
-    """
     email = serializers.EmailField(validators=[validate_email])
-    username = serializers.CharField(required=False)
+
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'bio', 'birth_date', 'profile_picture', 'phone_number', 'address']
+    
+    def update(self, instance, validated_data):
+        if 'email' in validated_data:
+            instance.username = validated_data['email']
+        return super().update(instance, validated_data)
+    
+    # TODO: Add other custom validations for fields like password (length, special characters, etc.), phone number, etc.
+
+class UserRegistrationSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(validators=[validate_email])
     password = serializers.CharField(write_only=True, required=True, style={'input_type': 'password'})
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'password', 'first_name', 'last_name', 'bio', 'birth_date', 'profile_picture', 'phone_number', 'address']
-        extra_kwargs = {
-            'password': {'write_only': True},
-            'email': {'required': True},
-        }
+        fields = ['email', 'password', 'first_name', 'last_name']
 
     def create(self, validated_data):
-        validated_data['username'] = validated_data.get('username', validated_data['email'])
         user = User.objects.create_user(
-            username=validated_data['username'],
+            username=validated_data['email'],
             email=validated_data['email'],
             password=validated_data['password'],
             first_name=validated_data.get('first_name', ''),
             last_name=validated_data.get('last_name', '')
         )
         return user
-    
-    def update(self, instance, validated_data):
-        for attr, value in validated_data.items():
-            if attr == 'password':
-                instance.set_password(value)
-            else:
-                setattr(instance, attr, value)
-        instance.save()
-        return instance
-    
-    # TODO: Add other custom validations for fields like password (length, special characters, etc.), phone number, etc.

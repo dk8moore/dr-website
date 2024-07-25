@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from ..models import User
-from ..serializers import UserSerializer
+from ..serializers import UserRegistrationSerializer
 
 from django.conf import settings
 from django.core.mail import send_mail
@@ -56,7 +56,7 @@ class SignupView(APIView):
     """
     def post(self, request):
         logger.info("Received signup request")
-        serializer = UserSerializer(data=request.data)
+        serializer = UserRegistrationSerializer(data=request.data)
         if serializer.is_valid():
             try:
                 user = serializer.save()
@@ -65,9 +65,8 @@ class SignupView(APIView):
             except Exception as e:
                 logger.exception(f"Unexpected error in signup request: {str(e)}")
                 return Response({"error": "An unexpected error occurred"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        else:
-            logger.error(f"Validation error in signup request: {serializer.errors}")
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        logger.error(f"Validation error in signup request: {serializer.errors}")
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class ChangePasswordView(APIView):
     """
