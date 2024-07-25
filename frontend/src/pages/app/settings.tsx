@@ -25,7 +25,6 @@ interface UserProfile {
     birth_date: string;
     phone_number: string;
     address: string;
-    urls: string[];
 }
 
 export function SettingsPage() {
@@ -39,7 +38,6 @@ export function SettingsPage() {
         birth_date: '',
         phone_number: '',
         address: '',
-        urls: ['']
     });
     const [isLoading, setIsLoading] = useState(true);
     const [isError, setIsError] = useState(false);
@@ -77,7 +75,6 @@ export function SettingsPage() {
                 birth_date: userData.birth_date || '',
                 phone_number: userData.phone_number || '',
                 address: userData.address || '',
-                urls: Array.isArray(userData.urls) ? userData.urls : ['']
             });
             setIsError(false);
         } catch (error) {
@@ -93,12 +90,6 @@ export function SettingsPage() {
         setProfile({ ...profile, [e.target.id]: e.target.value });
         setIsError(false);
         setIsSuccess(false);
-    };
-
-    const handleUrlChange = (index: number, value: string) => {
-        const newUrls = [...profile.urls];
-        newUrls[index] = value;
-        setProfile({ ...profile, urls: newUrls });
     };
 
     const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -166,30 +157,28 @@ export function SettingsPage() {
             e.preventDefault();
         }
         try {
-            let profilePictureFile: File | null = null;
-            if (profilePicture) {
-                const response = await fetch(profilePicture);
-                const blob = await response.blob();
-                profilePictureFile = new File([blob], 'profile_picture.jpg', { type: 'image/jpeg' });
-            }
+            // let profilePictureFile: File | null = null;
+            // if (profilePicture) {
+            //     const response = await fetch(profilePicture);
+            //     const blob = await response.blob();
+            //     profilePictureFile = new File([blob], 'profile_picture.jpg', { type: 'image/jpeg' });
+            // }
     
             const formData = new FormData();
             ['username', 'first_name', 'last_name', 'bio'].forEach(key => {
-                formData.append(key, profile[key as keyof UserProfile] as string);
+                if (profile[key as keyof UserProfile]) {
+                    formData.append(key, profile[key as keyof UserProfile] as string);
+                }
             });
-            profile.urls.forEach((url, index) => {
-                formData.append(`urls[${index}]`, url);
-            });
-            if (profilePictureFile) {
-                formData.append('profile_picture', profilePictureFile);
-            }
-    
+            formData.append('email', profile.email);
+
             await api.user.updateUserProfile(formData);
             setIsSuccess(true);
             setSuccessMessage('Profile updated successfully');
         } catch (error) {
             setIsError(true);
             setErrorMessage('Failed to update profile');
+            logger.error('Profile update error:', error);
             throw error; // Rethrow the error to trigger the error state in the FeedbackButton
         }
     };
@@ -244,14 +233,6 @@ export function SettingsPage() {
             setIsError(true);
             setErrorMessage('Failed to change password');
         }
-    };
-    const addUrl = () => {
-        setProfile({ ...profile, urls: [...profile.urls, ''] });
-    };
-
-    const removeUrl = (index: number) => {
-        const newUrls = profile.urls.filter((_, i) => i !== index);
-        setProfile({ ...profile, urls: newUrls });
     };
 
     if (isLoading) return <div>Loading...</div>;
@@ -325,34 +306,6 @@ export function SettingsPage() {
                                 <p className="text-sm text-muted-foreground mt-1">
                                     You can @mention other users and organizations to link to them.
                                 </p>
-                            </div>
-
-                            <div>
-                                <Label>URLs</Label>
-                                <p className="text-sm text-muted-foreground mb-2">
-                                    Add links to your website, blog, or social media profiles.
-                                </p>
-                                {profile.urls.map((url, index) => (
-                                    <div key={index} className="flex items-center mb-2">
-                                        <Input
-                                            value={url}
-                                            onChange={(e) => handleUrlChange(index, e.target.value)}
-                                            className="flex-grow"
-                                        />
-                                        <Button 
-                                            type="button" 
-                                            variant="ghost" 
-                                            size="icon"
-                                            onClick={() => removeUrl(index)}
-                                            className="ml-2"
-                                        >
-                                            <Trash2 className="h-4 w-4" />
-                                        </Button>
-                                    </div>
-                                ))}
-                                <Button type="button" onClick={addUrl} variant="outline" className="mt-2">
-                                    Add URL
-                                </Button>
                             </div>
 
                             {/* <Button type="submit">Update public profile</Button> */}
