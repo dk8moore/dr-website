@@ -51,11 +51,7 @@ export class UserAPI {
       if (!(profileData instanceof FormData)) {
         formData = new FormData();
         Object.entries(profileData).forEach(([key, value]) => {
-          if (key === 'urls' && Array.isArray(value)) {
-            value.forEach((url, index) => {
-              formData.append(`urls[${index}]`, url);
-            });
-          } else if (key === 'profile_picture' && value instanceof File) {
+          if (key === 'profile_picture' && value instanceof File) {
             formData.append('profile_picture', value);
           } else if (value !== undefined && value !== null) {
             formData.append(key, value.toString());

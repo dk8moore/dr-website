@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from ..models import User
+from ..serializers import UserSerializer
 
 from django.conf import settings
 from django.core.mail import send_mail
@@ -50,28 +51,23 @@ class LoginView(APIView):
 class SignupView(APIView):
     """
     API view for user registration.
+
+    Uses UserSerializer for validation (e.g. email) and saving user data.
     """
     def post(self, request):
         logger.info("Received signup request")
-        try:
-            user = User.objects.create_user(
-                username=request.data['email'],
-                email=request.data['email'],
-                password=request.data['password'],
-                first_name=request.data['first_name'],
-                last_name=request.data['last_name']
-            )
-            logger.info(f"User created successfully: {user.email}")
-            return Response({"message": "User created successfully"}, status=status.HTTP_201_CREATED)
-        except KeyError as e:
-            logger.error(f"Missing field in signup request: {str(e)}")
-            return Response({"error": f"Missing field: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
-        except ValidationError as e:
-            logger.error(f"Validation error in signup request: {str(e)}")
-            return Response({"error": f"Validation error: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
-        except Exception as e:
-            logger.exception(f"Unexpected error in signup request: {str(e)}")
-            return Response({"error": "An unexpected error occurred"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            try:
+                user = serializer.save()
+                logger.info(f"User created successfully: {user.email}")
+                return Response({"message": "User created successfully"}, status=status.HTTP_201_CREATED)
+            except Exception as e:
+                logger.exception(f"Unexpected error in signup request: {str(e)}")
+                return Response({"error": "An unexpected error occurred"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        else:
+            logger.error(f"Validation error in signup request: {serializer.errors}")
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class ChangePasswordView(APIView):
     """
