@@ -23,7 +23,7 @@ export class PasswordAPI {
    */
   async changePassword(passwordData: PasswordChangeData) {
     try {
-      const response = await this.api.post('/change-password/', passwordData);
+      const response = await this.api.post('/user/change-password/', passwordData);
       logger.log('Change password response:', response.data);
       return response.data;
     } catch (error) {
@@ -39,7 +39,7 @@ export class PasswordAPI {
    */
   async requestPasswordReset(email: string) {
     try {
-      const response = await this.api.post('/password-reset/', { email });
+      const response = await this.api.post('/user/reset-password/', { email });
       logger.log('Password reset request response:', response.data);
       return response.data;
     } catch (error) {

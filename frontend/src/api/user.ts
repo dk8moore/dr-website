@@ -30,7 +30,7 @@ export class UserAPI {
    */
   async getUserProfile() {
     try {
-      const response = await this.api.get('/profile/');
+      const response = await this.api.get('/user/profile/');
       logger.log('Get user profile response:', response.data);
       return response.data;
     } catch (error) {
@@ -61,7 +61,7 @@ export class UserAPI {
         formData = profileData;
       }
 
-      const response = await this.api.put('/profile/', formData, {
+      const response = await this.api.put('/user/profile/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

@@ -39,7 +39,7 @@ export class AuthAPI {
    */
   async login(credentials: LoginCredentials): Promise<{ success: boolean; data?: AuthTokens; error?: string }> {
     try {
-      const response = await this.api.post<AuthTokens>('/login/', credentials);
+      const response = await this.api.post<AuthTokens>('/user/login/', credentials);
       logger.log('Login response:', response.data);
       
       if (response.data.access && response.data.refresh) {
@@ -63,7 +63,7 @@ export class AuthAPI {
    */
   async signup(userData: SignupData) {
     try {
-      const response = await this.api.post('/signup/', userData);
+      const response = await this.api.post('/user/signup/', userData);
       logger.log('Signup response:', response.data);
       return response;
     } catch (error) {
