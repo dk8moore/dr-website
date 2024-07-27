@@ -25,7 +25,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.forms import PasswordChangeForm, PasswordResetForm
 from django.contrib.auth import authenticate  
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.views import PasswordResetView
+from django.contrib.auth.views import UserPasswordResetView
 from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ValidationError
 from django.template.loader import render_to_string

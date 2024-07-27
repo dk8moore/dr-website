@@ -11,13 +11,13 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
     # Authentication views
-    path('signup/', views.SignupView.as_view(), name='signup'),
-    path('login/', views.LoginView.as_view(), name='login'),
-    path('change-password/', views.ChangePasswordView.as_view(), name='change-password'),
-    path('password-reset/', views.PasswordResetView.as_view(), name='password-reset'),
+    path('user/signup/', views.SignupView.as_view(), name='signup'),
+    path('user/login/', views.LoginView.as_view(), name='login'),
 
     # User views
-    path('profile/', views.UserProfileView.as_view(), name='user-profile'),
+    path('user/profile/', views.UserProfileView.as_view(), name='user-profile'),
+    path('user/change-password/', views.UserPasswordChangeView.as_view(), name='change-password'),
+    path('user/reset-password/', views.UserPasswordResetView.as_view(), name='reset-password'),
 
     # Other views
     # path('create-checkout-session/', views.CreateCheckoutSessionView.as_view(), name='create-checkout-session'),

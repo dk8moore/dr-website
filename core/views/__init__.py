@@ -1,10 +1,10 @@
-from .auth import LoginView, SignupView, ChangePasswordView, PasswordResetView
-from .user import UserProfileView
+from .auth import LoginView, SignupView
+from .user import UserProfileView, UserPasswordChangeView, UserPasswordResetView
 
 __all__ = [
     'LoginView',
     'SignupView',
-    'ChangePasswordView',
-    'PasswordResetView',
-    'UserProfileView'
+    'UserProfileView',
+    'UserPasswordChangeView',
+    'UserPasswordResetView',
 ]
