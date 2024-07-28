@@ -9,7 +9,7 @@ import { ProtectedRoute } from '@lib/protected-route';
 import { AuthRedirect } from '@/lib/auth-redirect';
 import { useAuth } from '@/lib/use-auth';
 import { logger } from '@/lib/logger';
-import "@style/app.css";
+import '@style/app.css';
 
 const AppRoutes: React.FC = () => {
   const { isAuthenticated } = useAuth();
@@ -18,18 +18,35 @@ const AppRoutes: React.FC = () => {
 
   return (
     <Routes>
-      <Route path="/login" element={<AuthRedirect><LoginForm /></AuthRedirect>} />
-      <Route path="/signup" element={<AuthRedirect><SignUpForm /></AuthRedirect>} />
-      <Route element={<ProtectedRoute authenticationPath="/login"/>}>
-        <Route path="/dashboard" element={<Dashboard />} />
+      <Route
+        path='/login'
+        element={
+          <AuthRedirect>
+            <LoginForm />
+          </AuthRedirect>
+        }
+      />
+      <Route
+        path='/signup'
+        element={
+          <AuthRedirect>
+            <SignUpForm />
+          </AuthRedirect>
+        }
+      />
+      <Route element={<ProtectedRoute authenticationPath='/login' />}>
+        <Route path='/dashboard' element={<Dashboard />} />
       </Route>
-      <Route element={<ProtectedRoute authenticationPath="/login"/>}>
-        <Route path="/settings" element={<SettingsPage />} />
+      <Route element={<ProtectedRoute authenticationPath='/login' />}>
+        <Route path='/settings' element={<SettingsPage />} />
       </Route>
       {/* Redirect any unknown routes to dashboard if authenticated, otherwise to login */}
-      <Route path="*" element={
-        isAuthenticated ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />
-      } />
+      <Route
+        path='*'
+        element={
+          isAuthenticated ? <Navigate to='/dashboard' replace /> : <Navigate to='/login' replace />
+        }
+      />
     </Routes>
   );
 };

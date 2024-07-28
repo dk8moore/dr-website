@@ -20,5 +20,5 @@ export const logger = {
     if (!isProduction) {
       console.info(...args);
     }
-  }
+  },
 };

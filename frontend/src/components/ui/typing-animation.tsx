@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import React from "react";
-import { cn } from "@/lib/utils";
-import { useEffect, useState } from "react";
+import React from 'react';
+import { cn } from '@/lib/utils';
+import { useEffect, useState } from 'react';
 
 /* From MagicUI => https://magicui.design/docs/components/typing-animation */
 
@@ -12,12 +12,8 @@ interface TypingAnimationProps {
   className?: string;
 }
 
-export default function TypingAnimation({
-  text,
-  duration = 200,
-  className,
-}: TypingAnimationProps) {
-  const [displayedText, setDisplayedText] = useState<string>("");
+export default function TypingAnimation({ text, duration = 200, className }: TypingAnimationProps) {
+  const [displayedText, setDisplayedText] = useState<string>('');
   const [i, setI] = useState<number>(0);
 
   useEffect(() => {
@@ -38,8 +34,8 @@ export default function TypingAnimation({
   return (
     <h1
       className={cn(
-        "font-display text-center text-4xl font-bold leading-[5rem] tracking-[-0.02em] drop-shadow-sm",
-        className,
+        'font-display text-center text-4xl font-bold leading-[5rem] tracking-[-0.02em] drop-shadow-sm',
+        className
       )}
     >
       {displayedText ? displayedText : text}

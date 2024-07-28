@@ -2,13 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-import { ThemeProvider } from "@/components/theme-provider";
-import LandingPage from "@page/landing/Landing";
+import { ThemeProvider } from '@/components/theme-provider';
+import LandingPage from '@page/landing/Landing';
 import ExampleRoutes from '@page/app/examples/example';
 import AppRoutes from '@page/app/app';
 import reportWebVitals from '@/reportWebVitals';
 
-import "@style/index.css";
+import '@style/index.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
@@ -17,12 +17,12 @@ root.render(
     <ThemeProvider>
       <Router>
         <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/*" element={<AppRoutes />} />
-          <Route path="/eg/*" element={<ExampleRoutes />} />
+          <Route path='/' element={<LandingPage />} />
+          <Route path='/*' element={<AppRoutes />} />
+          <Route path='/eg/*' element={<ExampleRoutes />} />
         </Routes>
       </Router>
-    </ ThemeProvider>
+    </ThemeProvider>
   </React.StrictMode>
 );
 

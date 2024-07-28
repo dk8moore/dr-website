@@ -1,4 +1,4 @@
-import React, { CSSProperties } from "react";
+import React, { CSSProperties } from 'react';
 
 /* From MagicUI => https://magicui.design/docs/components/ripple */
 
@@ -9,7 +9,7 @@ const NUM_CIRCLES = 8;
 
 const Ripple = React.memo(() => {
   return (
-    <div className="absolute left-1/2 top-1/2 h-full w-full overflow-visible">
+    <div className='absolute left-1/2 top-1/2 h-full w-full overflow-visible'>
       {Array.from({ length: NUM_CIRCLES }, (_, i) => (
         <div
           key={i}

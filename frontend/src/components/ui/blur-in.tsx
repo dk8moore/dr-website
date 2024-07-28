@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import React from "react";
-import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
+import React from 'react';
+import { motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
 
 /* From MagicUI => https://magicui.design/docs/components/blur-in */
 
@@ -17,20 +17,20 @@ interface BlurIntProps {
 }
 const BlurIn = ({ word, className, variant, duration = 1 }: BlurIntProps) => {
   const defaultVariants = {
-    hidden: { filter: "blur(10px)", opacity: 0 },
-    visible: { filter: "blur(0px)", opacity: 1 },
+    hidden: { filter: 'blur(10px)', opacity: 0 },
+    visible: { filter: 'blur(0px)', opacity: 1 },
   };
   const combinedVariants = variant || defaultVariants;
 
   return (
     <motion.h1
-      initial="hidden"
-      animate="visible"
+      initial='hidden'
+      animate='visible'
       transition={{ duration }}
       variants={combinedVariants}
       className={cn(
         className,
-        "font-display text-center text-4xl font-bold tracking-[-0.02em] drop-shadow-sm md:text-7xl md:leading-[5rem]",
+        'font-display text-center text-4xl font-bold tracking-[-0.02em] drop-shadow-sm md:text-7xl md:leading-[5rem]'
       )}
     >
       {word}

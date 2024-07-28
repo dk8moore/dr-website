@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import React from "react";
-import { cn } from "@/lib/utils";
-import { AnimatePresence, HTMLMotionProps, motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import React from 'react';
+import { cn } from '@/lib/utils';
+import { AnimatePresence, HTMLMotionProps, motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 
 /* From MagicUI => https://magicui.design/docs/components/word-rotate */
 
 interface WordRotateProps {
   words: string[];
   duration?: number;
-  framerProps?: HTMLMotionProps<"h1">;
+  framerProps?: HTMLMotionProps<'h1'>;
   className?: string;
 }
 
@@ -21,7 +21,7 @@ export default function WordRotate({
     initial: { opacity: 0, y: -50 },
     animate: { opacity: 1, y: 0 },
     exit: { opacity: 0, y: 50 },
-    transition: { duration: 0.25, ease: "easeOut" },
+    transition: { duration: 0.25, ease: 'easeOut' },
   },
   className,
 }: WordRotateProps) {
@@ -37,13 +37,9 @@ export default function WordRotate({
   }, [words, duration]);
 
   return (
-    <div className="overflow-hidden py-2">
-      <AnimatePresence mode="wait">
-        <motion.h1
-          key={words[index]}
-          className={cn(className)}
-          {...framerProps}
-        >
+    <div className='overflow-hidden py-2'>
+      <AnimatePresence mode='wait'>
+        <motion.h1 key={words[index]} className={cn(className)} {...framerProps}>
           {words[index]}
         </motion.h1>
       </AnimatePresence>

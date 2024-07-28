@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { cn } from "@/lib/utils";
-import { wrap } from "@motionone/utils";
+import { cn } from '@/lib/utils';
+import { wrap } from '@motionone/utils';
 import {
   motion,
   useAnimationFrame,
@@ -10,8 +10,8 @@ import {
   useSpring,
   useTransform,
   useVelocity,
-} from "framer-motion";
-import React, { useEffect, useRef, useState } from "react";
+} from 'framer-motion';
+import React, { useEffect, useRef, useState } from 'react';
 
 /* From MagicUI => https://magicui.design/docs/components/scroll-based-velocity */
 
@@ -27,16 +27,8 @@ interface ParallaxProps {
   className?: string;
 }
 
-export function VelocityScroll({
-  text,
-  default_velocity = 5,
-  className,
-}: VelocityScrollProps) {
-  function ParallaxText({
-    children,
-    baseVelocity = 100,
-    className,
-  }: ParallaxProps) {
+export function VelocityScroll({ text, default_velocity = 5, className }: VelocityScrollProps) {
+  function ParallaxText({ children, baseVelocity = 100, className }: ParallaxProps) {
     const baseX = useMotionValue(0);
     const { scrollY } = useScroll();
     const scrollVelocity = useVelocity(scrollY);
@@ -65,8 +57,8 @@ export function VelocityScroll({
 
       calculateRepetitions();
 
-      window.addEventListener("resize", calculateRepetitions);
-      return () => window.removeEventListener("resize", calculateRepetitions);
+      window.addEventListener('resize', calculateRepetitions);
+      return () => window.removeEventListener('resize', calculateRepetitions);
     }, [children]);
 
     const x = useTransform(baseX, (v) => `${wrap(-100 / repetitions, 0, v)}%`);
@@ -87,14 +79,11 @@ export function VelocityScroll({
     });
 
     return (
-      <div
-        className="w-full overflow-hidden whitespace-nowrap"
-        ref={containerRef}
-      >
-        <motion.div className={cn("inline-block", className)} style={{ x }}>
+      <div className='w-full overflow-hidden whitespace-nowrap' ref={containerRef}>
+        <motion.div className={cn('inline-block', className)} style={{ x }}>
           {Array.from({ length: repetitions }).map((_, i) => (
             <span key={i} ref={i === 0 ? textRef : null}>
-              {children}{" "}
+              {children}{' '}
             </span>
           ))}
         </motion.div>
@@ -103,7 +92,7 @@ export function VelocityScroll({
   }
 
   return (
-    <section className="relative w-full">
+    <section className='relative w-full'>
       <ParallaxText baseVelocity={default_velocity} className={className}>
         {text}
       </ParallaxText>

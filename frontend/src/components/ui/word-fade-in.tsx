@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import React from "react";
-import { cn } from "@/lib/utils";
-import { Variants, motion } from "framer-motion";
+import React from 'react';
+import { cn } from '@/lib/utils';
+import { Variants, motion } from 'framer-motion';
 
 /* From MagicUI => https://magicui.design/docs/components/word-fade-in */
 
@@ -26,21 +26,21 @@ export default function WordFadeIn({
   },
   className,
 }: WordFadeInProps) {
-  const _words = words.split(" ");
+  const _words = words.split(' ');
 
   return (
     <motion.h1
       variants={variants}
-      initial="hidden"
-      animate="visible"
+      initial='hidden'
+      animate='visible'
       className={cn(
-        "font-display text-center text-4xl font-bold tracking-[-0.02em] text-black drop-shadow-sm dark:text-white md:text-7xl md:leading-[5rem]",
-        className,
+        'font-display text-center text-4xl font-bold tracking-[-0.02em] text-black drop-shadow-sm dark:text-white md:text-7xl md:leading-[5rem]',
+        className
       )}
     >
       {_words.map((word, i) => (
         <motion.span key={word} variants={variants} custom={i}>
-          {word}{" "}
+          {word}{' '}
         </motion.span>
       ))}
     </motion.h1>

@@ -2,59 +2,58 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "@theme/default.css";
+@import '@theme/default.css';
 
 /* Utility styles */
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
+}
+
+/* Keyframes for animations */
+@keyframes shadow-slide {
+  from {
+    background: hsl(var(--primary) / 20%);
+    right: 460px;
   }
-  
-  /* Keyframes for animations */
-  @keyframes shadow-slide {
-    from {
-      background: hsl(var(--primary) / 20%);
-      right: 460px;
-    }
-    to {
-      background: hsl(var(--primary) / 80%);
-      right: 160px;
-    }
+  to {
+    background: hsl(var(--primary) / 80%);
+    right: 160px;
   }
-  
-  @layer components {
-      .bg-background {
-        background-color: hsl(var(--background));
-      }
-      .text-foreground {
-        color: hsl(var(--foreground));
-      }
-      .border-border {
-        border-color: hsl(var(--border));
-      }
-  }  
-  
-  /* Other utilities */
-  
+}
+
+@layer components {
+  .bg-background {
+    background-color: hsl(var(--background));
+  }
+  .text-foreground {
+    color: hsl(var(--foreground));
+  }
+  .border-border {
+    border-color: hsl(var(--border));
+  }
+}
+
+/* Other utilities */
 
 /* Global styles */
 @layer base {
-    * {
-      @apply border-border;
-    }
-    body {
-      @apply bg-background text-foreground font-sans;
-    }
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
 }
 
 .dotted-background {
-background: radial-gradient(circle, hsl(var(--card)) 1px, transparent 2px),
-            radial-gradient(circle, hsl(var(--card)) 1px, transparent 2px);
-background-position: 0 0, 5px 5px;
-background-size: 10px 10px;
-padding: 20px;
-display: flex;
-justify-content: center;
-align-items: center;
+  background: radial-gradient(circle, hsl(var(--card)) 1px, transparent 2px),
+    radial-gradient(circle, hsl(var(--card)) 1px, transparent 2px);
+  background-position:
+    0 0,
+    5px 5px;
+  background-size: 10px 10px;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-
-  

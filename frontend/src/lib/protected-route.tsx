@@ -6,18 +6,16 @@ interface ProtectedRouteProps {
   authenticationPath: string;
 }
 
-export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
-  authenticationPath,
-}) => {
-    const { isAuthenticated, checkAuthStatus } = useAuth();
+export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ authenticationPath }) => {
+  const { isAuthenticated, checkAuthStatus } = useAuth();
 
-    useEffect(() => {
-        checkAuthStatus();
-    }, [checkAuthStatus]);
+  useEffect(() => {
+    checkAuthStatus();
+  }, [checkAuthStatus]);
 
-    if (isAuthenticated) {
-        return <Outlet />;
-    } else {
-        return <Navigate to={{ pathname: authenticationPath }} />;
-    }
+  if (isAuthenticated) {
+    return <Outlet />;
+  } else {
+    return <Navigate to={{ pathname: authenticationPath }} />;
+  }
 };

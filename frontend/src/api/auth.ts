@@ -37,11 +37,13 @@ export class AuthAPI {
    * @param credentials - The user's login credentials
    * @returns A promise that resolves to an object indicating success and containing auth tokens or an error message
    */
-  async login(credentials: LoginCredentials): Promise<{ success: boolean; data?: AuthTokens; error?: string }> {
+  async login(
+    credentials: LoginCredentials
+  ): Promise<{ success: boolean; data?: AuthTokens; error?: string }> {
     try {
       const response = await this.api.post<AuthTokens>('/user/login/', credentials);
       logger.log('Login response:', response.data);
-      
+
       if (response.data.access && response.data.refresh) {
         localStorage.setItem('access_token', response.data.access);
         localStorage.setItem('refresh_token', response.data.refresh);
@@ -96,7 +98,9 @@ export class AuthAPI {
     const refresh = localStorage.getItem('refresh_token');
     if (refresh) {
       try {
-        const response = await this.api.post<{ access: string }>('/api/token/refresh/', { refresh });
+        const response = await this.api.post<{ access: string }>('/api/token/refresh/', {
+          refresh,
+        });
         const newToken = response.data.access;
         localStorage.setItem('access_token', newToken);
         return newToken;

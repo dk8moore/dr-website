@@ -9,7 +9,7 @@ import { Hero } from '@landing/Hero';
 import { HowItWorks } from '@landing/HowItWorks';
 import { Navbar } from '@landing/Navbar';
 import { Newsletter } from '@landing/Newsletter';
-import { Pricing} from '@landing/Pricing';
+import { Pricing } from '@landing/Pricing';
 import { ScrollToTop } from '@landing/ScrollToTop';
 import { Services } from '@landing/Services';
 import { Sponsors } from '@landing/Sponsors';

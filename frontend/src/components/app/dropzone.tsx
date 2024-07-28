@@ -54,7 +54,7 @@ export const Dropzone: React.FC<DropzoneProps> = ({
       `}
     >
       <input {...getInputProps()} />
-      {icon && <div className="absolute">{icon}</div>}
+      {icon && <div className='absolute'>{icon}</div>}
       {children}
     </div>
   );
