@@ -44,7 +44,13 @@ export function LoginForm() {
         </div>
       </div>
       <div className='hidden bg-muted lg:block'>
-        <img src='https://picsum.photos/1920/1080' alt='Image' width='1920' height='1080' className='h-full w-full object-cover dark:brightness-[0.2] dark:grayscale' />
+        <img
+          src='https://picsum.photos/1920/1080'
+          alt='Image'
+          width='1920'
+          height='1080'
+          className='h-full w-full object-cover dark:brightness-[0.2] dark:grayscale'
+        />
       </div>
     </div>
   );

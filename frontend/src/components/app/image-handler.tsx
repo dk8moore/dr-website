@@ -73,7 +73,15 @@ export const ImageHandler: React.FC<ImageHandlerProps> = ({ onImageSelect, initi
 
   return (
     <div className='relative'>
-      <Dropzone onDrop={onDrop} accept={{ 'image/*': [] }} multiple={false} shape='circle' size='large' borderStyle={image ? 'solid' : 'dashed'} className='overflow-hidden relative border-primary/50'>
+      <Dropzone
+        onDrop={onDrop}
+        accept={{ 'image/*': [] }}
+        multiple={false}
+        shape='circle'
+        size='large'
+        borderStyle={image ? 'solid' : 'dashed'}
+        className='overflow-hidden relative border-primary/50'
+      >
         <div className='w-full h-full rounded-full overflow-hidden relative'>
           {image ? (
             <>
@@ -90,7 +98,11 @@ export const ImageHandler: React.FC<ImageHandlerProps> = ({ onImageSelect, initi
         </div>
       </Dropzone>
       {image && (
-        <button onClick={handleRemoveImage} className='absolute -top-2 -right-2 bg-destructive rounded-full p-1 hover:bg-destructive/80 transition-colors' aria-label='Remove image'>
+        <button
+          onClick={handleRemoveImage}
+          className='absolute -top-2 -right-2 bg-destructive rounded-full p-1 hover:bg-destructive/80 transition-colors'
+          aria-label='Remove image'
+        >
           <X className='text-destructive-foreground' size={16} />
         </button>
       )}
@@ -100,7 +112,19 @@ export const ImageHandler: React.FC<ImageHandlerProps> = ({ onImageSelect, initi
           <DialogHeader>
             <DialogTitle>Crop Profile Picture</DialogTitle>
           </DialogHeader>
-          <div className='relative h-64'>{image && <Cropper image={image} crop={crop} zoom={zoom} aspect={1} onCropChange={setCrop} onZoomChange={setZoom} onCropComplete={onCropComplete} />}</div>
+          <div className='relative h-64'>
+            {image && (
+              <Cropper
+                image={image}
+                crop={crop}
+                zoom={zoom}
+                aspect={1}
+                onCropChange={setCrop}
+                onZoomChange={setZoom}
+                onCropComplete={onCropComplete}
+              />
+            )}
+          </div>
           <div className='flex justify-end space-x-2 mt-4'>
             <Button onClick={() => setCropModalOpen(false)} variant='outline'>
               Cancel

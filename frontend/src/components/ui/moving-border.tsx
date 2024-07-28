@@ -40,7 +40,10 @@ export function Button({
       </div>
 
       <div
-        className={cn('relative bg-slate-900/[0.8] border border-slate-800 backdrop-blur-xl text-white flex items-center justify-center w-full h-full text-sm antialiased', className)}
+        className={cn(
+          'relative bg-slate-900/[0.8] border border-slate-800 backdrop-blur-xl text-white flex items-center justify-center w-full h-full text-sm antialiased',
+          className
+        )}
         style={{
           borderRadius: `calc(${borderRadius} * 0.96)`,
         }}
@@ -51,7 +54,19 @@ export function Button({
   );
 }
 
-export const MovingBorder = ({ children, duration = 2000, rx, ry, ...otherProps }: { children: React.ReactNode; duration?: number; rx?: string; ry?: string; [key: string]: any }) => {
+export const MovingBorder = ({
+  children,
+  duration = 2000,
+  rx,
+  ry,
+  ...otherProps
+}: {
+  children: React.ReactNode;
+  duration?: number;
+  rx?: string;
+  ry?: string;
+  [key: string]: any;
+}) => {
   const pathRef = useRef<any>();
   const progress = useMotionValue<number>(0);
 
@@ -70,7 +85,14 @@ export const MovingBorder = ({ children, duration = 2000, rx, ry, ...otherProps 
 
   return (
     <>
-      <svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' className='absolute h-full w-full' width='100%' height='100%' {...otherProps}>
+      <svg
+        xmlns='http://www.w3.org/2000/svg'
+        preserveAspectRatio='none'
+        className='absolute h-full w-full'
+        width='100%'
+        height='100%'
+        {...otherProps}
+      >
         <rect fill='none' width='100%' height='100%' rx={rx} ry={ry} ref={pathRef} />
       </svg>
       <motion.div

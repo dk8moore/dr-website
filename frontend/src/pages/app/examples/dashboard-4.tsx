@@ -7,7 +7,14 @@ import { CircleUser, Menu, Package2, Search } from 'lucide-react';
 import { Button } from '@ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@ui/card';
 import { Checkbox } from '@ui/checkbox';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@ui/dropdown-menu';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@ui/dropdown-menu';
 import { Input } from '@ui/input';
 import { Sheet, SheetContent, SheetTrigger } from '@ui/sheet';
 

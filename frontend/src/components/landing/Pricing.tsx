@@ -54,7 +54,9 @@ export const Pricing = () => {
         <span className='bg-gradient-to-b from-primary/60 to-primary text-transparent bg-clip-text'> unlimited </span>
         access
       </h2>
-      <h3 className='text-xl text-center text-muted-foreground pt-4 pb-8'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias reiciendis.</h3>
+      <h3 className='text-xl text-center text-muted-foreground pt-4 pb-8'>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias reiciendis.
+      </h3>
       <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-8'>
         {pricingList.map((pricing: PricingProps) => (
           <Card key={pricing.title} className={pricing.popular === PopularPlanType.YES ? 'drop-shadow-xl shadow-black/10 dark:shadow-white/10' : ''}>

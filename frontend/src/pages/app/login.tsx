@@ -78,7 +78,16 @@ export function LoginForm() {
             <form onSubmit={handleSubmit} className='mt-8 space-y-4'>
               <div className='space-y-2'>
                 <Label htmlFor='email'>Email</Label>
-                <Input id='email' type='email' placeholder='john.doe@example.com' required onChange={handleChange} isError={isError} isShaking={isShaking} onAnimationEnd={handleAnimationEnd} />
+                <Input
+                  id='email'
+                  type='email'
+                  placeholder='john.doe@example.com'
+                  required
+                  onChange={handleChange}
+                  isError={isError}
+                  isShaking={isShaking}
+                  onAnimationEnd={handleAnimationEnd}
+                />
               </div>
               <div className='space-y-2'>
                 <div className='flex items-center justify-between'>
@@ -87,7 +96,15 @@ export function LoginForm() {
                     Forgot password?
                   </Link>
                 </div>
-                <Input id='password' type='password' required onChange={handleChange} isError={isError} isShaking={isShaking} onAnimationEnd={handleAnimationEnd} />
+                <Input
+                  id='password'
+                  type='password'
+                  required
+                  onChange={handleChange}
+                  isError={isError}
+                  isShaking={isShaking}
+                  onAnimationEnd={handleAnimationEnd}
+                />
               </div>
               <div className='h-5 mb-1'>
                 {isError && (

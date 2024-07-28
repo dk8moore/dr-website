@@ -33,7 +33,10 @@ export default function WordFadeIn({
       variants={variants}
       initial='hidden'
       animate='visible'
-      className={cn('font-display text-center text-4xl font-bold tracking-[-0.02em] text-black drop-shadow-sm dark:text-white md:text-7xl md:leading-[5rem]', className)}
+      className={cn(
+        'font-display text-center text-4xl font-bold tracking-[-0.02em] text-black drop-shadow-sm dark:text-white md:text-7xl md:leading-[5rem]',
+        className
+      )}
     >
       {_words.map((word, i) => (
         <motion.span key={word} variants={variants} custom={i}>

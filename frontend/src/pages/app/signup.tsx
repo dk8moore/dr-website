@@ -117,7 +117,11 @@ export function SignUpForm() {
                 <Label htmlFor='password'>Password</Label>
                 <div className='relative'>
                   <Input id='password' type={showPassword ? 'text' : 'password'} required onChange={handleChange} />
-                  <button type='button' onClick={() => setShowPassword(!showPassword)} className='absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400'>
+                  <button
+                    type='button'
+                    onClick={() => setShowPassword(!showPassword)}
+                    className='absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400'
+                  >
                     {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                   </button>
                 </div>

@@ -47,7 +47,17 @@ export const SidebarProvider = ({
   return <SidebarContext.Provider value={{ open, setOpen, animate: animate }}>{children}</SidebarContext.Provider>;
 };
 
-export const Sidebar = ({ children, open, setOpen, animate }: { children: React.ReactNode; open?: boolean; setOpen?: React.Dispatch<React.SetStateAction<boolean>>; animate?: boolean }) => {
+export const Sidebar = ({
+  children,
+  open,
+  setOpen,
+  animate,
+}: {
+  children: React.ReactNode;
+  open?: boolean;
+  setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+  animate?: boolean;
+}) => {
   return (
     <SidebarProvider open={open} setOpen={setOpen} animate={animate}>
       {children}
@@ -87,7 +97,10 @@ export const MobileSidebar = ({ className, children, ...props }: React.Component
   const { open, setOpen } = useSidebar();
   return (
     <>
-      <div className={cn('h-10 px-4 py-4 flex flex-row md:hidden  items-center justify-between bg-neutral-100 dark:bg-neutral-800 w-full')} {...props}>
+      <div
+        className={cn('h-10 px-4 py-4 flex flex-row md:hidden  items-center justify-between bg-neutral-100 dark:bg-neutral-800 w-full')}
+        {...props}
+      >
         <div className='flex justify-end z-20 w-full'>
           <IconMenu2 className='text-neutral-800 dark:text-neutral-200' onClick={() => setOpen(!open)} />
         </div>

@@ -249,19 +249,25 @@ export function SettingsPage() {
               <div>
                 <Label htmlFor='birth_date'>Date of Birth</Label>
                 <Input id='birth_date' type='date' value={profile.birth_date} onChange={updateProfileAndResetFlagsOnEvents} className='mt-1' />
-                <p className='text-sm text-muted-foreground mt-1'>Your date of birth. This information helps us personalize your experience and ensure age-appropriate content.</p>
+                <p className='text-sm text-muted-foreground mt-1'>
+                  Your date of birth. This information helps us personalize your experience and ensure age-appropriate content.
+                </p>
               </div>
 
               <div>
                 <Label htmlFor='phone_number'>Phone Number</Label>
                 <Input id='phone_number' type='tel' value={profile.phone_number} onChange={updateProfileAndResetFlagsOnEvents} className='mt-1' />
-                <p className='text-sm text-muted-foreground mt-1'>A contact number where we can reach you if needed. This is optional and will be kept private.</p>
+                <p className='text-sm text-muted-foreground mt-1'>
+                  A contact number where we can reach you if needed. This is optional and will be kept private.
+                </p>
               </div>
 
               <div>
                 <Label htmlFor='address'>Address</Label>
                 <Textarea id='address' value={profile.address} onChange={updateProfileAndResetFlagsOnEvents} rows={2} className='mt-1' />
-                <p className='text-sm text-muted-foreground mt-1'>Your current mailing address. This information is used for shipping or location-based services if applicable.</p>
+                <p className='text-sm text-muted-foreground mt-1'>
+                  Your current mailing address. This information is used for shipping or location-based services if applicable.
+                </p>
               </div>
 
               <Button type='submit'>Update account information</Button>
@@ -294,7 +300,13 @@ export function SettingsPage() {
 
               <div>
                 <Label htmlFor='confirm_password'>Confirm New Password</Label>
-                <Input id='confirm_password' type='password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className='mt-1' />
+                <Input
+                  id='confirm_password'
+                  type='password'
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  className='mt-1'
+                />
               </div>
 
               <Button type='submit'>Change Password</Button>

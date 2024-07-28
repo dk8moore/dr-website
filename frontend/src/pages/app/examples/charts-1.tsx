@@ -2,7 +2,24 @@
 
 import React from 'react';
 
-import { Area, AreaChart, Bar, BarChart, CartesianGrid, Label, LabelList, Line, LineChart, PolarAngleAxis, RadialBar, RadialBarChart, Rectangle, ReferenceLine, XAxis, YAxis } from 'recharts';
+import {
+  Area,
+  AreaChart,
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Label,
+  LabelList,
+  Line,
+  LineChart,
+  PolarAngleAxis,
+  RadialBar,
+  RadialBarChart,
+  Rectangle,
+  ReferenceLine,
+  XAxis,
+  YAxis,
+} from 'recharts';
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@ui/card';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@ui/chart';
@@ -363,7 +380,14 @@ export function Charts() {
                   },
                 ]}
               >
-                <Bar dataKey='steps' fill='var(--color-steps)' radius={2} fillOpacity={0.2} activeIndex={6} activeBar={<Rectangle fillOpacity={0.8} />} />
+                <Bar
+                  dataKey='steps'
+                  fill='var(--color-steps)'
+                  radius={2}
+                  fillOpacity={0.2}
+                  activeIndex={6}
+                  activeBar={<Rectangle fillOpacity={0.8} />}
+                />
                 <XAxis dataKey='date' tickLine={false} axisLine={false} tickMargin={4} hide />
               </BarChart>
             </ChartContainer>
@@ -592,7 +616,14 @@ export function Charts() {
                   },
                 ]}
               >
-                <Bar dataKey='calories' fill='var(--color-calories)' radius={2} fillOpacity={0.2} activeIndex={6} activeBar={<Rectangle fillOpacity={0.8} />} />
+                <Bar
+                  dataKey='calories'
+                  fill='var(--color-calories)'
+                  radius={2}
+                  fillOpacity={0.2}
+                  activeIndex={6}
+                  activeBar={<Rectangle fillOpacity={0.8} />}
+                />
                 <XAxis dataKey='date' tickLine={false} axisLine={false} tickMargin={4} hide />
               </BarChart>
             </ChartContainer>

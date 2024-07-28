@@ -20,7 +20,12 @@ const Separator = React.forwardRef<React.ElementRef<typeof SeparatorPrimitive.Ro
         />
         {hasChildren && orientation === 'horizontal' && <span className='mx-2'>{children}</span>}
         {hasChildren && orientation === 'horizontal' && (
-          <SeparatorPrimitive.Root decorative={decorative} orientation={orientation} className={cn('shrink-0 bg-border', 'h-[1px] w-full flex-1', className)} {...props} />
+          <SeparatorPrimitive.Root
+            decorative={decorative}
+            orientation={orientation}
+            className={cn('shrink-0 bg-border', 'h-[1px] w-full flex-1', className)}
+            {...props}
+          />
         )}
       </div>
     );

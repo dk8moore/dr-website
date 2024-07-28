@@ -4,7 +4,17 @@ import { motion } from 'framer-motion';
 
 /* From Aceternity UI => https://ui.aceternity.com/components/background-gradient */
 
-export const BackgroundGradient = ({ children, className, containerClassName, animate = true }: { children?: React.ReactNode; className?: string; containerClassName?: string; animate?: boolean }) => {
+export const BackgroundGradient = ({
+  children,
+  className,
+  containerClassName,
+  animate = true,
+}: {
+  children?: React.ReactNode;
+  className?: string;
+  containerClassName?: string;
+  animate?: boolean;
+}) => {
   const variants = {
     initial: {
       backgroundPosition: '0 50%',

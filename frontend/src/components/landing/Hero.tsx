@@ -21,7 +21,9 @@ export const Hero = () => {
           </h2>
         </main>
 
-        <p className='text-xl text-muted-foreground md:w-10/12 mx-auto lg:mx-0'>Build your SaaS project faster with this boilerplate, from landing page to the service behind it.</p>
+        <p className='text-xl text-muted-foreground md:w-10/12 mx-auto lg:mx-0'>
+          Build your SaaS project faster with this boilerplate, from landing page to the service behind it.
+        </p>
 
         <div className='space-y-4 md:space-y-0 md:space-x-4'>
           <Link to='/login' className='w-full md:w-1/3'>

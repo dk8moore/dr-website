@@ -7,7 +7,15 @@ import React, { createContext, useState, useContext, useRef, useEffect } from 'r
 
 const MouseEnterContext = createContext<[boolean, React.Dispatch<React.SetStateAction<boolean>>] | undefined>(undefined);
 
-export const CardContainer = ({ children, className, containerClassName }: { children?: React.ReactNode; className?: string; containerClassName?: string }) => {
+export const CardContainer = ({
+  children,
+  className,
+  containerClassName,
+}: {
+  children?: React.ReactNode;
+  className?: string;
+  containerClassName?: string;
+}) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isMouseEntered, setIsMouseEntered] = useState(false);
 
