@@ -4,8 +4,7 @@ from django.contrib.auth.password_validation import validate_password
 from .models import User
 
 user_credentials_fields = ['email', 'password']
-user_ids_fields = ['username', 'email']
-user_info_fields = ['first_name', 'last_name', 'bio', 'birth_date', 'profile_picture', 'phone_number', 'address']
+user_info_fields = ['username', 'first_name', 'last_name', 'bio', 'birth_date', 'profile_picture', 'phone_number', 'address']
 
 class UserFullSerializer(serializers.ModelSerializer):
     """
@@ -13,8 +12,8 @@ class UserFullSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = User
-        fields = ['id'] + user_ids_fields + user_info_fields
-        read_only_fields = ['id']
+        fields = ['id', 'email'] + user_info_fields
+        read_only_fields = ['id', 'email']
 
 class UserInfoUpdateSerializer(serializers.ModelSerializer):
     """
@@ -23,30 +22,28 @@ class UserInfoUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = user_info_fields
+
+    def validate_username(self, value):
+        if User.objects.filter(username=value).exclude(pk=self.instance.pk).exists():
+            raise serializers.ValidationError("This username is already in use.")
+        return value
     # TODO: Add custom validations for fields like phone number, etc.
 
 class UserCredentialsUpdateSerializer(serializers.ModelSerializer):
     """
-    Serializer for updating user credentials. Specifically handles updates to username and email, with separate validation
-    for each field. This allows users to update either username or email independently.
+    Serializer for updating user credentials. Specifically handles updates to email.
     """
     email = serializers.EmailField(validators=[validate_email])
     class Meta:
         model = User
-        fields = user_ids_fields
+        fields = ['email']
 
     def validate_email(self, value):
         if User.objects.filter(email=value).exclude(pk=self.instance.pk).exists():
             raise serializers.ValidationError("This email is already in use.")
         return value
 
-    def validate_username(self, value):
-        if User.objects.filter(username=value).exclude(pk=self.instance.pk).exists():
-            raise serializers.ValidationError("This username is already in use.")
-        return value
-
     def update(self, instance, validated_data):
-        instance.username = validated_data.get('username', instance.username)
         instance.email = validated_data.get('email', instance.email)
         instance.save()
         return instance

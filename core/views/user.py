@@ -35,7 +35,7 @@ class UserProfileView(generics.RetrieveUpdateAPIView):
     def get_serializer_class(self):
         if self.request.method == 'GET':
             return UserFullSerializer
-        if 'username' in self.request.data or 'email' in self.request.data:
+        if 'email' in self.request.data:
             return UserCredentialsUpdateSerializer
         return UserInfoUpdateSerializer
 

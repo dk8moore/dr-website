@@ -170,7 +170,6 @@ export function SettingsPage() {
                     formData.append(key, profile[key as keyof UserProfile] as string);
                 }
             });
-            formData.append('email', profile.email);
 
             await api.user.updateUserProfile(formData);
             setIsSuccess(true);
