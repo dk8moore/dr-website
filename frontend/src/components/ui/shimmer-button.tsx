@@ -14,19 +14,7 @@ export interface ShimmerButtonProps extends React.ButtonHTMLAttributes<HTMLButto
 }
 
 const ShimmerButton = React.forwardRef<HTMLButtonElement, ShimmerButtonProps>(
-  (
-    {
-      shimmerColor = '#ffffff',
-      shimmerSize = '0.05em',
-      shimmerDuration = '3s',
-      borderRadius = '100px',
-      background = 'rgba(0, 0, 0, 1)',
-      className,
-      children,
-      ...props
-    },
-    ref
-  ) => {
+  ({ shimmerColor = '#ffffff', shimmerSize = '0.05em', shimmerDuration = '3s', borderRadius = '100px', background = 'rgba(0, 0, 0, 1)', className, children, ...props }, ref) => {
     return (
       <button
         style={
@@ -48,12 +36,7 @@ const ShimmerButton = React.forwardRef<HTMLButtonElement, ShimmerButtonProps>(
         {...props}
       >
         {/* spark container */}
-        <div
-          className={cn(
-            '-z-30 blur-[2px]',
-            'absolute inset-0 overflow-visible [container-type:size]'
-          )}
-        >
+        <div className={cn('-z-30 blur-[2px]', 'absolute inset-0 overflow-visible [container-type:size]')}>
           {/* spark */}
           <div className='absolute inset-0 h-[100cqh] animate-slide [aspect-ratio:1] [border-radius:0] [mask:none]'>
             {/* spark before */}
@@ -81,11 +64,7 @@ const ShimmerButton = React.forwardRef<HTMLButtonElement, ShimmerButtonProps>(
         />
 
         {/* backdrop */}
-        <div
-          className={cn(
-            'absolute -z-20 [background:var(--bg)] [border-radius:var(--radius)] [inset:var(--cut)]'
-          )}
-        />
+        <div className={cn('absolute -z-20 [background:var(--bg)] [border-radius:var(--radius)] [inset:var(--cut)]')} />
       </button>
     );
   }

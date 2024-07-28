@@ -5,19 +5,9 @@ import React, { createContext, useState, useContext, useRef, useEffect } from 'r
 
 /* From Aceternity UI => https://ui.aceternity.com/components/3d-card-effect */
 
-const MouseEnterContext = createContext<
-  [boolean, React.Dispatch<React.SetStateAction<boolean>>] | undefined
->(undefined);
+const MouseEnterContext = createContext<[boolean, React.Dispatch<React.SetStateAction<boolean>>] | undefined>(undefined);
 
-export const CardContainer = ({
-  children,
-  className,
-  containerClassName,
-}: {
-  children?: React.ReactNode;
-  className?: string;
-  containerClassName?: string;
-}) => {
+export const CardContainer = ({ children, className, containerClassName }: { children?: React.ReactNode; className?: string; containerClassName?: string }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isMouseEntered, setIsMouseEntered] = useState(false);
 
@@ -52,10 +42,7 @@ export const CardContainer = ({
           onMouseEnter={handleMouseEnter}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
-          className={cn(
-            'flex items-center justify-center relative transition-all duration-200 ease-linear',
-            className
-          )}
+          className={cn('flex items-center justify-center relative transition-all duration-200 ease-linear', className)}
           style={{
             transformStyle: 'preserve-3d',
           }}
@@ -67,23 +54,8 @@ export const CardContainer = ({
   );
 };
 
-export const CardBody = ({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) => {
-  return (
-    <div
-      className={cn(
-        'h-96 w-96 [transform-style:preserve-3d]  [&>*]:[transform-style:preserve-3d]',
-        className
-      )}
-    >
-      {children}
-    </div>
-  );
+export const CardBody = ({ children, className }: { children: React.ReactNode; className?: string }) => {
+  return <div className={cn('h-96 w-96 [transform-style:preserve-3d]  [&>*]:[transform-style:preserve-3d]', className)}>{children}</div>;
 };
 
 export const CardItem = ({

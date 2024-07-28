@@ -13,24 +13,15 @@ export const Hero = () => {
       <div className='text-center lg:text-start space-y-6'>
         <main className='text-5xl md:text-6xl font-bold'>
           <h1 className='inline'>
-            A{' '}
-            <span className='inline bg-gradient-to-r from-[#F596D3]  to-[#D247BF] text-transparent bg-clip-text'>
-              boilerplate
-            </span>
+            A <span className='inline bg-gradient-to-r from-[#F596D3]  to-[#D247BF] text-transparent bg-clip-text'>boilerplate</span>
           </h1>{' '}
           for{' '}
           <h2 className='inline'>
-            <span className='inline bg-gradient-to-r from-[#61DAFB] via-[#1fc0f1] to-[#03a3d7] text-transparent bg-clip-text'>
-              SaaS
-            </span>{' '}
-            projects
+            <span className='inline bg-gradient-to-r from-[#61DAFB] via-[#1fc0f1] to-[#03a3d7] text-transparent bg-clip-text'>SaaS</span> projects
           </h2>
         </main>
 
-        <p className='text-xl text-muted-foreground md:w-10/12 mx-auto lg:mx-0'>
-          Build your SaaS project faster with this boilerplate, from landing page to the service
-          behind it.
-        </p>
+        <p className='text-xl text-muted-foreground md:w-10/12 mx-auto lg:mx-0'>Build your SaaS project faster with this boilerplate, from landing page to the service behind it.</p>
 
         <div className='space-y-4 md:space-y-0 md:space-x-4'>
           <Link to='/login' className='w-full md:w-1/3'>

@@ -11,16 +11,7 @@ interface DropzoneProps extends DropzoneOptions {
   borderStyle?: 'dashed' | 'solid' | 'none';
 }
 
-export const Dropzone: React.FC<DropzoneProps> = ({
-  children,
-  className = '',
-  activeClassName = '',
-  icon,
-  shape = 'rectangle',
-  size = 'medium',
-  borderStyle = 'dashed',
-  ...dropzoneOptions
-}) => {
+export const Dropzone: React.FC<DropzoneProps> = ({ children, className = '', activeClassName = '', icon, shape = 'rectangle', size = 'medium', borderStyle = 'dashed', ...dropzoneOptions }) => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone(dropzoneOptions);
 
   const shapeClasses = {

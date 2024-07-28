@@ -2,30 +2,13 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/lib/use-auth';
 
-import {
-  Activity,
-  ArrowUpRight,
-  CircleUser,
-  CreditCard,
-  DollarSign,
-  Menu,
-  Package2,
-  Search,
-  Users,
-} from 'lucide-react';
+import { Activity, ArrowUpRight, CircleUser, CreditCard, DollarSign, Menu, Package2, Search, Users } from 'lucide-react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@ui/avatar';
 import { Badge } from '@ui/badge';
 import { Button } from '@ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@ui/card';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@ui/dropdown-menu';
 import { Input } from '@ui/input';
 import { Sheet, SheetContent, SheetTrigger } from '@ui/sheet';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@ui/table';
@@ -102,11 +85,7 @@ export const Dashboard: React.FC = () => {
           <form className='ml-auto flex-1 sm:flex-initial'>
             <div className='relative'>
               <Search className='absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground' />
-              <Input
-                type='search'
-                placeholder='Search products...'
-                className='pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]'
-              />
+              <Input type='search' placeholder='Search products...' className='pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]' />
             </div>
           </form>
           <DropdownMenu>
@@ -199,9 +178,7 @@ export const Dashboard: React.FC = () => {
                   <TableRow>
                     <TableCell>
                       <div className='font-medium'>Liam Johnson</div>
-                      <div className='hidden text-sm text-muted-foreground md:inline'>
-                        liam@example.com
-                      </div>
+                      <div className='hidden text-sm text-muted-foreground md:inline'>liam@example.com</div>
                     </TableCell>
                     <TableCell className='hidden xl:table-column'>Sale</TableCell>
                     <TableCell className='hidden xl:table-column'>
@@ -209,17 +186,13 @@ export const Dashboard: React.FC = () => {
                         Approved
                       </Badge>
                     </TableCell>
-                    <TableCell className='hidden md:table-cell lg:hidden xl:table-column'>
-                      2023-06-23
-                    </TableCell>
+                    <TableCell className='hidden md:table-cell lg:hidden xl:table-column'>2023-06-23</TableCell>
                     <TableCell className='text-right'>$250.00</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>
                       <div className='font-medium'>Olivia Smith</div>
-                      <div className='hidden text-sm text-muted-foreground md:inline'>
-                        olivia@example.com
-                      </div>
+                      <div className='hidden text-sm text-muted-foreground md:inline'>olivia@example.com</div>
                     </TableCell>
                     <TableCell className='hidden xl:table-column'>Refund</TableCell>
                     <TableCell className='hidden xl:table-column'>
@@ -227,17 +200,13 @@ export const Dashboard: React.FC = () => {
                         Declined
                       </Badge>
                     </TableCell>
-                    <TableCell className='hidden md:table-cell lg:hidden xl:table-column'>
-                      2023-06-24
-                    </TableCell>
+                    <TableCell className='hidden md:table-cell lg:hidden xl:table-column'>2023-06-24</TableCell>
                     <TableCell className='text-right'>$150.00</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>
                       <div className='font-medium'>Noah Williams</div>
-                      <div className='hidden text-sm text-muted-foreground md:inline'>
-                        noah@example.com
-                      </div>
+                      <div className='hidden text-sm text-muted-foreground md:inline'>noah@example.com</div>
                     </TableCell>
                     <TableCell className='hidden xl:table-column'>Subscription</TableCell>
                     <TableCell className='hidden xl:table-column'>
@@ -245,17 +214,13 @@ export const Dashboard: React.FC = () => {
                         Approved
                       </Badge>
                     </TableCell>
-                    <TableCell className='hidden md:table-cell lg:hidden xl:table-column'>
-                      2023-06-25
-                    </TableCell>
+                    <TableCell className='hidden md:table-cell lg:hidden xl:table-column'>2023-06-25</TableCell>
                     <TableCell className='text-right'>$350.00</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>
                       <div className='font-medium'>Emma Brown</div>
-                      <div className='hidden text-sm text-muted-foreground md:inline'>
-                        emma@example.com
-                      </div>
+                      <div className='hidden text-sm text-muted-foreground md:inline'>emma@example.com</div>
                     </TableCell>
                     <TableCell className='hidden xl:table-column'>Sale</TableCell>
                     <TableCell className='hidden xl:table-column'>
@@ -263,17 +228,13 @@ export const Dashboard: React.FC = () => {
                         Approved
                       </Badge>
                     </TableCell>
-                    <TableCell className='hidden md:table-cell lg:hidden xl:table-column'>
-                      2023-06-26
-                    </TableCell>
+                    <TableCell className='hidden md:table-cell lg:hidden xl:table-column'>2023-06-26</TableCell>
                     <TableCell className='text-right'>$450.00</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>
                       <div className='font-medium'>Liam Johnson</div>
-                      <div className='hidden text-sm text-muted-foreground md:inline'>
-                        liam@example.com
-                      </div>
+                      <div className='hidden text-sm text-muted-foreground md:inline'>liam@example.com</div>
                     </TableCell>
                     <TableCell className='hidden xl:table-column'>Sale</TableCell>
                     <TableCell className='hidden xl:table-column'>
@@ -281,9 +242,7 @@ export const Dashboard: React.FC = () => {
                         Approved
                       </Badge>
                     </TableCell>
-                    <TableCell className='hidden md:table-cell lg:hidden xl:table-column'>
-                      2023-06-27
-                    </TableCell>
+                    <TableCell className='hidden md:table-cell lg:hidden xl:table-column'>2023-06-27</TableCell>
                     <TableCell className='text-right'>$550.00</TableCell>
                   </TableRow>
                 </TableBody>

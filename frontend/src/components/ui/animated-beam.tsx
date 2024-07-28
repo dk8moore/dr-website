@@ -118,20 +118,8 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
       className={cn('pointer-events-none absolute left-0 top-0 transform-gpu stroke-2', className)}
       viewBox={`0 0 ${svgDimensions.width} ${svgDimensions.height}`}
     >
-      <path
-        d={pathD}
-        stroke={pathColor}
-        strokeWidth={pathWidth}
-        strokeOpacity={pathOpacity}
-        strokeLinecap='round'
-      />
-      <path
-        d={pathD}
-        strokeWidth={pathWidth}
-        stroke={`url(#${id})`}
-        strokeOpacity='1'
-        strokeLinecap='round'
-      />
+      <path d={pathD} stroke={pathColor} strokeWidth={pathWidth} strokeOpacity={pathOpacity} strokeLinecap='round' />
+      <path d={pathD} strokeWidth={pathWidth} stroke={`url(#${id})`} strokeOpacity='1' strokeLinecap='round' />
       <defs>
         <motion.linearGradient
           className='transform-gpu'

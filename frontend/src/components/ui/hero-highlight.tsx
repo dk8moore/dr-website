@@ -3,15 +3,7 @@ import { cn } from '@lib/utils';
 import { useMotionValue, motion, useMotionTemplate } from 'framer-motion';
 import React from 'react';
 
-export const HeroHighlight = ({
-  children,
-  className,
-  containerClassName,
-}: {
-  children: React.ReactNode;
-  className?: string;
-  containerClassName?: string;
-}) => {
+export const HeroHighlight = ({ children, className, containerClassName }: { children: React.ReactNode; className?: string; containerClassName?: string }) => {
   let mouseX = useMotionValue(0);
   let mouseY = useMotionValue(0);
 
@@ -23,13 +15,7 @@ export const HeroHighlight = ({
     mouseY.set(clientY - top);
   }
   return (
-    <div
-      className={cn(
-        'relative h-[40rem] flex items-center bg-white dark:bg-black justify-center w-full group',
-        containerClassName
-      )}
-      onMouseMove={handleMouseMove}
-    >
+    <div className={cn('relative h-[40rem] flex items-center bg-white dark:bg-black justify-center w-full group', containerClassName)} onMouseMove={handleMouseMove}>
       <div className='absolute inset-0 bg-dot-thick-neutral-300 dark:bg-dot-thick-neutral-800  pointer-events-none' />
       <motion.div
         className='pointer-events-none bg-dot-thick-indigo-500 dark:bg-dot-thick-indigo-500   absolute inset-0 opacity-0 transition duration-300 group-hover:opacity-100'
@@ -56,13 +42,7 @@ export const HeroHighlight = ({
   );
 };
 
-export const Highlight = ({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) => {
+export const Highlight = ({ children, className }: { children: React.ReactNode; className?: string }) => {
   return (
     <motion.span
       initial={{
@@ -81,10 +61,7 @@ export const Highlight = ({
         backgroundPosition: 'left center',
         display: 'inline',
       }}
-      className={cn(
-        `relative inline-block pb-1   px-1 rounded-lg bg-gradient-to-r from-indigo-300 to-purple-300 dark:from-indigo-500 dark:to-purple-500`,
-        className
-      )}
+      className={cn(`relative inline-block pb-1   px-1 rounded-lg bg-gradient-to-r from-indigo-300 to-purple-300 dark:from-indigo-500 dark:to-purple-500`, className)}
     >
       {children}
     </motion.span>

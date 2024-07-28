@@ -2,24 +2,7 @@
 
 import React from 'react';
 
-import {
-  Area,
-  AreaChart,
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Label,
-  LabelList,
-  Line,
-  LineChart,
-  PolarAngleAxis,
-  RadialBar,
-  RadialBarChart,
-  Rectangle,
-  ReferenceLine,
-  XAxis,
-  YAxis,
-} from 'recharts';
+import { Area, AreaChart, Bar, BarChart, CartesianGrid, Label, LabelList, Line, LineChart, PolarAngleAxis, RadialBar, RadialBarChart, Rectangle, ReferenceLine, XAxis, YAxis } from 'recharts';
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@ui/card';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@ui/chart';
@@ -33,10 +16,7 @@ export function Charts() {
           <CardHeader className='space-y-0 pb-2'>
             <CardDescription>Today</CardDescription>
             <CardTitle className='text-4xl tabular-nums'>
-              12,584{' '}
-              <span className='font-sans text-sm font-normal tracking-normal text-muted-foreground'>
-                steps
-              </span>
+              12,584 <span className='font-sans text-sm font-normal tracking-normal text-muted-foreground'>steps</span>
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -85,13 +65,7 @@ export function Charts() {
                   },
                 ]}
               >
-                <Bar
-                  dataKey='steps'
-                  fill='var(--color-steps)'
-                  radius={5}
-                  fillOpacity={0.6}
-                  activeBar={<Rectangle fillOpacity={0.8} />}
-                />
+                <Bar dataKey='steps' fill='var(--color-steps)' radius={5} fillOpacity={0.6} activeBar={<Rectangle fillOpacity={0.8} />} />
                 <XAxis
                   dataKey='date'
                   tickLine={false}
@@ -119,38 +93,19 @@ export function Charts() {
                   }
                   cursor={false}
                 />
-                <ReferenceLine
-                  y={1200}
-                  stroke='hsl(var(--muted-foreground))'
-                  strokeDasharray='3 3'
-                  strokeWidth={1}
-                >
-                  <Label
-                    position='insideBottomLeft'
-                    value='Average Steps'
-                    offset={10}
-                    fill='hsl(var(--foreground))'
-                  />
-                  <Label
-                    position='insideTopLeft'
-                    value='12,343'
-                    className='text-lg'
-                    fill='hsl(var(--foreground))'
-                    offset={10}
-                    startOffset={100}
-                  />
+                <ReferenceLine y={1200} stroke='hsl(var(--muted-foreground))' strokeDasharray='3 3' strokeWidth={1}>
+                  <Label position='insideBottomLeft' value='Average Steps' offset={10} fill='hsl(var(--foreground))' />
+                  <Label position='insideTopLeft' value='12,343' className='text-lg' fill='hsl(var(--foreground))' offset={10} startOffset={100} />
                 </ReferenceLine>
               </BarChart>
             </ChartContainer>
           </CardContent>
           <CardFooter className='flex-col items-start gap-1'>
             <CardDescription>
-              Over the past 7 days, you have walked{' '}
-              <span className='font-medium text-foreground'>53,305</span> steps.
+              Over the past 7 days, you have walked <span className='font-medium text-foreground'>53,305</span> steps.
             </CardDescription>
             <CardDescription>
-              You need <span className='font-medium text-foreground'>12,584</span> more steps to
-              reach your goal.
+              You need <span className='font-medium text-foreground'>12,584</span> more steps to reach your goal.
             </CardDescription>
           </CardFooter>
         </Card>
@@ -160,18 +115,14 @@ export function Charts() {
               <CardDescription>Resting HR</CardDescription>
               <CardTitle className='flex items-baseline gap-1 text-4xl tabular-nums'>
                 62
-                <span className='text-sm font-normal tracking-normal text-muted-foreground'>
-                  bpm
-                </span>
+                <span className='text-sm font-normal tracking-normal text-muted-foreground'>bpm</span>
               </CardTitle>
             </div>
             <div>
               <CardDescription>Variability</CardDescription>
               <CardTitle className='flex items-baseline gap-1 text-4xl tabular-nums'>
                 35
-                <span className='text-sm font-normal tracking-normal text-muted-foreground'>
-                  ms
-                </span>
+                <span className='text-sm font-normal tracking-normal text-muted-foreground'>ms</span>
               </CardTitle>
             </div>
           </CardHeader>
@@ -223,12 +174,7 @@ export function Charts() {
                   },
                 ]}
               >
-                <CartesianGrid
-                  strokeDasharray='4 4'
-                  vertical={false}
-                  stroke='hsl(var(--muted-foreground))'
-                  strokeOpacity={0.5}
-                />
+                <CartesianGrid strokeDasharray='4 4' vertical={false} stroke='hsl(var(--muted-foreground))' strokeOpacity={0.5} />
                 <YAxis hide domain={['dataMin - 10', 'dataMax + 10']} />
                 <XAxis
                   dataKey='date'
@@ -278,9 +224,7 @@ export function Charts() {
         <Card className='max-w-xs' x-chunk='charts-01-chunk-2'>
           <CardHeader>
             <CardTitle>Progress</CardTitle>
-            <CardDescription>
-              You're average more steps a day this year than last year.
-            </CardDescription>
+            <CardDescription>You're average more steps a day this year than last year.</CardDescription>
           </CardHeader>
           <CardContent className='grid gap-4'>
             <div className='grid auto-rows-min gap-2'>
@@ -314,13 +258,7 @@ export function Charts() {
                   ]}
                 >
                   <Bar dataKey='steps' fill='var(--color-steps)' radius={4} barSize={32}>
-                    <LabelList
-                      position='insideLeft'
-                      dataKey='date'
-                      offset={8}
-                      fontSize={12}
-                      fill='white'
-                    />
+                    <LabelList position='insideLeft' dataKey='date' offset={8} fontSize={12} fill='white' />
                   </Bar>
                   <YAxis dataKey='date' type='category' tickCount={1} hide />
                   <XAxis dataKey='steps' type='number' hide />
@@ -358,13 +296,7 @@ export function Charts() {
                   ]}
                 >
                   <Bar dataKey='steps' fill='var(--color-steps)' radius={4} barSize={32}>
-                    <LabelList
-                      position='insideLeft'
-                      dataKey='date'
-                      offset={8}
-                      fontSize={12}
-                      fill='hsl(var(--muted-foreground))'
-                    />
+                    <LabelList position='insideLeft' dataKey='date' offset={8} fontSize={12} fill='hsl(var(--muted-foreground))' />
                   </Bar>
                   <YAxis dataKey='date' type='category' tickCount={1} hide />
                   <XAxis dataKey='steps' type='number' hide />
@@ -376,9 +308,7 @@ export function Charts() {
         <Card className='max-w-xs' x-chunk='charts-01-chunk-3'>
           <CardHeader className='p-4 pb-0'>
             <CardTitle>Walking Distance</CardTitle>
-            <CardDescription>
-              Over the last 7 days, your distance walked and run was 12.5 miles per day.
-            </CardDescription>
+            <CardDescription>Over the last 7 days, your distance walked and run was 12.5 miles per day.</CardDescription>
           </CardHeader>
           <CardContent className='flex flex-row items-baseline gap-4 p-4 pt-0'>
             <div className='flex items-baseline gap-1 text-3xl font-bold tabular-nums leading-none'>
@@ -433,14 +363,7 @@ export function Charts() {
                   },
                 ]}
               >
-                <Bar
-                  dataKey='steps'
-                  fill='var(--color-steps)'
-                  radius={2}
-                  fillOpacity={0.2}
-                  activeIndex={6}
-                  activeBar={<Rectangle fillOpacity={0.8} />}
-                />
+                <Bar dataKey='steps' fill='var(--color-steps)' radius={2} fillOpacity={0.2} activeIndex={6} activeBar={<Rectangle fillOpacity={0.8} />} />
                 <XAxis dataKey='date' tickLine={false} axisLine={false} tickMargin={4} hide />
               </BarChart>
             </ChartContainer>
@@ -497,22 +420,9 @@ export function Charts() {
                 barGap={2}
               >
                 <XAxis type='number' dataKey='value' hide />
-                <YAxis
-                  dataKey='activity'
-                  type='category'
-                  tickLine={false}
-                  tickMargin={4}
-                  axisLine={false}
-                  className='capitalize'
-                />
+                <YAxis dataKey='activity' type='category' tickLine={false} tickMargin={4} axisLine={false} className='capitalize' />
                 <Bar dataKey='value' radius={5}>
-                  <LabelList
-                    position='insideLeft'
-                    dataKey='label'
-                    fill='white'
-                    offset={8}
-                    fontSize={12}
-                  />
+                  <LabelList position='insideLeft' dataKey='label' fill='white' offset={8} fontSize={12} />
                 </Bar>
               </BarChart>
             </ChartContainer>
@@ -627,9 +537,7 @@ export function Charts() {
         <Card className='max-w-xs' x-chunk='charts-01-chunk-6'>
           <CardHeader className='p-4 pb-0'>
             <CardTitle>Active Energy</CardTitle>
-            <CardDescription>
-              You're burning an average of 754 calories per day. Good job!
-            </CardDescription>
+            <CardDescription>You're burning an average of 754 calories per day. Good job!</CardDescription>
           </CardHeader>
           <CardContent className='flex flex-row items-baseline gap-4 p-4 pt-2'>
             <div className='flex items-baseline gap-2 text-3xl font-bold tabular-nums leading-none'>
@@ -684,14 +592,7 @@ export function Charts() {
                   },
                 ]}
               >
-                <Bar
-                  dataKey='calories'
-                  fill='var(--color-calories)'
-                  radius={2}
-                  fillOpacity={0.2}
-                  activeIndex={6}
-                  activeBar={<Rectangle fillOpacity={0.8} />}
-                />
+                <Bar dataKey='calories' fill='var(--color-calories)' radius={2} fillOpacity={0.2} activeIndex={6} activeBar={<Rectangle fillOpacity={0.8} />} />
                 <XAxis dataKey='date' tickLine={false} axisLine={false} tickMargin={4} hide />
               </BarChart>
             </ChartContainer>
@@ -701,14 +602,9 @@ export function Charts() {
           <CardHeader className='space-y-0 pb-0'>
             <CardDescription>Time in Bed</CardDescription>
             <CardTitle className='flex items-baseline gap-1 text-4xl tabular-nums'>
-              8
-              <span className='font-sans text-sm font-normal tracking-normal text-muted-foreground'>
-                hr
-              </span>
+              8<span className='font-sans text-sm font-normal tracking-normal text-muted-foreground'>hr</span>
               35
-              <span className='font-sans text-sm font-normal tracking-normal text-muted-foreground'>
-                min
-              </span>
+              <span className='font-sans text-sm font-normal tracking-normal text-muted-foreground'>min</span>
             </CardTitle>
           </CardHeader>
           <CardContent className='p-0'>
@@ -767,13 +663,7 @@ export function Charts() {
                     <stop offset='95%' stopColor='var(--color-time)' stopOpacity={0.1} />
                   </linearGradient>
                 </defs>
-                <Area
-                  dataKey='time'
-                  type='natural'
-                  fill='url(#fillTime)'
-                  fillOpacity={0.4}
-                  stroke='var(--color-time)'
-                />
+                <Area dataKey='time' type='natural' fill='url(#fillTime)' fillOpacity={0.4} stroke='var(--color-time)' />
                 <ChartTooltip
                   cursor={false}
                   content={<ChartTooltipContent hideLabel />}

@@ -7,14 +7,7 @@ import { CircleUser, Menu, Package2, Search } from 'lucide-react';
 import { Button } from '@ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@ui/card';
 import { Checkbox } from '@ui/checkbox';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@ui/dropdown-menu';
 import { Input } from '@ui/input';
 import { Sheet, SheetContent, SheetTrigger } from '@ui/sheet';
 
@@ -90,11 +83,7 @@ export const Dashboard: React.FC = () => {
           <form className='ml-auto flex-1 sm:flex-initial'>
             <div className='relative'>
               <Search className='absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground' />
-              <Input
-                type='search'
-                placeholder='Search products...'
-                className='pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]'
-              />
+              <Input type='search' placeholder='Search products...' className='pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]' />
             </div>
           </form>
           <DropdownMenu>
@@ -148,19 +137,14 @@ export const Dashboard: React.FC = () => {
             <Card x-chunk='dashboard-04-chunk-2'>
               <CardHeader>
                 <CardTitle>Plugins Directory</CardTitle>
-                <CardDescription>
-                  The directory within your project, in which your plugins are located.
-                </CardDescription>
+                <CardDescription>The directory within your project, in which your plugins are located.</CardDescription>
               </CardHeader>
               <CardContent>
                 <form className='flex flex-col gap-4'>
                   <Input placeholder='Project Name' defaultValue='/content/plugins' />
                   <div className='flex items-center space-x-2'>
                     <Checkbox id='include' defaultChecked />
-                    <label
-                      htmlFor='include'
-                      className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
-                    >
+                    <label htmlFor='include' className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>
                       Allow administrators to change the directory.
                     </label>
                   </div>

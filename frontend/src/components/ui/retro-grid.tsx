@@ -5,12 +5,7 @@ import { cn } from '@/lib/utils';
 
 export default function RetroGrid({ className }: { className?: string }) {
   return (
-    <div
-      className={cn(
-        'pointer-events-none absolute h-full w-full overflow-hidden opacity-50 [perspective:200px]',
-        className
-      )}
-    >
+    <div className={cn('pointer-events-none absolute h-full w-full overflow-hidden opacity-50 [perspective:200px]', className)}>
       {/* Grid */}
       <div className='absolute inset-0 [transform:rotateX(35deg)]'>
         <div

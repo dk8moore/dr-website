@@ -4,13 +4,7 @@ import { ReactNode } from 'react';
 
 /* From MagicUI => https://magicui.design/docs/components/animated-gradient-text */
 
-export default function AnimatedGradientText({
-  children,
-  className,
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
+export default function AnimatedGradientText({ children, className }: { children: ReactNode; className?: string }) {
   return (
     <div
       className={cn(

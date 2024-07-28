@@ -12,9 +12,7 @@ export function LoginForm() {
         <div className='mx-auto grid w-[350px] gap-6'>
           <div className='grid gap-2 text-center'>
             <h1 className='text-3xl font-bold'>Login</h1>
-            <p className='text-balance text-muted-foreground'>
-              Enter your email below to login to your account
-            </p>
+            <p className='text-balance text-muted-foreground'>Enter your email below to login to your account</p>
           </div>
           <div className='grid gap-4'>
             <div className='grid gap-2'>
@@ -46,13 +44,7 @@ export function LoginForm() {
         </div>
       </div>
       <div className='hidden bg-muted lg:block'>
-        <img
-          src='https://picsum.photos/1920/1080'
-          alt='Image'
-          width='1920'
-          height='1080'
-          className='h-full w-full object-cover dark:brightness-[0.2] dark:grayscale'
-        />
+        <img src='https://picsum.photos/1920/1080' alt='Image' width='1920' height='1080' className='h-full w-full object-cover dark:brightness-[0.2] dark:grayscale' />
       </div>
     </div>
   );

@@ -80,9 +80,7 @@ export function SettingsPage() {
     }
   };
 
-  const updateProfileAndResetFlagsOnEvents = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const updateProfileAndResetFlagsOnEvents = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setProfile({ ...profile, [e.target.id]: e.target.value });
     setIsError(false);
     setIsSuccess(false);
@@ -200,63 +198,33 @@ export function SettingsPage() {
         return (
           <>
             <h2 className='text-2xl font-semibold mb-2'>Public Profile</h2>
-            <p className='text-muted-foreground mb-6'>
-              This information will be displayed publicly.
-            </p>
+            <p className='text-muted-foreground mb-6'>This information will be displayed publicly.</p>
             <Separator className='mb-6' />
             <form onSubmit={handleProfileSubmit} className='space-y-6'>
               <div className='flex flex-col items-center mb-6'>
-                <ImageHandler
-                  onImageSelect={handleImageSelect}
-                  initialImage={profile.profile_picture}
-                />
+                <ImageHandler onImageSelect={handleImageSelect} initialImage={profile.profile_picture} />
               </div>
               <div>
                 <Label htmlFor='username'>Username</Label>
-                <Input
-                  id='username'
-                  value={profile.username}
-                  onChange={updateProfileAndResetFlagsOnEvents}
-                  className='mt-1'
-                />
-                <p className='text-sm text-muted-foreground mt-1'>
-                  This is your public display name. It can be your real name or a pseudonym.
-                </p>
+                <Input id='username' value={profile.username} onChange={updateProfileAndResetFlagsOnEvents} className='mt-1' />
+                <p className='text-sm text-muted-foreground mt-1'>This is your public display name. It can be your real name or a pseudonym.</p>
               </div>
 
               <div className='flex space-x-4'>
                 <div className='flex-1'>
                   <Label htmlFor='first_name'>First Name</Label>
-                  <Input
-                    id='first_name'
-                    value={profile.first_name}
-                    onChange={updateProfileAndResetFlagsOnEvents}
-                    className='mt-1'
-                  />
+                  <Input id='first_name' value={profile.first_name} onChange={updateProfileAndResetFlagsOnEvents} className='mt-1' />
                 </div>
                 <div className='flex-1'>
                   <Label htmlFor='last_name'>Last Name</Label>
-                  <Input
-                    id='last_name'
-                    value={profile.last_name}
-                    onChange={updateProfileAndResetFlagsOnEvents}
-                    className='mt-1'
-                  />
+                  <Input id='last_name' value={profile.last_name} onChange={updateProfileAndResetFlagsOnEvents} className='mt-1' />
                 </div>
               </div>
 
               <div>
                 <Label htmlFor='bio'>Bio</Label>
-                <Textarea
-                  id='bio'
-                  value={profile.bio}
-                  onChange={updateProfileAndResetFlagsOnEvents}
-                  rows={3}
-                  className='mt-1'
-                />
-                <p className='text-sm text-muted-foreground mt-1'>
-                  You can @mention other users and organizations to link to them.
-                </p>
+                <Textarea id='bio' value={profile.bio} onChange={updateProfileAndResetFlagsOnEvents} rows={3} className='mt-1' />
+                <p className='text-sm text-muted-foreground mt-1'>You can @mention other users and organizations to link to them.</p>
               </div>
 
               {/* <Button type="submit">Update public profile</Button> */}
@@ -280,47 +248,20 @@ export function SettingsPage() {
             <form onSubmit={handleAccountSubmit} className='space-y-6'>
               <div>
                 <Label htmlFor='birth_date'>Date of Birth</Label>
-                <Input
-                  id='birth_date'
-                  type='date'
-                  value={profile.birth_date}
-                  onChange={updateProfileAndResetFlagsOnEvents}
-                  className='mt-1'
-                />
-                <p className='text-sm text-muted-foreground mt-1'>
-                  Your date of birth. This information helps us personalize your experience and
-                  ensure age-appropriate content.
-                </p>
+                <Input id='birth_date' type='date' value={profile.birth_date} onChange={updateProfileAndResetFlagsOnEvents} className='mt-1' />
+                <p className='text-sm text-muted-foreground mt-1'>Your date of birth. This information helps us personalize your experience and ensure age-appropriate content.</p>
               </div>
 
               <div>
                 <Label htmlFor='phone_number'>Phone Number</Label>
-                <Input
-                  id='phone_number'
-                  type='tel'
-                  value={profile.phone_number}
-                  onChange={updateProfileAndResetFlagsOnEvents}
-                  className='mt-1'
-                />
-                <p className='text-sm text-muted-foreground mt-1'>
-                  A contact number where we can reach you if needed. This is optional and will be
-                  kept private.
-                </p>
+                <Input id='phone_number' type='tel' value={profile.phone_number} onChange={updateProfileAndResetFlagsOnEvents} className='mt-1' />
+                <p className='text-sm text-muted-foreground mt-1'>A contact number where we can reach you if needed. This is optional and will be kept private.</p>
               </div>
 
               <div>
                 <Label htmlFor='address'>Address</Label>
-                <Textarea
-                  id='address'
-                  value={profile.address}
-                  onChange={updateProfileAndResetFlagsOnEvents}
-                  rows={2}
-                  className='mt-1'
-                />
-                <p className='text-sm text-muted-foreground mt-1'>
-                  Your current mailing address. This information is used for shipping or
-                  location-based services if applicable.
-                </p>
+                <Textarea id='address' value={profile.address} onChange={updateProfileAndResetFlagsOnEvents} rows={2} className='mt-1' />
+                <p className='text-sm text-muted-foreground mt-1'>Your current mailing address. This information is used for shipping or location-based services if applicable.</p>
               </div>
 
               <Button type='submit'>Update account information</Button>
@@ -336,16 +277,8 @@ export function SettingsPage() {
             <form onSubmit={handleSecuritySubmit} className='space-y-6'>
               <div>
                 <Label htmlFor='email'>Email</Label>
-                <Input
-                  id='email'
-                  type='email'
-                  value={profile.email}
-                  onChange={updateProfileAndResetFlagsOnEvents}
-                  className='mt-1'
-                />
-                <p className='text-sm text-muted-foreground mt-1'>
-                  Your email address. This is used for login and notifications.
-                </p>
+                <Input id='email' type='email' value={profile.email} onChange={updateProfileAndResetFlagsOnEvents} className='mt-1' />
+                <p className='text-sm text-muted-foreground mt-1'>Your email address. This is used for login and notifications.</p>
               </div>
 
               <Button type='submit'>Update email</Button>
@@ -356,24 +289,12 @@ export function SettingsPage() {
             <form onSubmit={handlePasswordChange} className='space-y-6'>
               <div>
                 <Label htmlFor='new_password'>New Password</Label>
-                <Input
-                  id='new_password'
-                  type='password'
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  className='mt-1'
-                />
+                <Input id='new_password' type='password' value={newPassword} onChange={(e) => setNewPassword(e.target.value)} className='mt-1' />
               </div>
 
               <div>
                 <Label htmlFor='confirm_password'>Confirm New Password</Label>
-                <Input
-                  id='confirm_password'
-                  type='password'
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  className='mt-1'
-                />
+                <Input id='confirm_password' type='password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className='mt-1' />
               </div>
 
               <Button type='submit'>Change Password</Button>
@@ -387,9 +308,7 @@ export function SettingsPage() {
     <div className='min-h-screen bg-background text-foreground'>
       <div className='max-w-5xl mx-auto px-4 py-8'>
         <h1 className='text-3xl font-bold mb-2'>Settings</h1>
-        <p className='text-muted-foreground mb-6'>
-          Manage your account settings and set e-mail preferences.
-        </p>
+        <p className='text-muted-foreground mb-6'>Manage your account settings and set e-mail preferences.</p>
 
         <Separator className='mb-6' />
 
@@ -404,11 +323,7 @@ export function SettingsPage() {
                   e.preventDefault();
                   setActiveTab(tab);
                 }}
-                className={`block py-2 px-4 rounded ${
-                  activeTab === tab
-                    ? 'bg-accent text-accent-foreground'
-                    : 'text-foreground hover:bg-accent hover:text-accent-foreground'
-                }`}
+                className={`block py-2 px-4 rounded ${activeTab === tab ? 'bg-accent text-accent-foreground' : 'text-foreground hover:bg-accent hover:text-accent-foreground'}`}
               >
                 {tab}
               </a>

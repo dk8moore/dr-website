@@ -46,8 +46,7 @@ html {
 }
 
 .dotted-background {
-  background: radial-gradient(circle, hsl(var(--card)) 1px, transparent 2px),
-    radial-gradient(circle, hsl(var(--card)) 1px, transparent 2px);
+  background: radial-gradient(circle, hsl(var(--card)) 1px, transparent 2px), radial-gradient(circle, hsl(var(--card)) 1px, transparent 2px);
   background-position:
     0 0,
     5px 5px;

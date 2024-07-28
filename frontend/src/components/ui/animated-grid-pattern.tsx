@@ -39,10 +39,7 @@ export function GridPattern({
   const [squares, setSquares] = useState(() => generateSquares(numSquares));
 
   function getPos() {
-    return [
-      Math.floor((Math.random() * dimensions.width) / width),
-      Math.floor((Math.random() * dimensions.height) / height),
-    ];
+    return [Math.floor((Math.random() * dimensions.width) / width), Math.floor((Math.random() * dimensions.height) / height)];
   }
 
   // Adjust the generateSquares function to return objects with an id, x, and y
@@ -97,15 +94,7 @@ export function GridPattern({
   }, [containerRef]);
 
   return (
-    <svg
-      ref={containerRef}
-      aria-hidden='true'
-      className={cn(
-        'pointer-events-none absolute inset-0 h-full w-full fill-gray-400/30 stroke-gray-400/30',
-        className
-      )}
-      {...props}
-    >
+    <svg ref={containerRef} aria-hidden='true' className={cn('pointer-events-none absolute inset-0 h-full w-full fill-gray-400/30 stroke-gray-400/30', className)} {...props}>
       <defs>
         <pattern id={id} width={width} height={height} patternUnits='userSpaceOnUse' x={x} y={y}>
           <path d={`M.5 ${height}V.5H${width}`} fill='none' strokeDasharray={strokeDasharray} />

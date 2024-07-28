@@ -63,41 +63,22 @@ export function LoginForm() {
   return (
     <div className='flex dotted-background items-center justify-center min-h-screen min-w-[400px] px-4 py-12 relative'>
       <div className='absolute inset-0 lg:hidden'>
-        <img
-          src='https://picsum.photos/1080/1920'
-          alt='Background Image'
-          className='w-full h-full object-cover opacity-20'
-        />
+        <img src='https://picsum.photos/1080/1920' alt='Background Image' className='w-full h-full object-cover opacity-20' />
       </div>
       <Card className='flex items-center max-w-6xl lg:min-h-[800px] max-h-[800px] rounded-lg shadow-lg overflow-hidden z-10'>
         <div className='grid grid-cols-1 lg:grid-cols-2 h-full min-h-[600px]'>
           <div className='hidden lg:block h-full'>
-            <img
-              src='https://picsum.photos/1080/1920'
-              alt='Image'
-              className='h-full w-full object-cover'
-            />
+            <img src='https://picsum.photos/1080/1920' alt='Image' className='h-full w-full object-cover' />
           </div>
           <div className='flex flex-col justify-center mx-auto w-full max-w-md p-12'>
             <div className='text-center'>
               <h4 className='text-2xl font-semibold text-card-foreground'>Welcome back</h4>
-              <p className='font-light mt-2 text-gray-400'>
-                Sign in to access to your dashboard, settings and projects.
-              </p>
+              <p className='font-light mt-2 text-gray-400'>Sign in to access to your dashboard, settings and projects.</p>
             </div>
             <form onSubmit={handleSubmit} className='mt-8 space-y-4'>
               <div className='space-y-2'>
                 <Label htmlFor='email'>Email</Label>
-                <Input
-                  id='email'
-                  type='email'
-                  placeholder='john.doe@example.com'
-                  required
-                  onChange={handleChange}
-                  isError={isError}
-                  isShaking={isShaking}
-                  onAnimationEnd={handleAnimationEnd}
-                />
+                <Input id='email' type='email' placeholder='john.doe@example.com' required onChange={handleChange} isError={isError} isShaking={isShaking} onAnimationEnd={handleAnimationEnd} />
               </div>
               <div className='space-y-2'>
                 <div className='flex items-center justify-between'>
@@ -106,15 +87,7 @@ export function LoginForm() {
                     Forgot password?
                   </Link>
                 </div>
-                <Input
-                  id='password'
-                  type='password'
-                  required
-                  onChange={handleChange}
-                  isError={isError}
-                  isShaking={isShaking}
-                  onAnimationEnd={handleAnimationEnd}
-                />
+                <Input id='password' type='password' required onChange={handleChange} isError={isError} isShaking={isShaking} onAnimationEnd={handleAnimationEnd} />
               </div>
               <div className='h-5 mb-1'>
                 {isError && (
@@ -131,17 +104,11 @@ export function LoginForm() {
                 <Label className='font-light text-gray-400'>OR CONTINUE WITH</Label>
               </Separator>
               <div className='flex space-x-2'>
-                <Button
-                  variant='outline'
-                  className='flex-1 flex items-center justify-center space-x-2'
-                >
+                <Button variant='outline' className='flex-1 flex items-center justify-center space-x-2'>
                   <SiGoogle />
                   <span className='hidden sm:inline'>Google</span>
                 </Button>
-                <Button
-                  variant='outline'
-                  className='flex-1 flex items-center justify-center space-x-2'
-                >
+                <Button variant='outline' className='flex-1 flex items-center justify-center space-x-2'>
                   <SiFacebook />
                   <span className='hidden sm:inline'>Facebook</span>
                 </Button>

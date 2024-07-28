@@ -43,10 +43,5 @@ export default function NumberTicker({
     [springValue]
   );
 
-  return (
-    <span
-      className={cn('inline-block tabular-nums text-black dark:text-white', className)}
-      ref={ref}
-    />
-  );
+  return <span className={cn('inline-block tabular-nums text-black dark:text-white', className)} ref={ref} />;
 }

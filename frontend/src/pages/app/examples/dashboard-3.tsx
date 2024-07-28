@@ -1,35 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import {
-  Bird,
-  Book,
-  Bot,
-  Code2,
-  CornerDownLeft,
-  LifeBuoy,
-  Mic,
-  Paperclip,
-  Rabbit,
-  Settings,
-  Settings2,
-  Share,
-  SquareTerminal,
-  SquareUser,
-  Triangle,
-  Turtle,
-} from 'lucide-react';
+import { Bird, Book, Bot, Code2, CornerDownLeft, LifeBuoy, Mic, Paperclip, Rabbit, Settings, Settings2, Share, SquareTerminal, SquareUser, Triangle, Turtle } from 'lucide-react';
 
 import { Badge } from '@ui/badge';
 import { Button } from '@ui/button';
-import {
-  Drawer,
-  DrawerContent,
-  DrawerDescription,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from '@ui/drawer';
+import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from '@ui/drawer';
 import { Input } from '@ui/input';
 import { Label } from '@ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/select';
@@ -48,12 +24,7 @@ export function Dashboard() {
         <nav className='grid gap-1 p-2'>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button
-                variant='ghost'
-                size='icon'
-                className='rounded-lg bg-muted'
-                aria-label='Playground'
-              >
+              <Button variant='ghost' size='icon' className='rounded-lg bg-muted' aria-label='Playground'>
                 <SquareTerminal className='size-5' />
               </Button>
             </TooltipTrigger>
@@ -115,12 +86,7 @@ export function Dashboard() {
           </Tooltip>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button
-                variant='ghost'
-                size='icon'
-                className='mt-auto rounded-lg'
-                aria-label='Account'
-              >
+              <Button variant='ghost' size='icon' className='mt-auto rounded-lg' aria-label='Account'>
                 <SquareUser className='size-5' />
               </Button>
             </TooltipTrigger>
@@ -143,9 +109,7 @@ export function Dashboard() {
             <DrawerContent className='max-h-[80vh]'>
               <DrawerHeader>
                 <DrawerTitle>Configuration</DrawerTitle>
-                <DrawerDescription>
-                  Configure the settings for the model and messages.
-                </DrawerDescription>
+                <DrawerDescription>Configure the settings for the model and messages.</DrawerDescription>
               </DrawerHeader>
               <form className='grid w-full items-start gap-6 overflow-auto p-4 pt-0'>
                 <fieldset className='grid gap-6 rounded-lg border p-4'>
@@ -153,10 +117,7 @@ export function Dashboard() {
                   <div className='grid gap-3'>
                     <Label htmlFor='model'>Model</Label>
                     <Select>
-                      <SelectTrigger
-                        id='model'
-                        className='items-start [&_[data-description]]:hidden'
-                      >
+                      <SelectTrigger id='model' className='items-start [&_[data-description]]:hidden'>
                         <SelectValue placeholder='Select a model' />
                       </SelectTrigger>
                       <SelectContent>
@@ -244,10 +205,7 @@ export function Dashboard() {
           </Button>
         </header>
         <main className='grid flex-1 gap-4 overflow-auto p-4 md:grid-cols-2 lg:grid-cols-3'>
-          <div
-            className='relative hidden flex-col items-start gap-8 md:flex'
-            x-chunk='dashboard-03-chunk-0'
-          >
+          <div className='relative hidden flex-col items-start gap-8 md:flex' x-chunk='dashboard-03-chunk-0'>
             <form className='grid w-full items-start gap-6'>
               <fieldset className='grid gap-6 rounded-lg border p-4'>
                 <legend className='-ml-1 px-1 text-sm font-medium'>Settings</legend>
@@ -342,18 +300,11 @@ export function Dashboard() {
               Output
             </Badge>
             <div className='flex-1' />
-            <form
-              className='relative overflow-hidden rounded-lg border bg-background focus-within:ring-1 focus-within:ring-ring'
-              x-chunk='dashboard-03-chunk-1'
-            >
+            <form className='relative overflow-hidden rounded-lg border bg-background focus-within:ring-1 focus-within:ring-ring' x-chunk='dashboard-03-chunk-1'>
               <Label htmlFor='message' className='sr-only'>
                 Message
               </Label>
-              <Textarea
-                id='message'
-                placeholder='Type your message here...'
-                className='min-h-12 resize-none border-0 p-3 shadow-none focus-visible:ring-0'
-              />
+              <Textarea id='message' placeholder='Type your message here...' className='min-h-12 resize-none border-0 p-3 shadow-none focus-visible:ring-0' />
               <div className='flex items-center p-3 pt-0'>
                 <Tooltip>
                   <TooltipTrigger asChild>

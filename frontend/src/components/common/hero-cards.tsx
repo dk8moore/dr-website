@@ -16,10 +16,7 @@ export const HeroCards = () => {
       <Card className='absolute w-[340px] -top-[15px] drop-shadow-xl shadow-black/10 dark:shadow-white/10'>
         <CardHeader className='flex flex-row items-center gap-4 pb-2'>
           <Avatar>
-            <AvatarImage
-              alt=''
-              src='https://bxlimages.blob.core.windows.net/avatar-cache/36206-avatar.png'
-            />
+            <AvatarImage alt='' src='https://bxlimages.blob.core.windows.net/avatar-cache/36206-avatar.png' />
             <AvatarFallback>SH</AvatarFallback>
           </Avatar>
 
@@ -35,20 +32,13 @@ export const HeroCards = () => {
       {/* Team */}
       <Card className='absolute right-[20px] top-4 w-80 flex flex-col justify-center items-center drop-shadow-xl shadow-black/10 dark:shadow-white/10'>
         <CardHeader className='mt-8 flex justify-center items-center pb-2'>
-          <img
-            src='https://i1.sndcdn.com/avatars-000381647894-yinj3o-t1080x1080.jpg'
-            alt='user avatar'
-            className='absolute grayscale-[0%] -top-12 rounded-full w-24 h-24 aspect-square object-cover'
-          />
+          <img src='https://i1.sndcdn.com/avatars-000381647894-yinj3o-t1080x1080.jpg' alt='user avatar' className='absolute grayscale-[0%] -top-12 rounded-full w-24 h-24 aspect-square object-cover' />
           <CardTitle className='text-center'>Denis Ronchese</CardTitle>
           <CardDescription className='font-normal text-primary'>Software Engineer</CardDescription>
         </CardHeader>
 
         <CardContent className='text-center pb-2'>
-          <p>
-            "«You miss the 100% of the shots you don't take. - Wayne Gretzky»" - Michael Scott" -
-            Denis Ronchese
-          </p>
+          <p>"«You miss the 100% of the shots you don't take. - Wayne Gretzky»" - Michael Scott" - Denis Ronchese</p>
         </CardContent>
 
         <CardFooter>
@@ -75,12 +65,7 @@ export const HeroCards = () => {
               })}
             >
               <span className='sr-only'>X icon</span>
-              <svg
-                role='img'
-                viewBox='0 0 24 24'
-                xmlns='http://www.w3.org/2000/svg'
-                className='fill-foreground w-5 h-5'
-              >
+              <svg role='img' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' className='fill-foreground w-5 h-5'>
                 <title>X</title>
                 <path d='M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z' />
               </svg>
@@ -116,9 +101,7 @@ export const HeroCards = () => {
             <span className='text-muted-foreground'> /month</span>
           </div>
 
-          <CardDescription>
-            Lorem ipsum dolor sit, amet ipsum consectetur adipisicing elit.
-          </CardDescription>
+          <CardDescription>Lorem ipsum dolor sit, amet ipsum consectetur adipisicing elit.</CardDescription>
         </CardHeader>
 
         <CardContent>
@@ -148,9 +131,7 @@ export const HeroCards = () => {
           </div>
           <div>
             <CardTitle>Light & dark mode</CardTitle>
-            <CardDescription className='text-md mt-2'>
-              Lorem ipsum dolor sit amet consect adipisicing elit. Consectetur natusm.
-            </CardDescription>
+            <CardDescription className='text-md mt-2'>Lorem ipsum dolor sit amet consect adipisicing elit. Consectetur natusm.</CardDescription>
           </div>
         </CardHeader>
       </Card>

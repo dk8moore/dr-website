@@ -26,13 +26,7 @@ const pricingList: PricingProps[] = [
     price: 0,
     description: 'Lorem ipsum dolor sit, amet ipsum consectetur adipisicing elit.',
     buttonText: 'Get Started',
-    benefitList: [
-      '1 Team member',
-      '2 GB Storage',
-      'Upto 4 pages',
-      'Community support',
-      'lorem ipsum dolor',
-    ],
+    benefitList: ['1 Team member', '2 GB Storage', 'Upto 4 pages', 'Community support', 'lorem ipsum dolor'],
   },
   {
     title: 'Premium',
@@ -40,13 +34,7 @@ const pricingList: PricingProps[] = [
     price: 10,
     description: 'Lorem ipsum dolor sit, amet ipsum consectetur adipisicing elit.',
     buttonText: 'Start Free Trial',
-    benefitList: [
-      '4 Team member',
-      '4 GB Storage',
-      'Upto 6 pages',
-      'Priority support',
-      'lorem ipsum dolor',
-    ],
+    benefitList: ['4 Team member', '4 GB Storage', 'Upto 6 pages', 'Priority support', 'lorem ipsum dolor'],
   },
   {
     title: 'Enterprise',
@@ -54,13 +42,7 @@ const pricingList: PricingProps[] = [
     price: 25,
     description: 'Lorem ipsum dolor sit, amet ipsum consectetur adipisicing elit.',
     buttonText: 'Contact US',
-    benefitList: [
-      '10 Team member',
-      '8 GB Storage',
-      'Upto 10 pages',
-      'Priority support',
-      'lorem ipsum dolor',
-    ],
+    benefitList: ['10 Team member', '8 GB Storage', 'Upto 10 pages', 'Priority support', 'lorem ipsum dolor'],
   },
 ];
 
@@ -69,25 +51,13 @@ export const Pricing = () => {
     <section id='pricing' className='container py-24 sm:py-32'>
       <h2 className='text-3xl md:text-4xl font-bold text-center'>
         Get
-        <span className='bg-gradient-to-b from-primary/60 to-primary text-transparent bg-clip-text'>
-          {' '}
-          unlimited{' '}
-        </span>
+        <span className='bg-gradient-to-b from-primary/60 to-primary text-transparent bg-clip-text'> unlimited </span>
         access
       </h2>
-      <h3 className='text-xl text-center text-muted-foreground pt-4 pb-8'>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias reiciendis.
-      </h3>
+      <h3 className='text-xl text-center text-muted-foreground pt-4 pb-8'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias reiciendis.</h3>
       <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-8'>
         {pricingList.map((pricing: PricingProps) => (
-          <Card
-            key={pricing.title}
-            className={
-              pricing.popular === PopularPlanType.YES
-                ? 'drop-shadow-xl shadow-black/10 dark:shadow-white/10'
-                : ''
-            }
-          >
+          <Card key={pricing.title} className={pricing.popular === PopularPlanType.YES ? 'drop-shadow-xl shadow-black/10 dark:shadow-white/10' : ''}>
             <CardHeader>
               <CardTitle className='flex item-center justify-between'>
                 {pricing.title}

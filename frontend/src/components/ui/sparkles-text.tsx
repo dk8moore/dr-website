@@ -62,13 +62,7 @@ interface SparklesTextProps {
   };
 }
 
-const SparklesText: React.FC<SparklesTextProps> = ({
-  text,
-  colors = { first: '#A07CFE', second: '#FE8FB5' },
-  className,
-  sparklesCount = 10,
-  ...props
-}) => {
+const SparklesText: React.FC<SparklesTextProps> = ({ text, colors = { first: '#A07CFE', second: '#FE8FB5' }, className, sparklesCount = 10, ...props }) => {
   const [sparkles, setSparkles] = useState<Sparkle[]>([]);
 
   useEffect(() => {
@@ -121,9 +115,7 @@ const SparklesText: React.FC<SparklesTextProps> = ({
         {sparkles.map((sparkle) => (
           <Sparkle key={sparkle.id} {...sparkle} />
         ))}
-        <strong className='bg-gradient-to-r from-[var(--sparkles-first-color)] to-[var(--sparkles-second-color)] bg-clip-text text-transparent'>
-          {text}
-        </strong>
+        <strong className='bg-gradient-to-r from-[var(--sparkles-first-color)] to-[var(--sparkles-second-color)] bg-clip-text text-transparent'>{text}</strong>
       </span>
     </div>
   );

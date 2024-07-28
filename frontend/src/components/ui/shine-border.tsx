@@ -25,14 +25,7 @@ interface ShineBorderProps {
  * @param className defines the class name to be applied to the component
  * @param children contains react node elements.
  */
-export default function ShineBorder({
-  borderRadius = 8,
-  borderWidth = 1,
-  duration = 14,
-  color = '#fff',
-  className,
-  children,
-}: ShineBorderProps) {
+export default function ShineBorder({ borderRadius = 8, borderWidth = 1, duration = 14, color = '#fff', className, children }: ShineBorderProps) {
   return (
     <div
       style={
@@ -40,10 +33,7 @@ export default function ShineBorder({
           '--border-radius': `${borderRadius}px`,
         } as React.CSSProperties
       }
-      className={cn(
-        'relative grid min-h-[60px] w-fit min-w-[300px] place-items-center rounded-[--border-radius]  bg-white p-3 text-black dark:bg-black dark:text-white',
-        className
-      )}
+      className={cn('relative grid min-h-[60px] w-fit min-w-[300px] place-items-center rounded-[--border-radius]  bg-white p-3 text-black dark:bg-black dark:text-white', className)}
     >
       <div
         style={

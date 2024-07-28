@@ -2,15 +2,7 @@
 
 import { cn } from '@/lib/utils';
 import { wrap } from '@motionone/utils';
-import {
-  motion,
-  useAnimationFrame,
-  useMotionValue,
-  useScroll,
-  useSpring,
-  useTransform,
-  useVelocity,
-} from 'framer-motion';
+import { motion, useAnimationFrame, useMotionValue, useScroll, useSpring, useTransform, useVelocity } from 'framer-motion';
 import React, { useEffect, useRef, useState } from 'react';
 
 /* From MagicUI => https://magicui.design/docs/components/scroll-based-velocity */

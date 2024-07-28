@@ -37,9 +37,7 @@ export class AuthAPI {
    * @param credentials - The user's login credentials
    * @returns A promise that resolves to an object indicating success and containing auth tokens or an error message
    */
-  async login(
-    credentials: LoginCredentials
-  ): Promise<{ success: boolean; data?: AuthTokens; error?: string }> {
+  async login(credentials: LoginCredentials): Promise<{ success: boolean; data?: AuthTokens; error?: string }> {
     try {
       const response = await this.api.post<AuthTokens>('/user/login/', credentials);
       logger.log('Login response:', response.data);

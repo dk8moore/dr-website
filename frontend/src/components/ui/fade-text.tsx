@@ -50,12 +50,7 @@ export function FadeText({
   }, [directionOffset, axis, framerProps]);
 
   return (
-    <motion.div
-      initial='hidden'
-      animate='show'
-      viewport={{ once: true }}
-      variants={FADE_ANIMATION_VARIANTS}
-    >
+    <motion.div initial='hidden' animate='show' viewport={{ once: true }} variants={FADE_ANIMATION_VARIANTS}>
       <motion.span className={className}>{text}</motion.span>
     </motion.div>
   );

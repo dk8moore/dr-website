@@ -5,15 +5,7 @@ import { cn } from '@lib/utils';
 
 /* From Aceternity UI => https://ui.aceternity.com/components/flip-words */
 
-export const FlipWords = ({
-  words,
-  duration = 3000,
-  className,
-}: {
-  words: string[];
-  duration?: number;
-  className?: string;
-}) => {
+export const FlipWords = ({ words, duration = 3000, className }: { words: string[]; duration?: number; className?: string }) => {
   const [currentWord, setCurrentWord] = useState(words[0]);
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
 
@@ -61,10 +53,7 @@ export const FlipWords = ({
           scale: 2,
           position: 'absolute',
         }}
-        className={cn(
-          'z-10 inline-block relative text-left text-neutral-900 dark:text-neutral-100 px-2',
-          className
-        )}
+        className={cn('z-10 inline-block relative text-left text-neutral-900 dark:text-neutral-100 px-2', className)}
         key={currentWord}
       >
         {currentWord.split('').map((letter, index) => (

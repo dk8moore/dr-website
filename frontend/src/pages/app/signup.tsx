@@ -63,9 +63,7 @@ export function SignUpForm() {
       } else {
         logger.error('Auto-login failed after signup');
         setIsError(true);
-        setErrorMessage(
-          'Account created successfully, but auto-login failed. Please log in manually.'
-        );
+        setErrorMessage('Account created successfully, but auto-login failed. Please log in manually.');
       }
     } catch (error) {
       logger.error('Signup failed:', error);
@@ -77,40 +75,24 @@ export function SignUpForm() {
   return (
     <div className='flex dotted-background items-center justify-center min-h-screen min-w-[400px] px-4 py-12 relative'>
       <div className='absolute inset-0 lg:hidden'>
-        <img
-          src='https://picsum.photos/1080/1920'
-          alt='Background Image'
-          className='w-full h-full object-cover opacity-20'
-        />
+        <img src='https://picsum.photos/1080/1920' alt='Background Image' className='w-full h-full object-cover opacity-20' />
       </div>
       <Card className='flex items-center max-w-6xl lg:min-h-[800px] max-h-[800px] rounded-lg shadow-lg overflow-hidden z-10'>
         <div className='grid grid-cols-1 lg:grid-cols-2 h-full min-h-[600px]'>
           <div className='hidden lg:block h-full'>
-            <img
-              src='https://picsum.photos/1080/1920'
-              alt='Image'
-              className='h-full w-full object-cover'
-            />
+            <img src='https://picsum.photos/1080/1920' alt='Image' className='h-full w-full object-cover' />
           </div>
           <div className='flex flex-col justify-center mx-auto w-full max-w-md p-12'>
             <div className='text-center'>
               <h4 className='text-2xl font-semibold text-card-foreground'>Create an account</h4>
-              <p className='font-light mt-2 text-gray-400'>
-                Enter your information to create an account
-              </p>
+              <p className='font-light mt-2 text-gray-400'>Enter your information to create an account</p>
             </div>
             <form onSubmit={handleSubmit} className='mt-12 space-y-3'>
-              <Button
-                variant='outline'
-                className='items-center justify-center space-x-2 w-full mb-4'
-              >
+              <Button variant='outline' className='items-center justify-center space-x-2 w-full mb-4'>
                 <SiGoogle />
                 <span className='sm:inline'>Sign up with Google</span>
               </Button>
-              <Button
-                variant='outline'
-                className='items-center justify-center space-x-2 w-full mb-4'
-              >
+              <Button variant='outline' className='items-center justify-center space-x-2 w-full mb-4'>
                 <SiFacebook />
                 <span className='sm:inline'>Sign up with Facebook</span>
               </Button>
@@ -129,42 +111,20 @@ export function SignUpForm() {
               </div>
               <div className='space-y-2 mt-3'>
                 <Label htmlFor='email'>Email</Label>
-                <Input
-                  id='email'
-                  type='email'
-                  placeholder='michael.scott@dundermifflin.com'
-                  required
-                  onChange={handleChange}
-                />
+                <Input id='email' type='email' placeholder='michael.scott@dundermifflin.com' required onChange={handleChange} />
               </div>
               <div className='space-y-2 mt-3 relative'>
                 <Label htmlFor='password'>Password</Label>
                 <div className='relative'>
-                  <Input
-                    id='password'
-                    type={showPassword ? 'text' : 'password'}
-                    required
-                    onChange={handleChange}
-                  />
-                  <button
-                    type='button'
-                    onClick={() => setShowPassword(!showPassword)}
-                    className='absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400'
-                  >
+                  <Input id='password' type={showPassword ? 'text' : 'password'} required onChange={handleChange} />
+                  <button type='button' onClick={() => setShowPassword(!showPassword)} className='absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400'>
                     {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                   </button>
                 </div>
               </div>
               <div className='flex items-center space-x-2 mt-4'>
-                <Checkbox
-                  id='terms'
-                  checked={agreeTerms}
-                  onCheckedChange={(checked) => setAgreeTerms(checked as boolean)}
-                />
-                <label
-                  htmlFor='terms'
-                  className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
-                >
+                <Checkbox id='terms' checked={agreeTerms} onCheckedChange={(checked) => setAgreeTerms(checked as boolean)} />
+                <label htmlFor='terms' className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>
                   I agree to the{' '}
                   <a href='#' className='text-primary hover:underline'>
                     Terms & Privacy Policy

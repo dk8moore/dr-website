@@ -41,12 +41,7 @@ const AppRoutes: React.FC = () => {
         <Route path='/settings' element={<SettingsPage />} />
       </Route>
       {/* Redirect any unknown routes to dashboard if authenticated, otherwise to login */}
-      <Route
-        path='*'
-        element={
-          isAuthenticated ? <Navigate to='/dashboard' replace /> : <Navigate to='/login' replace />
-        }
-      />
+      <Route path='*' element={isAuthenticated ? <Navigate to='/dashboard' replace /> : <Navigate to='/login' replace />} />
     </Routes>
   );
 };

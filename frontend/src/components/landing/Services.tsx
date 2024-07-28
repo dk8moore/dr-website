@@ -13,20 +13,17 @@ interface ServiceProps {
 const serviceList: ServiceProps[] = [
   {
     title: 'Code Collaboration',
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.',
+    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.',
     icon: <ChartIcon />,
   },
   {
     title: 'Project Management',
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.',
+    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.',
     icon: <WalletIcon />,
   },
   {
     title: 'Task Automation',
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.',
+    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.',
     icon: <MagnifierIcon />,
   },
 ];
@@ -37,15 +34,11 @@ export const Services = () => {
       <div className='grid lg:grid-cols-[1fr,1fr] gap-8 place-items-center'>
         <div>
           <h2 className='text-3xl md:text-4xl font-bold'>
-            <span className='bg-gradient-to-b from-primary/60 to-primary text-transparent bg-clip-text'>
-              User-centered{' '}
-            </span>
+            <span className='bg-gradient-to-b from-primary/60 to-primary text-transparent bg-clip-text'>User-centered </span>
             services
           </h2>
 
-          <p className='text-muted-foreground text-xl mt-4 mb-8 '>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Veritatis dolor.
-          </p>
+          <p className='text-muted-foreground text-xl mt-4 mb-8 '>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Veritatis dolor.</p>
 
           <div className='flex flex-col gap-8'>
             {serviceList.map(({ icon, title, description }: ServiceProps) => (
@@ -62,11 +55,7 @@ export const Services = () => {
           </div>
         </div>
 
-        <img
-          src={cubeLeg}
-          className='w-[300px] md:w-[500px] lg:w-[600px] object-contain'
-          alt='About services'
-        />
+        <img src={cubeLeg} className='w-[300px] md:w-[500px] lg:w-[600px] object-contain' alt='About services' />
       </div>
     </section>
   );

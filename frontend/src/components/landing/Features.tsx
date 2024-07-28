@@ -15,45 +15,28 @@ interface FeatureProps {
 const features: FeatureProps[] = [
   {
     title: 'Responsive Design',
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.',
+    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.',
     image: image4,
   },
   {
     title: 'Intuitive user interface',
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.',
+    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.',
     image: image3,
   },
   {
     title: 'AI-Powered insights',
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.',
+    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.',
     image: image,
   },
 ];
 
-const featureList: string[] = [
-  'Dark/Light theme',
-  'Reviews',
-  'Features',
-  'Pricing',
-  'Contact form',
-  'Our team',
-  'Responsive design',
-  'Newsletter',
-  'Minimalist',
-];
+const featureList: string[] = ['Dark/Light theme', 'Reviews', 'Features', 'Pricing', 'Contact form', 'Our team', 'Responsive design', 'Newsletter', 'Minimalist'];
 
 export const Features = () => {
   return (
     <section id='features' className='container py-24 sm:py-32 space-y-8'>
       <h2 className='text-3xl lg:text-4xl font-bold md:text-center'>
-        What are the{' '}
-        <span className='bg-gradient-to-b from-primary/60 to-primary text-transparent bg-clip-text'>
-          Key Features
-        </span>
-        ?
+        What are the <span className='bg-gradient-to-b from-primary/60 to-primary text-transparent bg-clip-text'>Key Features</span>?
       </h2>
 
       <div className='flex flex-wrap md:justify-center gap-4'>

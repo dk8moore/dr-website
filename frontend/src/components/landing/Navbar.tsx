@@ -63,13 +63,7 @@ export const Navbar = () => {
                 </SheetHeader>
                 <nav className='flex flex-col justify-center items-center gap-2 mt-4'>
                   {routeList.map(({ href, label }: RouteProps) => (
-                    <a
-                      rel='noreferrer noopener'
-                      key={label}
-                      href={href}
-                      onClick={() => setIsOpen(false)}
-                      className={buttonVariants({ variant: 'ghost' })}
-                    >
+                    <a rel='noreferrer noopener' key={label} href={href} onClick={() => setIsOpen(false)} className={buttonVariants({ variant: 'ghost' })}>
                       {label}
                     </a>
                   ))}

@@ -23,25 +23,10 @@ import {
 } from 'lucide-react';
 
 import { Badge } from '@ui/badge';
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from '@ui/breadcrumb';
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@ui/breadcrumb';
 import { Button } from '@ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@ui/card';
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@ui/dropdown-menu';
 import { Input } from '@ui/input';
 import { Pagination, PaginationContent, PaginationItem } from '@ui/pagination';
 import { Progress } from '@ui/progress';
@@ -68,19 +53,13 @@ export const Dashboard: React.FC = () => {
     <div className='flex min-h-screen w-full flex-col bg-muted/40'>
       <aside className='fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex'>
         <nav className='flex flex-col items-center gap-4 px-2 sm:py-5'>
-          <Link
-            to='#'
-            className='group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base'
-          >
+          <Link to='#' className='group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base'>
             <Package2 className='h-4 w-4 transition-all group-hover:scale-110' />
             <span className='sr-only'>Acme Inc</span>
           </Link>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Link
-                to='#'
-                className='flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8'
-              >
+              <Link to='#' className='flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8'>
                 <Home className='h-5 w-5' />
                 <span className='sr-only'>Dashboard</span>
               </Link>
@@ -89,10 +68,7 @@ export const Dashboard: React.FC = () => {
           </Tooltip>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Link
-                to='#'
-                className='flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-accent-foreground transition-colors hover:text-foreground md:h-8 md:w-8'
-              >
+              <Link to='#' className='flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-accent-foreground transition-colors hover:text-foreground md:h-8 md:w-8'>
                 <ShoppingCart className='h-5 w-5' />
                 <span className='sr-only'>Orders</span>
               </Link>
@@ -101,10 +77,7 @@ export const Dashboard: React.FC = () => {
           </Tooltip>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Link
-                to='#'
-                className='flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8'
-              >
+              <Link to='#' className='flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8'>
                 <Package className='h-5 w-5' />
                 <span className='sr-only'>Products</span>
               </Link>
@@ -113,10 +86,7 @@ export const Dashboard: React.FC = () => {
           </Tooltip>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Link
-                to='#'
-                className='flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8'
-              >
+              <Link to='#' className='flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8'>
                 <Users2 className='h-5 w-5' />
                 <span className='sr-only'>Customers</span>
               </Link>
@@ -125,10 +95,7 @@ export const Dashboard: React.FC = () => {
           </Tooltip>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Link
-                to='#'
-                className='flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8'
-              >
+              <Link to='#' className='flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8'>
                 <LineChart className='h-5 w-5' />
                 <span className='sr-only'>Analytics</span>
               </Link>
@@ -139,10 +106,7 @@ export const Dashboard: React.FC = () => {
         <nav className='mt-auto flex flex-col items-center gap-4 px-2 sm:py-5'>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Link
-                to='#'
-                className='flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8'
-              >
+              <Link to='#' className='flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8'>
                 <Settings className='h-5 w-5' />
                 <span className='sr-only'>Settings</span>
               </Link>
@@ -162,17 +126,11 @@ export const Dashboard: React.FC = () => {
             </SheetTrigger>
             <SheetContent side='left' className='sm:max-w-xs'>
               <nav className='grid gap-6 text-lg font-medium'>
-                <Link
-                  to='#'
-                  className='group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base'
-                >
+                <Link to='#' className='group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base'>
                   <Package2 className='h-5 w-5 transition-all group-hover:scale-110' />
                   <span className='sr-only'>Acme Inc</span>
                 </Link>
-                <Link
-                  to='#'
-                  className='flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground'
-                >
+                <Link to='#' className='flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground'>
                   <Home className='h-5 w-5' />
                   Dashboard
                 </Link>
@@ -180,24 +138,15 @@ export const Dashboard: React.FC = () => {
                   <ShoppingCart className='h-5 w-5' />
                   Orders
                 </Link>
-                <Link
-                  to='#'
-                  className='flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground'
-                >
+                <Link to='#' className='flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground'>
                   <Package className='h-5 w-5' />
                   Products
                 </Link>
-                <Link
-                  to='#'
-                  className='flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground'
-                >
+                <Link to='#' className='flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground'>
                   <Users2 className='h-5 w-5' />
                   Customers
                 </Link>
-                <Link
-                  to='#'
-                  className='flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground'
-                >
+                <Link to='#' className='flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground'>
                   <LineChart className='h-5 w-5' />
                   Settings
                 </Link>
@@ -225,22 +174,12 @@ export const Dashboard: React.FC = () => {
           </Breadcrumb>
           <div className='relative ml-auto flex-1 md:grow-0'>
             <Search className='absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground' />
-            <Input
-              type='search'
-              placeholder='Search...'
-              className='w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px]'
-            />
+            <Input type='search' placeholder='Search...' className='w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px]' />
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant='outline' size='icon' className='overflow-hidden rounded-full'>
-                <img
-                  src='https://picsum.photos/36/36'
-                  width={36}
-                  height={36}
-                  alt='Avatar'
-                  className='overflow-hidden rounded-full'
-                />
+                <img src='https://picsum.photos/36/36' width={36} height={36} alt='Avatar' className='overflow-hidden rounded-full' />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align='end'>
@@ -259,10 +198,7 @@ export const Dashboard: React.FC = () => {
               <Card className='sm:col-span-2' x-chunk='dashboard-05-chunk-0'>
                 <CardHeader className='pb-3'>
                   <CardTitle>Your Orders</CardTitle>
-                  <CardDescription className='max-w-lg text-balance leading-relaxed'>
-                    Introducing Our Dynamic Orders Dashboard for Seamless Management and Insightful
-                    Analysis.
-                  </CardDescription>
+                  <CardDescription className='max-w-lg text-balance leading-relaxed'>Introducing Our Dynamic Orders Dashboard for Seamless Management and Insightful Analysis.</CardDescription>
                 </CardHeader>
                 <CardFooter>
                   <Button>Create New Order</Button>
@@ -343,9 +279,7 @@ export const Dashboard: React.FC = () => {
                         <TableRow className='bg-accent'>
                           <TableCell>
                             <div className='font-medium'>Liam Johnson</div>
-                            <div className='hidden text-sm text-muted-foreground md:inline'>
-                              liam@example.com
-                            </div>
+                            <div className='hidden text-sm text-muted-foreground md:inline'>liam@example.com</div>
                           </TableCell>
                           <TableCell className='hidden sm:table-cell'>Sale</TableCell>
                           <TableCell className='hidden sm:table-cell'>
@@ -359,9 +293,7 @@ export const Dashboard: React.FC = () => {
                         <TableRow>
                           <TableCell>
                             <div className='font-medium'>Olivia Smith</div>
-                            <div className='hidden text-sm text-muted-foreground md:inline'>
-                              olivia@example.com
-                            </div>
+                            <div className='hidden text-sm text-muted-foreground md:inline'>olivia@example.com</div>
                           </TableCell>
                           <TableCell className='hidden sm:table-cell'>Refund</TableCell>
                           <TableCell className='hidden sm:table-cell'>
@@ -375,9 +307,7 @@ export const Dashboard: React.FC = () => {
                         <TableRow>
                           <TableCell>
                             <div className='font-medium'>Noah Williams</div>
-                            <div className='hidden text-sm text-muted-foreground md:inline'>
-                              noah@example.com
-                            </div>
+                            <div className='hidden text-sm text-muted-foreground md:inline'>noah@example.com</div>
                           </TableCell>
                           <TableCell className='hidden sm:table-cell'>Subscription</TableCell>
                           <TableCell className='hidden sm:table-cell'>
@@ -391,9 +321,7 @@ export const Dashboard: React.FC = () => {
                         <TableRow>
                           <TableCell>
                             <div className='font-medium'>Emma Brown</div>
-                            <div className='hidden text-sm text-muted-foreground md:inline'>
-                              emma@example.com
-                            </div>
+                            <div className='hidden text-sm text-muted-foreground md:inline'>emma@example.com</div>
                           </TableCell>
                           <TableCell className='hidden sm:table-cell'>Sale</TableCell>
                           <TableCell className='hidden sm:table-cell'>
@@ -407,9 +335,7 @@ export const Dashboard: React.FC = () => {
                         <TableRow>
                           <TableCell>
                             <div className='font-medium'>Liam Johnson</div>
-                            <div className='hidden text-sm text-muted-foreground md:inline'>
-                              liam@example.com
-                            </div>
+                            <div className='hidden text-sm text-muted-foreground md:inline'>liam@example.com</div>
                           </TableCell>
                           <TableCell className='hidden sm:table-cell'>Sale</TableCell>
                           <TableCell className='hidden sm:table-cell'>
@@ -423,9 +349,7 @@ export const Dashboard: React.FC = () => {
                         <TableRow>
                           <TableCell>
                             <div className='font-medium'>Liam Johnson</div>
-                            <div className='hidden text-sm text-muted-foreground md:inline'>
-                              liam@example.com
-                            </div>
+                            <div className='hidden text-sm text-muted-foreground md:inline'>liam@example.com</div>
                           </TableCell>
                           <TableCell className='hidden sm:table-cell'>Sale</TableCell>
                           <TableCell className='hidden sm:table-cell'>
@@ -439,9 +363,7 @@ export const Dashboard: React.FC = () => {
                         <TableRow>
                           <TableCell>
                             <div className='font-medium'>Olivia Smith</div>
-                            <div className='hidden text-sm text-muted-foreground md:inline'>
-                              olivia@example.com
-                            </div>
+                            <div className='hidden text-sm text-muted-foreground md:inline'>olivia@example.com</div>
                           </TableCell>
                           <TableCell className='hidden sm:table-cell'>Refund</TableCell>
                           <TableCell className='hidden sm:table-cell'>
@@ -455,9 +377,7 @@ export const Dashboard: React.FC = () => {
                         <TableRow>
                           <TableCell>
                             <div className='font-medium'>Emma Brown</div>
-                            <div className='hidden text-sm text-muted-foreground md:inline'>
-                              emma@example.com
-                            </div>
+                            <div className='hidden text-sm text-muted-foreground md:inline'>emma@example.com</div>
                           </TableCell>
                           <TableCell className='hidden sm:table-cell'>Sale</TableCell>
                           <TableCell className='hidden sm:table-cell'>
@@ -481,11 +401,7 @@ export const Dashboard: React.FC = () => {
                 <div className='grid gap-0.5'>
                   <CardTitle className='group flex items-center gap-2 text-lg'>
                     Order Oe31b70H
-                    <Button
-                      size='icon'
-                      variant='outline'
-                      className='h-6 w-6 opacity-0 transition-opacity group-hover:opacity-100'
-                    >
+                    <Button size='icon' variant='outline' className='h-6 w-6 opacity-0 transition-opacity group-hover:opacity-100'>
                       <Copy className='h-3 w-3' />
                       <span className='sr-only'>Copy Order ID</span>
                     </Button>
@@ -495,9 +411,7 @@ export const Dashboard: React.FC = () => {
                 <div className='ml-auto flex items-center gap-1'>
                   <Button size='sm' variant='outline' className='h-8 gap-1'>
                     <Truck className='h-3.5 w-3.5' />
-                    <span className='lg:sr-only xl:not-sr-only xl:whitespace-nowrap'>
-                      Track Order
-                    </span>
+                    <span className='lg:sr-only xl:not-sr-only xl:whitespace-nowrap'>Track Order</span>
                   </Button>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
