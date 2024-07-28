@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import api from '@api';
 import { logger } from '@lib/logger';
-import { useDropzone, DropzoneOptions } from 'react-dropzone';
-import Cropper from 'react-easy-crop';
-import { Area, Point } from 'react-easy-crop/types';
+import { ImageHandler } from '@/components/app/image-handler';
 
 import { FeedbackButton, FeedbackButtonRef } from '@ui/feedback-button';
 import { Button } from "@ui/button";
@@ -11,8 +9,6 @@ import { Input } from "@ui/input";
 import { Label } from "@ui/label";
 import { Textarea } from "@ui/textarea";
 import { Separator } from "@ui/separator";
-import { Trash2, Camera } from 'lucide-react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@ui/dialog";
 
 type SettingsTab = 'Profile' | 'Account' | 'Security';
 
@@ -25,6 +21,7 @@ interface UserProfile {
     birth_date: string;
     phone_number: string;
     address: string;
+    profile_picture: string | null;
 }
 
 export function SettingsPage() {
@@ -38,6 +35,7 @@ export function SettingsPage() {
         birth_date: '',
         phone_number: '',
         address: '',
+        profile_picture: null,
     });
     const [isLoading, setIsLoading] = useState(true);
     const [isError, setIsError] = useState(false);
@@ -47,19 +45,14 @@ export function SettingsPage() {
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [profilePicture, setProfilePicture] = useState<string | null>(null);
-    const [cropModalOpen, setCropModalOpen] = useState(false);
-    const [crop, setCrop] = useState<Point>({ x: 0, y: 0 });
-    const [zoom, setZoom] = useState(1);
-    const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
     const profileButtonRef = useRef<FeedbackButtonRef>(null);
 
     useEffect(() => {
         logger.log('Is authenticated:', api.auth.isAuthenticated());
-        fetchUserProfile();
+        fetchUserProfileData();
     }, []);
 
-    const fetchUserProfile = async () => {
+    const fetchUserProfileData = async () => {
         try {
             setIsLoading(true);
             if (!api.auth.isAuthenticated()) {
@@ -75,6 +68,7 @@ export function SettingsPage() {
                 birth_date: userData.birth_date || '',
                 phone_number: userData.phone_number || '',
                 address: userData.address || '',
+                profile_picture: userData.profile_picture || null,
             });
             setIsError(false);
         } catch (error) {
@@ -86,71 +80,33 @@ export function SettingsPage() {
         }
     };
     
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const updateProfileAndResetFlagsOnEvents = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setProfile({ ...profile, [e.target.id]: e.target.value });
         setIsError(false);
         setIsSuccess(false);
     };
 
-    const onDrop = useCallback((acceptedFiles: File[]) => {
-        const file = acceptedFiles[0];
-        const reader = new FileReader();
-        reader.onload = () => {
-            setProfilePicture(reader.result as string);
-            setCropModalOpen(true);
-        };
-        reader.readAsDataURL(file);
-    }, []);
-
-    const dropzoneOptions: DropzoneOptions = {
-        onDrop,
-        accept: {'image/*': []},
-        multiple: false,
+    const handleImageSelect = async (file: File | null) => {
+        try {
+            if (file) {                
+                // Create object URL only for valid File objects
+                const imageUrl = URL.createObjectURL(file);
+                setProfile(prevProfile => ({ ...prevProfile, profile_picture: imageUrl }));
+                
+                setIsSuccess(true);
+                setSuccessMessage('Profile picture updated successfully');
+            } else {
+                // Handle image removal
+                setProfile(prevProfile => ({ ...prevProfile, profile_picture: null }));
+                setIsSuccess(true);
+                setSuccessMessage('Profile picture removed successfully');
+            }
+        } catch (error) {
+            setIsError(true);
+            setErrorMessage('Failed to update profile picture');
+            logger.error('Profile picture update error:', error);
+        }
     };
-
-    const { getRootProps, getInputProps } = useDropzone(dropzoneOptions);
-
-    const onCropComplete = useCallback((croppedArea: Area, croppedAreaPixels: Area) => {
-        setCroppedAreaPixels(croppedAreaPixels);
-    }, []);
-
-    const getCroppedImage = useCallback(async (imageSrc: string, pixelCrop: Area) => {
-        const image = new Image();
-        image.src = imageSrc;
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        if (!ctx) {
-            throw new Error('Unable to get 2D context');
-        }
-        canvas.width = pixelCrop.width;
-        canvas.height = pixelCrop.height;
-        ctx.drawImage(
-            image,
-            pixelCrop.x,
-            pixelCrop.y,
-            pixelCrop.width,
-            pixelCrop.height,
-            0,
-            0,
-            pixelCrop.width,
-            pixelCrop.height
-        );
-        return new Promise<string>((resolve) => {
-            canvas.toBlob((blob) => {
-                if (blob) {
-                    resolve(URL.createObjectURL(blob));
-                }
-            }, 'image/jpeg');
-        });
-    }, []);
-
-    const handleCropSave = useCallback(async () => {
-        if (croppedAreaPixels && profilePicture) {
-            const croppedImage = await getCroppedImage(profilePicture, croppedAreaPixels);
-            setProfilePicture(croppedImage);
-            setCropModalOpen(false);
-        }
-    }, [croppedAreaPixels, profilePicture, getCroppedImage]);
 
     const handleProfileSubmit = async (e?: React.FormEvent) => {
         if (e) {
@@ -245,26 +201,18 @@ export function SettingsPage() {
                         <p className="text-muted-foreground mb-6">This information will be displayed publicly.</p>
                         <Separator className="mb-6" />
                         <form onSubmit={handleProfileSubmit} className="space-y-6">
-                        <div className="flex flex-col items-center mb-6">
-                                <div 
-                                    {...getRootProps()} 
-                                    className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center cursor-pointer overflow-hidden"
-                                >
-                                    <input {...getInputProps()} />
-                                    {profilePicture ? (
-                                        <img src={profilePicture} alt="Profile" className="w-full h-full object-cover" />
-                                    ) : (
-                                        <Camera className="text-gray-400" size={32} />
-                                    )}
-                                </div>
-                                <p className="text-sm text-muted-foreground mt-2">Click to upload profile picture</p>
+                            <div className="flex flex-col items-center mb-6">
+                                <ImageHandler
+                                    onImageSelect={handleImageSelect}
+                                    initialImage={profile.profile_picture}
+                                />
                             </div>
                             <div>
                                 <Label htmlFor="username">Username</Label>
                                 <Input
                                     id="username"
                                     value={profile.username}
-                                    onChange={handleChange}
+                                    onChange={updateProfileAndResetFlagsOnEvents}
                                     className="mt-1"
                                 />
                                 <p className="text-sm text-muted-foreground mt-1">
@@ -278,7 +226,7 @@ export function SettingsPage() {
                                     <Input
                                         id="first_name"
                                         value={profile.first_name}
-                                        onChange={handleChange}
+                                        onChange={updateProfileAndResetFlagsOnEvents}
                                         className="mt-1"
                                     />
                                 </div>
@@ -287,7 +235,7 @@ export function SettingsPage() {
                                     <Input
                                         id="last_name"
                                         value={profile.last_name}
-                                        onChange={handleChange}
+                                        onChange={updateProfileAndResetFlagsOnEvents}
                                         className="mt-1"
                                     />
                                 </div>
@@ -298,7 +246,7 @@ export function SettingsPage() {
                                 <Textarea
                                     id="bio"
                                     value={profile.bio}
-                                    onChange={handleChange}
+                                    onChange={updateProfileAndResetFlagsOnEvents}
                                     rows={3}
                                     className="mt-1"
                                 />
@@ -317,31 +265,6 @@ export function SettingsPage() {
                                 idleText="Update public profile"
                             />
                         </form>
-
-                        <Dialog open={cropModalOpen} onOpenChange={setCropModalOpen}>
-                            <DialogContent className="sm:max-w-[425px]">
-                                <DialogHeader>
-                                    <DialogTitle>Crop Profile Picture</DialogTitle>
-                                </DialogHeader>
-                                <div className="relative h-64">
-                                    {profilePicture && (
-                                        <Cropper
-                                            image={profilePicture}
-                                            crop={crop}
-                                            zoom={zoom}
-                                            aspect={1}
-                                            onCropChange={setCrop}
-                                            onZoomChange={setZoom}
-                                            onCropComplete={onCropComplete}
-                                        />
-                                    )}
-                                </div>
-                                <div className="flex justify-end space-x-2 mt-4">
-                                    <Button onClick={() => setCropModalOpen(false)} variant="outline">Cancel</Button>
-                                    <Button onClick={handleCropSave}>Save</Button>
-                                </div>
-                            </DialogContent>
-                        </Dialog>
                     </>
                 );
             case 'Account':
@@ -357,7 +280,7 @@ export function SettingsPage() {
                                     id="birth_date"
                                     type="date"
                                     value={profile.birth_date}
-                                    onChange={handleChange}
+                                    onChange={updateProfileAndResetFlagsOnEvents}
                                     className="mt-1"
                                 />
                                 <p className="text-sm text-muted-foreground mt-1">
@@ -371,7 +294,7 @@ export function SettingsPage() {
                                     id="phone_number"
                                     type="tel"
                                     value={profile.phone_number}
-                                    onChange={handleChange}
+                                    onChange={updateProfileAndResetFlagsOnEvents}
                                     className="mt-1"
                                 />
                                 <p className="text-sm text-muted-foreground mt-1">
@@ -384,7 +307,7 @@ export function SettingsPage() {
                                 <Textarea
                                     id="address"
                                     value={profile.address}
-                                    onChange={handleChange}
+                                    onChange={updateProfileAndResetFlagsOnEvents}
                                     rows={2}
                                     className="mt-1"
                                 />
@@ -410,7 +333,7 @@ export function SettingsPage() {
                                     id="email"
                                     type="email"
                                     value={profile.email}
-                                    onChange={handleChange}
+                                    onChange={updateProfileAndResetFlagsOnEvents}
                                     className="mt-1"
                                 />
                                 <p className="text-sm text-muted-foreground mt-1">
