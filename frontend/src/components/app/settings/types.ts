@@ -9,5 +9,5 @@ export interface UserProfile {
   birth_date: string;
   phone_number: string;
   address: string;
-  profile_picture: string | null;
+  profile_picture: string | null | File;
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ImageHandler } from '@/components/common/image-handler';
 import { FeedbackButton, FeedbackButtonRef } from '@ui/feedback-button';
 import { Input } from '@ui/input';
@@ -14,8 +14,23 @@ interface ProfileTabProps {
   handleProfileSubmit: (e?: React.FormEvent) => Promise<void>;
 }
 
-export const ProfileTab: React.FC<ProfileTabProps> = ({ profile, updateProfile, handleImageSelect, handleProfileSubmit }) => {
+export function ProfileTab({ profile, updateProfile, handleImageSelect, handleProfileSubmit }: ProfileTabProps) {
   const profileButtonRef = React.useRef<FeedbackButtonRef>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (profile.profile_picture instanceof File) {
+      const objectUrl = URL.createObjectURL(profile.profile_picture);
+      setPreviewUrl(objectUrl);
+
+      // Cleanup function
+      return () => URL.revokeObjectURL(objectUrl);
+    } else if (typeof profile.profile_picture === 'string' && profile.profile_picture) {
+      setPreviewUrl(profile.profile_picture);
+    } else {
+      setPreviewUrl(null);
+    }
+  }, [profile.profile_picture]);
 
   return (
     <>
@@ -30,7 +45,7 @@ export const ProfileTab: React.FC<ProfileTabProps> = ({ profile, updateProfile, 
         className='space-y-6'
       >
         <div className='flex flex-col items-center mb-6'>
-          <ImageHandler onImageSelect={handleImageSelect} initialImage={profile.profile_picture} />
+          <ImageHandler onImageSelect={handleImageSelect} initialImage={previewUrl} />
         </div>
         <div>
           <Label htmlFor='username'>Username</Label>
@@ -68,4 +83,4 @@ export const ProfileTab: React.FC<ProfileTabProps> = ({ profile, updateProfile, 
       </form>
     </>
   );
-};
+}

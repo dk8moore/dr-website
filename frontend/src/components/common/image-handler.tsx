@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import Cropper from 'react-easy-crop';
 import { Area } from 'react-easy-crop/types';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@ui/dialog';
@@ -18,14 +18,22 @@ export const ImageHandler: React.FC<ImageHandlerProps> = ({ onImageSelect, initi
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
 
+  useEffect(() => {
+    if (initialImage) {
+      setImage(initialImage);
+    }
+  }, [initialImage]);
+
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
-    const reader = new FileReader();
-    reader.onload = () => {
-      setImage(reader.result as string);
-      setCropModalOpen(true);
-    };
-    reader.readAsDataURL(file);
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImage(reader.result as string);
+        setCropModalOpen(true);
+      };
+      reader.readAsDataURL(file);
+    }
   }, []);
 
   const onCropComplete = useCallback((croppedArea: Area, croppedAreaPixels: Area) => {
@@ -33,30 +41,39 @@ export const ImageHandler: React.FC<ImageHandlerProps> = ({ onImageSelect, initi
   }, []);
 
   const getCroppedImage = useCallback(async (imageSrc: string, pixelCrop: Area) => {
-    const image = new Image();
-    image.src = imageSrc;
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    if (!ctx) {
-      throw new Error('Unable to get 2D context');
+    try {
+      const image = new Image();
+      image.src = imageSrc;
+      await new Promise((resolve) => (image.onload = resolve));
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      if (!ctx) {
+        throw new Error('Unable to get 2D context');
+      }
+      canvas.width = pixelCrop.width;
+      canvas.height = pixelCrop.height;
+      ctx.drawImage(image, pixelCrop.x, pixelCrop.y, pixelCrop.width, pixelCrop.height, 0, 0, pixelCrop.width, pixelCrop.height);
+      return new Promise<File>((resolve, reject) => {
+        canvas.toBlob((blob) => {
+          if (blob) {
+            const file = new File([blob], 'cropped-image.jpg', { type: 'image/jpeg' });
+            resolve(file);
+          } else {
+            reject(new Error('Failed to create blob'));
+          }
+        }, 'image/jpeg');
+      });
+    } catch (error) {
+      console.error('Error in getCroppedImage:', error);
+      throw error;
     }
-    canvas.width = pixelCrop.width;
-    canvas.height = pixelCrop.height;
-    ctx.drawImage(image, pixelCrop.x, pixelCrop.y, pixelCrop.width, pixelCrop.height, 0, 0, pixelCrop.width, pixelCrop.height);
-    return new Promise<File>((resolve) => {
-      canvas.toBlob((blob) => {
-        if (blob) {
-          const file = new File([blob], 'cropped-image.jpg', { type: 'image/jpeg' });
-          resolve(file);
-        }
-      }, 'image/jpeg');
-    });
   }, []);
 
   const handleCropSave = useCallback(async () => {
     if (croppedAreaPixels && image) {
       const croppedImage = await getCroppedImage(image, croppedAreaPixels);
-      setImage(URL.createObjectURL(croppedImage));
+      const imageUrl = URL.createObjectURL(croppedImage);
+      setImage(imageUrl);
       onImageSelect(croppedImage);
       setCropModalOpen(false);
     }

@@ -73,8 +73,7 @@ export function SettingsPage() {
   const handleImageSelect = async (file: File | null) => {
     try {
       if (file) {
-        const imageUrl = URL.createObjectURL(file);
-        setProfile((prevProfile) => ({ ...prevProfile, profile_picture: imageUrl }));
+        setProfile((prevProfile) => ({ ...prevProfile, profile_picture: file }));
         setIsSuccess(true);
         setSuccessMessage('Profile picture updated successfully');
       } else {
@@ -101,7 +100,19 @@ export function SettingsPage() {
         }
       });
 
-      await api.user.updateUserProfile(formData);
+      if (profile.profile_picture instanceof File) {
+        formData.append('profile_picture', profile.profile_picture);
+      } else if (profile.profile_picture === null) {
+        // If profile_picture is null, send an empty string to remove the current picture
+        formData.append('profile_picture', '');
+      }
+
+      const updatedProfile = await api.user.updateUserProfile(formData);
+      setProfile((prevProfile) => ({
+        ...prevProfile,
+        ...updatedProfile,
+        profile_picture: updatedProfile.profile_picture,
+      }));
       setIsSuccess(true);
       setSuccessMessage('Profile updated successfully');
     } catch (error) {
