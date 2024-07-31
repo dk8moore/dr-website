@@ -112,8 +112,10 @@ export function SettingsPage() {
     }
   };
 
-  const handleAccountSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleAccountSubmit = async (e?: React.FormEvent) => {
+    if (e) {
+      e.preventDefault();
+    }
     try {
       const accountData = {
         birth_date: profile.birth_date,
@@ -129,8 +131,10 @@ export function SettingsPage() {
     }
   };
 
-  const handleSecuritySubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSecuritySubmit = async (e?: React.FormEvent) => {
+    if (e) {
+      e.preventDefault();
+    }
     try {
       await api.user.updateUserProfile({ email: profile.email });
       setIsSuccess(true);
@@ -141,8 +145,10 @@ export function SettingsPage() {
     }
   };
 
-  const handlePasswordChange = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handlePasswordChange = async (e?: React.FormEvent) => {
+    if (e) {
+      e.preventDefault();
+    }
     if (newPassword !== confirmPassword) {
       setIsError(true);
       setErrorMessage('Passwords do not match');

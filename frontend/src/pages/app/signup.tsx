@@ -5,13 +5,12 @@ import { useAuth } from '@/lib/use-auth';
 import { logger } from '@/lib/logger';
 
 import { Button } from '@ui/button';
-import { Input } from '@ui/input';
+import { Input, PasswordInput } from '@ui/input';
 import { Label } from '@ui/label';
 import { Card } from '@ui/card';
 import { Separator } from '@ui/separator';
 import { Checkbox } from '@ui/checkbox';
 import { SiGoogle, SiFacebook } from 'react-icons/si';
-import { Eye, EyeOff } from 'lucide-react';
 import { FiAlertCircle } from 'react-icons/fi';
 
 export function SignUpForm() {
@@ -115,16 +114,7 @@ export function SignUpForm() {
               </div>
               <div className='space-y-2 mt-3 relative'>
                 <Label htmlFor='password'>Password</Label>
-                <div className='relative'>
-                  <Input id='password' type={showPassword ? 'text' : 'password'} required onChange={handleChange} />
-                  <button
-                    type='button'
-                    onClick={() => setShowPassword(!showPassword)}
-                    className='absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400'
-                  >
-                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                  </button>
-                </div>
+                <PasswordInput id='password' required onChange={handleChange} />
               </div>
               <div className='flex items-center space-x-2 mt-4'>
                 <Checkbox id='terms' checked={agreeTerms} onCheckedChange={(checked) => setAgreeTerms(checked as boolean)} />
