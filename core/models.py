@@ -6,7 +6,7 @@ class User(AbstractUser):
     # Inherit from AbstractUser to have all the fields and methods of the default User model
     # which are: username, first_name, last_name, email, password, groups, user_permissions, is_staff, is_active, is_superuser, last_login, date_joined
 
-    username = models.CharField(max_length=255, unique=True)
+    username = models.CharField(max_length=255, unique=True, null=True, blank=True)
     email = models.EmailField(unique=True)
     bio = models.TextField(max_length=500, null=True, blank=True)
     birth_date = models.DateField(null=True, blank=True)
