@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.core.validators import validate_email
 from django.contrib.auth.password_validation import validate_password
+from django.core.files.uploadedfile import InMemoryUploadedFile
 from .models import User
 
 user_credentials_fields = ['email', 'password']
@@ -19,6 +20,7 @@ class UserInfoUpdateSerializer(serializers.ModelSerializer):
     """
     Serializer for updating user information. Handles updates to non-credentials user information.
     """
+    profile_picture = serializers.ImageField(required=False, allow_null=True)
     class Meta:
         model = User
         fields = user_info_fields
@@ -27,6 +29,16 @@ class UserInfoUpdateSerializer(serializers.ModelSerializer):
         if User.objects.filter(username=value).exclude(pk=self.instance.pk).exists():
             raise serializers.ValidationError("This username is already in use.")
         return value
+    
+    def validate_profile_picture(self, value):
+        if value in (None, '', False):
+            return None
+        if not isinstance(value, InMemoryUploadedFile):
+            raise serializers.ValidationError("Invalid file type.")
+        if value.size > 0.5 * 1024 * 1024:
+            raise serializers.ValidationError("File size too large. Size should not exceed 500KB.")
+        return value
+    
     # TODO: Add custom validations for fields like phone number, etc.
 
 class UserCredentialsUpdateSerializer(serializers.ModelSerializer):
