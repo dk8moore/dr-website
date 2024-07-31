@@ -23,7 +23,7 @@ export const FeedbackButton = forwardRef<FeedbackButtonRef, FeedbackButtonProps>
 
     useEffect(() => {
       if (state === 'success' || state === 'error') {
-        const timer = setTimeout(() => setState('idle'), 10000);
+        const timer = setTimeout(() => setState('idle'), 3000);
         return () => clearTimeout(timer);
       }
     }, [state]);
