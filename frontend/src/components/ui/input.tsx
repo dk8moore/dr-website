@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { cn } from '@/lib/utils';
+import { Eye, EyeOff } from 'lucide-react';
 
-/** From shadcn.ui but edited to provide additional functionalities: shake on demand, error*/
+/** From shadcn.ui but edited to provide additional functionalities: shake on demand, error; password component with toggle for visibility */
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   isError?: boolean;
   isShaking?: boolean;
@@ -26,4 +27,30 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(({ className, type,
 });
 Input.displayName = 'Input';
 
-export { Input };
+const PasswordInput = React.forwardRef<HTMLInputElement, InputProps>(({ className, isError, isShaking, onAnimationEnd, ...props }, ref) => {
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  return (
+    <div className='relative'>
+      <Input
+        type={showPassword ? 'text' : 'password'}
+        className={cn('pr-10', className)}
+        ref={ref}
+        isError={isError}
+        isShaking={isShaking}
+        onAnimationEnd={onAnimationEnd}
+        {...props}
+      />
+      <button
+        type='button'
+        onClick={() => setShowPassword(!showPassword)}
+        className='absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400'
+      >
+        {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+      </button>
+    </div>
+  );
+});
+PasswordInput.displayName = 'PasswordInput';
+
+export { Input, PasswordInput };
