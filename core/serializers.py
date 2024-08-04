@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from dj_rest_auth.registration.serializers import RegisterSerializer
+from dj_rest_auth.serializers import UserDetailsSerializer
 from django.core.validators import validate_email
 from django.contrib.auth.password_validation import validate_password
 from django.core.files.uploadedfile import InMemoryUploadedFile
@@ -6,6 +8,20 @@ from .models import User
 
 user_credentials_fields = ['email', 'password']
 user_info_fields = ['username', 'first_name', 'last_name', 'bio', 'birth_date', 'profile_picture', 'phone_number', 'address']
+
+class CustomRegisterSerializer(RegisterSerializer):
+    first_name = serializers.CharField(required=True)
+    last_name = serializers.CharField(required=True)
+
+    def get_cleaned_data(self):
+        data = super().get_cleaned_data()
+        data['first_name'] = self.validated_data.get('first_name', '')
+        data['last_name'] = self.validated_data.get('last_name', '')
+        return data
+
+class CustomUserDetailsSerializer(UserDetailsSerializer):
+    class Meta(UserDetailsSerializer.Meta):
+        fields = UserDetailsSerializer.Meta.fields + ('first_name', 'last_name')
 
 class UserFullSerializer(serializers.ModelSerializer):
     """

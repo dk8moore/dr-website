@@ -18,14 +18,14 @@ export function SignUpForm() {
     first_name: '',
     last_name: '',
     email: '',
-    password: '',
+    password1: '',
+    password2: '',
   });
   const [agreeTerms, setAgreeTerms] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
   const navigate = useNavigate();
-  const { login: authLogin } = useAuth();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -43,26 +43,21 @@ export function SignUpForm() {
       setErrorMessage('Please agree to the Terms & Privacy Policy');
       return;
     }
+    if (formData.password1 !== formData.password2) {
+      setIsError(true);
+      setErrorMessage('Passwords do not match');
+      return;
+    }
     logger.log('Signup form data:', formData);
     try {
-      // Signup user
-      const signupResponse = await api.auth.signup(formData);
-      logger.log('Signup successful:', signupResponse);
-
-      // Automatically login user after signup
-      const loginResponse = await api.auth.login({
-        email: formData.email,
-        password: formData.password,
-      });
-
-      if (loginResponse.success && loginResponse.data?.access && loginResponse.data?.refresh) {
-        authLogin(); // Update auth state
-        logger.info('Auto-login successful after signup, navigating to dashboard');
-        navigate('/dashboard');
+      const response = await api.auth.signup(formData);
+      if (response.success) {
+        setSuccessMessage(response.message || 'Signup successful. Please check your email to verify your account.');
+        // Optionally, you can redirect to a "Check your email" page
+        // navigate('/check-email');
       } else {
-        logger.error('Auto-login failed after signup');
         setIsError(true);
-        setErrorMessage('Account created successfully, but auto-login failed. Please log in manually.');
+        setErrorMessage(response.error || 'An error occurred during signup. Please try again.');
       }
     } catch (error) {
       logger.error('Signup failed:', error);

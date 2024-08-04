@@ -3,6 +3,7 @@ import { Route, Routes, Navigate } from 'react-router-dom';
 import { TooltipProvider } from '@ui/tooltip';
 import { LoginForm } from '@page/app/login';
 import { SignUpForm } from '@page/app/signup';
+import { VerifyEmail } from '@page/app/verify-email';
 import { SettingsPage } from '@page/app/settings';
 import { Dashboard } from '@page/app/examples/dashboard-2';
 import { ProtectedRoute } from '@lib/protected-route';
@@ -34,6 +35,7 @@ const AppRoutes: React.FC = () => {
           </AuthRedirect>
         }
       />
+      <Route path='/verify-email/:key' element={<VerifyEmail />} />
       <Route element={<ProtectedRoute authenticationPath='/login' />}>
         <Route path='/dashboard' element={<Dashboard />} />
       </Route>

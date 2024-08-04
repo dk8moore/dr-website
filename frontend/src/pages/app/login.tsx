@@ -5,12 +5,13 @@ import { useAuth } from '@/lib/use-auth';
 import { logger } from '@/lib/logger';
 
 import { Button } from '@ui/button';
-import { Input } from '@ui/input'; // Import the custom Input component
+import { Input } from '@ui/input';
 import { Label } from '@ui/label';
 import { Card } from '@ui/card';
 import { Separator } from '@ui/separator';
 import { SiGoogle, SiFacebook } from 'react-icons/si';
 import { FiAlertCircle } from 'react-icons/fi';
+import { set } from 'date-fns';
 
 export function LoginForm() {
   const [formData, setFormData] = useState({
@@ -19,7 +20,10 @@ export function LoginForm() {
   });
   const [isError, setIsError] = useState(false);
   const [isShaking, setIsShaking] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const [needsVerification, setNeedsVerification] = useState(false);
   const navigate = useNavigate();
   const { login: authLogin, checkAuthStatus } = useAuth();
 
@@ -29,6 +33,23 @@ export function LoginForm() {
     if (isError) {
       setIsError(false);
       setErrorMessage('');
+    }
+  };
+
+  const handleResendVerification = async () => {
+    try {
+      const response = await api.auth.resendVerificationEmail(formData.email);
+      if (response.success) {
+        setSuccessMessage('Verification email sent. Check your inbox.');
+        setIsSuccess(true);
+      } else {
+        setErrorMessage(response.error || 'Failed to resend verification email. Please try again.');
+        setIsError(true);
+      }
+    } catch (error) {
+      logger.error('Failed to resend verification email:', error);
+      setErrorMessage('An error occurred. Please try again.');
+      setIsError(true);
     }
   };
 
@@ -42,10 +63,14 @@ export function LoginForm() {
         authLogin();
         logger.info('User logged in successfully');
         navigate('/dashboard');
-      } else {
-        logger.error('Invalid response from server, it does not contain expected tokens');
-        setErrorMessage('An error occurred during login. Please try again.');
+      } else if (response.needsVerification) {
+        setNeedsVerification(true);
+        setErrorMessage('Email is not verified.');
         setIsError(true);
+      } else {
+        setErrorMessage(response.error || 'An error occurred during login. Please try again.');
+        setIsError(true);
+        setIsShaking(true);
       }
     } catch (error) {
       logger.error('An error occurred during login:', error);
@@ -108,9 +133,16 @@ export function LoginForm() {
               </div>
               <div className='h-5 mb-1'>
                 {isError && (
-                  <div className='flex items-center justify-center text-[hsl(var(--error))] text-sm'>
-                    <FiAlertCircle className='flex-shrink-0 mr-2' />
-                    <p>{errorMessage}</p>
+                  <div className='flex items-center justify-center space-x-1 text-sm'>
+                    <div className='flex items-center text-[hsl(var(--error))]'>
+                      <FiAlertCircle className='flex-shrink-0 mr-2' />
+                      <p>{errorMessage}</p>
+                    </div>
+                    {needsVerification && (
+                      <button type='button' onClick={handleResendVerification} className='hover:underline whitespace-nowrap'>
+                        Resend verification email
+                      </button>
+                    )}
                   </div>
                 )}
               </div>

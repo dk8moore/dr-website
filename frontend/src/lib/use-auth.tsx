@@ -9,8 +9,10 @@ import api from '@api';
  */
 export const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(api.auth.isAuthenticated());
+  const [isLoading, setIsLoading] = useState(true);
 
   const checkAuthStatus = useCallback(async () => {
+    setIsLoading(true);
     const authStatus = api.auth.isAuthenticated();
     setIsAuthenticated(authStatus);
     if (authStatus) {
@@ -20,6 +22,7 @@ export const useAuth = () => {
         setIsAuthenticated(false);
       }
     }
+    setIsLoading(false);
   }, []);
 
   useEffect(() => {
@@ -32,10 +35,10 @@ export const useAuth = () => {
     setIsAuthenticated(true);
   }, []);
 
-  const signout = useCallback(() => {
-    api.auth.logout();
+  const signout = useCallback(async () => {
+    await api.auth.logout();
     setIsAuthenticated(false);
   }, []);
 
-  return { isAuthenticated, login, signout, checkAuthStatus };
+  return { isAuthenticated, isLoading, login, signout, checkAuthStatus };
 };
