@@ -35,6 +35,7 @@ const AppRoutes: React.FC = () => {
           </AuthRedirect>
         }
       />
+      <Route path='/verify-email' element={<VerifyEmail />} />
       <Route path='/verify-email/:key' element={<VerifyEmail />} />
       <Route element={<ProtectedRoute authenticationPath='/login' />}>
         <Route path='/dashboard' element={<Dashboard />} />
