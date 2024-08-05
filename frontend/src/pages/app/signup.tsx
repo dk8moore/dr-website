@@ -52,9 +52,8 @@ export function SignUpForm() {
     try {
       const response = await api.auth.signup(formData);
       if (response.success) {
-        setSuccessMessage(response.message || 'Signup successful. Please check your email to verify your account.');
-        // Optionally, you can redirect to a "Check your email" page
-        // navigate('/check-email');
+        // Redirect to the VerifyEmail page
+        navigate('/verify-email', { state: { email: formData.email } });
       } else {
         setIsError(true);
         setErrorMessage(response.error || 'An error occurred during signup. Please try again.');
@@ -108,8 +107,12 @@ export function SignUpForm() {
                 <Input id='email' type='email' placeholder='michael.scott@dundermifflin.com' required onChange={handleChange} />
               </div>
               <div className='space-y-2 mt-3 relative'>
-                <Label htmlFor='password'>Password</Label>
-                <PasswordInput id='password' required onChange={handleChange} />
+                <Label htmlFor='password1'>Password</Label>
+                <PasswordInput id='password1' required onChange={handleChange} />
+              </div>
+              <div className='space-y-2 mt-3 relative'>
+                <Label htmlFor='password2'>Confirm Password</Label>
+                <PasswordInput id='password2' required onChange={handleChange} />
               </div>
               <div className='flex items-center space-x-2 mt-4'>
                 <Checkbox id='terms' checked={agreeTerms} onCheckedChange={(checked) => setAgreeTerms(checked as boolean)} />
