@@ -28,7 +28,13 @@ export function SignUpForm() {
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
+    const { id, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [id]: value,
+      // Setting the password2 value when the user types in the password1 field to not having both fields in the form
+      password2: id === 'password1' ? value : prevData.password2,
+    }));
     // Clear error state when user starts typing
     if (isError) {
       setIsError(false);
@@ -41,11 +47,6 @@ export function SignUpForm() {
     if (!agreeTerms) {
       setIsError(true);
       setErrorMessage('Please agree to the Terms & Privacy Policy');
-      return;
-    }
-    if (formData.password1 !== formData.password2) {
-      setIsError(true);
-      setErrorMessage('Passwords do not match');
       return;
     }
     logger.log('Signup form data:', formData);
@@ -109,10 +110,6 @@ export function SignUpForm() {
               <div className='space-y-2 mt-3 relative'>
                 <Label htmlFor='password1'>Password</Label>
                 <PasswordInput id='password1' required onChange={handleChange} />
-              </div>
-              <div className='space-y-2 mt-3 relative'>
-                <Label htmlFor='password2'>Confirm Password</Label>
-                <PasswordInput id='password2' required onChange={handleChange} />
               </div>
               <div className='flex items-center space-x-2 mt-4'>
                 <Checkbox id='terms' checked={agreeTerms} onCheckedChange={(checked) => setAgreeTerms(checked as boolean)} />
