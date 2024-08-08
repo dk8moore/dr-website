@@ -24,6 +24,7 @@ from django.views.generic import TemplateView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('core/', include('core.urls')),
+    path('', TemplateView.as_view(template_name='index.html'), name='app'),
     # Auth
     path('core/auth/', include('dj_rest_auth.urls')),
     path('core/auth/registration/', include('dj_rest_auth.registration.urls')),
