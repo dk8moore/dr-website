@@ -28,7 +28,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
@@ -212,14 +212,15 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+if DEBUG:
+    ACCOUNT_EMAIL_VERIFICATION = 'optional'
+else:
+    ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_ADAPTER = 'core.adapters.CustomAccountAdapter'
 
 # Login and logout URL configuration
-LOGIN_URL = 'login'
-LOGOUT_URL = 'logout'
-LOGIN_REDIRECT_URL = 'home'
-LOGOUT_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = '/dashboard/'
+ACCOUNT_SIGNUP_REDIRECT_URL = '/dashboard/'
 
 # Social auth URL configuration
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
@@ -228,13 +229,16 @@ SOCIAL_AUTH_URL_NAMESPACE = 'social'
 AUTH_USER_MODEL = 'core.User'
 
 # Email configuration
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = config('EMAIL_HOST')
-EMAIL_PORT = config('EMAIL_PORT', cast=int)
-EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
-EMAIL_HOST_USER = config('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD =  config('EMAIL_HOST_PASSWORD')
-DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = config('EMAIL_HOST')
+    EMAIL_PORT = config('EMAIL_PORT', cast=int)
+    EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
+    EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD =  config('EMAIL_HOST_PASSWORD')
+    DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
 
 # Media files
 MEDIA_URL = '/media/'
