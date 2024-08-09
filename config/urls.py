@@ -17,9 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
+from django.shortcuts import redirect
 from django.urls import path, include
 from dj_rest_auth.views import PasswordResetConfirmView
 from django.views.generic import TemplateView
+from core import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,8 +32,8 @@ urlpatterns = [
     path('core/auth/registration/', include('dj_rest_auth.registration.urls')),
     path('core/auth/password/reset/confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     # Email verification
-    path('core/auth/account-confirm-email/', TemplateView.as_view(), name='account_email_verification_sent'),
-    path('core/auth/account-confirm-email/<str:key>/', TemplateView.as_view(), name='account_confirm_email'),
+    path('core/auth/account-confirm-email/', lambda request: redirect('http://localhost:3000/verify-email'), name='account_email_verification_sent'),
+    path('core/auth/account-confirm-email/<str:key>/', views.CustomConfirmEmailView.as_view(), name='account_confirm_email'),
 ]
 
 if settings.DEBUG:

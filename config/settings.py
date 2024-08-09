@@ -221,6 +221,10 @@ ACCOUNT_ADAPTER = 'core.adapters.CustomAccountAdapter'
 # Login and logout URL configuration
 LOGIN_REDIRECT_URL = '/dashboard/'
 ACCOUNT_SIGNUP_REDIRECT_URL = '/dashboard/'
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = 'http://localhost:3000/email-verified'
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = 'http://localhost:3000/email-verified'
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
+ACCOUNT_EMAIL_SUBJECT_PREFIX = 'Welcome to the Boilerplate'
 
 # Social auth URL configuration
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
