@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@ui/card';
 import api from '@api';
+import { getWebSocket } from '@lib/websocket';
 
 export function EmailVerificationHandler() {
   const [verificationStatus, setVerificationStatus] = useState<'verifying' | 'success' | 'error'>('verifying');
@@ -21,6 +22,16 @@ export function EmailVerificationHandler() {
         const response = await api.auth.verifyEmail(key);
         if (response.success) {
           setVerificationStatus('success');
+          // Send WebSocket message
+          const socket = getWebSocket();
+          if (socket) {
+            socket.send(
+              JSON.stringify({
+                type: 'email_verified',
+                message: 'Email has been verified',
+              })
+            );
+          }
         } else {
           setVerificationStatus('error');
           setErrorMessage(response.error || 'Verification failed');

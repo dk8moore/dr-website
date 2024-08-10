@@ -3,9 +3,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@ui/card';
 import { FeedbackButton } from '@ui/feedback-button';
 import api from '@api';
+import { initializeWebSocket, closeWebSocket } from '@lib/websocket';
 
 export function VerifyEmail() {
   const [email, setEmail] = useState<string | null>(null);
+  const [isVerified, setIsVerified] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -16,6 +18,20 @@ export function VerifyEmail() {
       // If no email is provided, redirect to signup
       navigate('/signup');
     }
+
+    // Set up WebSocket connection
+    const socket = initializeWebSocket();
+
+    socket.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      if (data.type === 'email_verified') {
+        setIsVerified(true);
+      }
+    };
+
+    return () => {
+      closeWebSocket();
+    };
   }, [location, navigate]);
 
   const handleResendEmail = async () => {
@@ -33,6 +49,22 @@ export function VerifyEmail() {
     // For now, we'll just redirect to the signup page
     navigate('/signup');
   };
+
+  if (isVerified) {
+    return (
+      <div className='flex items-center justify-center min-h-screen bg-background'>
+        <Card className='w-full max-w-md p-8 bg-[#1A1C1E] text-white'>
+          <CardContent className='flex flex-col items-center space-y-6'>
+            <h2 className='text-2xl font-bold text-center'>Email Verified Successfully</h2>
+            <p className='text-center text-gray-400'>Your email has been verified. You can now log in to your account.</p>
+            <button className='w-full py-2 px-4 bg-white text-black rounded hover:bg-gray-200' onClick={() => navigate('/login')}>
+              Continue to Login
+            </button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   if (!email) {
     return null; // or a loading spinner
