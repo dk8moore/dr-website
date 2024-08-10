@@ -5,7 +5,7 @@ import { useAuth } from '@/lib/use-auth';
 import { logger } from '@/lib/logger';
 
 import { Button } from '@ui/button';
-import { Input } from '@ui/input';
+import { Input, PasswordInput } from '@ui/input';
 import { Label } from '@ui/label';
 import { Card } from '@ui/card';
 import { Separator } from '@ui/separator';
@@ -121,9 +121,8 @@ export function LoginForm() {
                     Forgot password?
                   </Link>
                 </div>
-                <Input
+                <PasswordInput
                   id='password'
-                  type='password'
                   required
                   onChange={handleChange}
                   isError={isError}
