@@ -248,3 +248,9 @@ else:
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'        # For local development, use FileSystemStorage
+
+# Frontend URL
+if DEBUG:
+    FRONTEND_URL = 'http://localhost:3000'
+else:
+    FRONTEND_URL = 'https://my-app.com'

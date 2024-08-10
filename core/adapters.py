@@ -8,6 +8,10 @@ class CustomAccountAdapter(DefaultAccountAdapter):
     def get_login_redirect_url(self, request):
         return settings.LOGIN_REDIRECT_URL
 
+    def get_email_confirmation_url(self, request, emailconfirmation):
+        key = emailconfirmation.key
+        return f"{settings.FRONTEND_URL}/verify-email/{key}"
+
     def save_user(self, request, user, form, commit=True):
         user = super().save_user(request, user, form, commit=False)
         user.first_name = form.cleaned_data.get('first_name', '')
