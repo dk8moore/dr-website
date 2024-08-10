@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import api from '@api';
+import { initializeWebSocket, closeWebSocket } from '@lib/websocket';
 
 /**
  * Custom hook to handle authentication state
@@ -28,7 +29,21 @@ export const useAuth = () => {
   useEffect(() => {
     checkAuthStatus();
     const interval = setInterval(checkAuthStatus, 5 * 60 * 1000); // Check every 5 minutes
-    return () => clearInterval(interval);
+
+    // Set up WebSocket connection
+    const socket = initializeWebSocket();
+
+    socket.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      if (data.type === 'email_verified') {
+        checkAuthStatus();
+      }
+    };
+
+    return () => {
+      clearInterval(interval);
+      closeWebSocket();
+    };
   }, [checkAuthStatus]);
 
   const login = useCallback(() => {

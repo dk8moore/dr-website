@@ -1,28 +1,28 @@
 {
-    "compilerOptions": {
-      "target": "es5",
-      "lib": ["dom", "es2015"],
-      "jsx": "react",
-      "module": "commonjs",
-      "strict": true,
-      "esModuleInterop": true,
-      "skipLibCheck": true,
-      "forceConsistentCasingInFileNames": true,
-      "baseUrl": "./",
-      "paths": {
-        "@/*": ["src/*"],
-        "@api": ["src/api/index.ts"],
-        "@app/*": ["src/components/app/*"],
-        "@asset/*": ["src/assets/*"],
-        "@common/*": ["src/components/common/*"],
-        "@landing/*": ["src/components/landing/*"],
-        "@lib/*": ["src/lib/*"],
-        "@notification/*": ["src/components/notifications/*"],
-        "@page/*": ["src/pages/*"],
-        "@style/*": ["src/assets/styles/*"],
-        "@theme/*": ["src/assets/styles/themes/*"],
-        "@ui/*": ["src/components/ui/*"],
-      }
-    },
-    "include": ["src/**/*"]
-  }  
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "es2015"],
+    "jsx": "react",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"],
+      "@api": ["src/api/index.ts"],
+      "@app/*": ["src/components/app/*"],
+      "@asset/*": ["src/assets/*"],
+      "@common/*": ["src/components/common/*"],
+      "@landing/*": ["src/components/landing/*"],
+      "@lib/*": ["src/lib/*"],
+      "@notification/*": ["src/components/notifications/*"],
+      "@page/*": ["src/pages/*"],
+      "@style/*": ["src/assets/styles/*"],
+      "@theme/*": ["src/assets/styles/themes/*"],
+      "@ui/*": ["src/components/ui/*"]
+    }
+  },
+  "include": ["src/**/*", "src/types/*"]
+}
