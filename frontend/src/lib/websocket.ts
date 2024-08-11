@@ -2,7 +2,7 @@ let socket: WebSocket | null = null;
 
 export const initializeWebSocket = () => {
   if (!socket) {
-    socket = new WebSocket('ws://localhost:8000/ws/notifications/');
+    socket = new WebSocket((process.env.REACT_APP_WS_URL as string) + '/ws/notifications/');
   }
   return socket;
 };
