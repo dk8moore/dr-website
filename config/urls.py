@@ -32,7 +32,7 @@ urlpatterns = [
     path('core/auth/registration/', include('dj_rest_auth.registration.urls')),
     path('core/auth/password/reset/confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     # Email verification
-    path('core/auth/account-confirm-email/', lambda request: redirect('http://localhost:3000/verify-email'), name='account_email_verification_sent'),
+    path('core/auth/account-confirm-email/', lambda request: redirect('https://localhost:3000/verify-email'), name='account_email_verification_sent'),
     path('core/auth/account-confirm-email/<str:key>/', views.CustomConfirmEmailView.as_view(), name='account_confirm_email'),
 ]
 

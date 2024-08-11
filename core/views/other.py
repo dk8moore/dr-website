@@ -38,7 +38,7 @@ from django.contrib.auth import get_user_model
 # @method_decorator(csrf_exempt, name='dispatch')
 # class CreateCheckoutSessionView(generics.GenericAPIView):
 #     def post(self, request, *args, **kwargs):
-#         domain_url = 'http://localhost:3000/'
+#         domain_url = 'https://localhost:3000/'
 #         try:
 #             checkout_session = stripe.checkout.Session.create(
 #                 payment_method_types=['card'],

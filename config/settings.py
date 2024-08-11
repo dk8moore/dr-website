@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 from pathlib import Path
 from decouple import config
+from django.core.management.utils import get_random_secret_key
 from django.urls import reverse_lazy
 from datetime import timedelta
 
@@ -23,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = config('SECRET_KEY', default=get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
@@ -33,7 +34,7 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # Your React app's URL
+    "https://localhost:3000",  # Your React app's URL
 ]
 
 
@@ -41,6 +42,7 @@ CORS_ALLOWED_ORIGINS = [
 
 INSTALLED_APPS = [
     'daphne',
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -221,8 +223,8 @@ ACCOUNT_ADAPTER = 'core.adapters.CustomAccountAdapter'
 # Login and logout URL configuration
 LOGIN_REDIRECT_URL = '/dashboard/'
 ACCOUNT_SIGNUP_REDIRECT_URL = '/dashboard/'
-ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = 'http://localhost:3000/email-verified'
-ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = 'http://localhost:3000/email-verified'
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = 'https://localhost:3000/email-verified'
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = 'https://localhost:3000/email-verified'
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
 ACCOUNT_EMAIL_SUBJECT_PREFIX = 'Welcome to the Boilerplate'
 
@@ -251,6 +253,59 @@ DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'        # Fo
 
 # Frontend URL
 if DEBUG:
-    FRONTEND_URL = 'http://localhost:3000'
+    FRONTEND_URL = 'https://localhost:3000'
 else:
     FRONTEND_URL = 'https://my-app.com'
+
+SECURE_SSL_REDIRECT = True
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+# SSL Certificate paths
+SSL_CERTIFICATE = os.path.join(BASE_DIR, 'ssl', 'localhost.crt')
+SSL_KEY = os.path.join(BASE_DIR, 'ssl', 'localhost.key')
+
+# Logging configuration
+from utils.custom_logging import get_colored_console_handler
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            '()': get_colored_console_handler,
+        },
+    },
+    'loggers': {
+        '': {  # Root logger
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'django.server': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'daphne': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'twisted': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    },
+}
+
+# if DEBUG:
+#     LOGGING['loggers']['django.db.backends']['level'] = 'DEBUG'
