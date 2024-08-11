@@ -43,6 +43,10 @@ $RECYCLE.BIN/
 # PostgreSQL
 *.sql
 
+# SSL
+ssl
+frontend/ssl
+
 # Other
 tree.txt
 desc.txt

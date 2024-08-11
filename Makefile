@@ -42,8 +42,16 @@ createsu:
 	python manage.py createsuperuser
 
 run:
+	# Start the Django development server through Daphne with SSL and WebSocket support
+	python utils/run_daphne.py
+
+run-nossl:
 	# Start the Django development server
 	python manage.py runserver
+
+run-nows:
+	# Start the Django development server with no WebSocket support
+	python manage.py runserver_plus --cert-file ssl/localhost.crt --key-file ssl/localhost.key
 
 clean:
 	# Remove Python file artifacts
