@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Card, CardContent } from '@ui/card';
 import api from '@api';
 import { getWebSocket } from '@lib/websocket';
+import { logger } from '@/lib/logger';
+
+import { Button } from '@ui/button';
+import { Card } from '@ui/card';
+import { FiAlertCircle, FiCheckCircle } from 'react-icons/fi';
 
 export function EmailVerificationHandler() {
   const [verificationStatus, setVerificationStatus] = useState<'verifying' | 'success' | 'error'>('verifying');
@@ -37,6 +41,7 @@ export function EmailVerificationHandler() {
           setErrorMessage(response.error || 'Verification failed');
         }
       } catch (error) {
+        logger.error('An error occurred during email verification:', error);
         setVerificationStatus('error');
         setErrorMessage('An error occurred during verification');
       }
@@ -50,35 +55,46 @@ export function EmailVerificationHandler() {
   };
 
   return (
-    <div className='flex items-center justify-center min-h-screen bg-background'>
-      <Card className='w-full max-w-md p-8 bg-[#1A1C1E] text-white'>
-        <CardContent className='flex flex-col items-center space-y-6'>
-          <div className='w-16 h-16 bg-[#27292B] rounded-full flex items-center justify-center'>
-            <span className='text-2xl'>Logo</span>
+    <div className='flex dotted-background items-center justify-center min-h-screen min-w-[400px] px-4 py-12 relative'>
+      <div className='absolute inset-0 lg:hidden'>
+        <img src='https://picsum.photos/1080/1920' alt='Background Image' className='w-full h-full object-cover opacity-20' />
+      </div>
+      <Card className='flex items-center max-w-md rounded-lg shadow-lg overflow-hidden z-10'>
+        <div className='flex flex-col justify-center mx-auto w-full max-w-md p-8'>
+          <div className='text-center'>
+            <div className='w-16 h-16 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4'>
+              {verificationStatus === 'success' ? (
+                <FiCheckCircle className='w-8 h-8 text-primary' />
+              ) : verificationStatus === 'error' ? (
+                <FiAlertCircle className='w-8 h-8 text-error' />
+              ) : (
+                <span className='text-2xl'>Logo</span>
+              )}
+            </div>
+
+            {verificationStatus === 'verifying' && <h4 className='text-2xl font-semibold text-card-foreground'>Verifying your email...</h4>}
+
+            {verificationStatus === 'success' && (
+              <>
+                <h4 className='text-2xl font-semibold text-card-foreground'>Email Verified Successfully</h4>
+                <p className='font-light mt-2 text-muted-foreground'>Your email has been verified. You can now log in to your account.</p>
+                <Button onClick={handleContinue} className='w-full mt-4 font-bold bg-primary'>
+                  Continue to Login
+                </Button>
+              </>
+            )}
+
+            {verificationStatus === 'error' && (
+              <>
+                <h4 className='text-2xl font-semibold text-card-foreground'>Verification Failed</h4>
+                <p className='font-light mt-2 text-error'>{errorMessage || 'An error occurred during email verification.'}</p>
+                <Button onClick={() => navigate('/signup')} className='w-full mt-4 font-bold bg-primary'>
+                  Back to Sign Up
+                </Button>
+              </>
+            )}
           </div>
-
-          {verificationStatus === 'verifying' && <p className='text-center'>Verifying your email...</p>}
-
-          {verificationStatus === 'success' && (
-            <>
-              <h2 className='text-2xl font-bold text-center'>Email Verified Successfully</h2>
-              <p className='text-center text-gray-400'>Your email has been verified. You can now log in to your account.</p>
-              <button className='w-full py-2 px-4 bg-white text-black rounded hover:bg-gray-200' onClick={handleContinue}>
-                Continue to Login
-              </button>
-            </>
-          )}
-
-          {verificationStatus === 'error' && (
-            <>
-              <h2 className='text-2xl font-bold text-center'>Verification Failed</h2>
-              <p className='text-center text-gray-400'>{errorMessage || 'An error occurred during email verification.'}</p>
-              <button className='w-full py-2 px-4 bg-white text-black rounded hover:bg-gray-200' onClick={() => navigate('/signup')}>
-                Back to Sign Up
-              </button>
-            </>
-          )}
-        </CardContent>
+        </div>
       </Card>
     </div>
   );

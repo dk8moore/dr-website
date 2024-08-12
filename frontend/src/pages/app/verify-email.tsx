@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Card, CardContent } from '@ui/card';
-import { FeedbackButton } from '@ui/feedback-button';
 import api from '@api';
 import { initializeWebSocket, closeWebSocket } from '@lib/websocket';
+import { logger } from '@/lib/logger';
+
+import { Button } from '@ui/button';
+import { Card } from '@ui/card';
+import { FiAlertCircle, FiCheckCircle, FiMail } from 'react-icons/fi';
 
 export function VerifyEmail() {
   const [email, setEmail] = useState<string | null>(null);
   const [isVerified, setIsVerified] = useState(false);
+  const [isResending, setIsResending] = useState(false);
+  const [resendError, setResendError] = useState<string | null>(null);
+  const [resendSuccess, setResendSuccess] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -35,32 +41,48 @@ export function VerifyEmail() {
   }, [location, navigate]);
 
   const handleResendEmail = async () => {
-    if (!email) return Promise.reject('No email provided');
+    if (!email) return;
+    setIsResending(true);
+    setResendError(null);
+    setResendSuccess(false);
     try {
-      await api.auth.resendVerificationEmail(email);
-      return Promise.resolve();
+      const response = await api.auth.resendVerificationEmail(email);
+      if (response.success) {
+        setResendSuccess(true);
+      } else {
+        setResendError(response.error || 'Failed to resend verification email');
+      }
     } catch (error) {
-      return Promise.reject(error);
+      logger.error('Failed to resend verification email:', error);
+      setResendError('An error occurred. Please try again.');
+    } finally {
+      setIsResending(false);
     }
   };
 
   const handleUpdateEmail = () => {
-    // Implement the logic to update email
-    // For now, we'll just redirect to the signup page
     navigate('/signup');
   };
 
   if (isVerified) {
     return (
-      <div className='flex items-center justify-center min-h-screen bg-background'>
-        <Card className='w-full max-w-md p-8 bg-[#1A1C1E] text-white'>
-          <CardContent className='flex flex-col items-center space-y-6'>
-            <h2 className='text-2xl font-bold text-center'>Email Verified Successfully</h2>
-            <p className='text-center text-gray-400'>Your email has been verified. You can now log in to your account.</p>
-            <button className='w-full py-2 px-4 bg-white text-black rounded hover:bg-gray-200' onClick={() => navigate('/login')}>
-              Continue to Login
-            </button>
-          </CardContent>
+      <div className='flex dotted-background items-center justify-center min-h-screen min-w-[400px] px-4 py-12 relative'>
+        <div className='absolute inset-0 lg:hidden'>
+          <img src='https://picsum.photos/1080/1920' alt='Background Image' className='w-full h-full object-cover opacity-20' />
+        </div>
+        <Card className='flex items-center max-w-md rounded-lg shadow-lg overflow-hidden z-10'>
+          <div className='flex flex-col justify-center mx-auto w-full max-w-md p-8'>
+            <div className='text-center'>
+              <div className='w-16 h-16 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4'>
+                <FiCheckCircle className='w-8 h-8 text-primary' />
+              </div>
+              <h4 className='text-2xl font-semibold text-card-foreground'>Email Verified Successfully</h4>
+              <p className='font-light mt-2 text-muted-foreground'>Your email has been verified. You can now log in to your account.</p>
+              <Button onClick={() => navigate('/login')} className='w-full mt-4 font-bold bg-primary'>
+                Continue to Login
+              </Button>
+            </div>
+          </div>
         </Card>
       </div>
     );
@@ -71,37 +93,43 @@ export function VerifyEmail() {
   }
 
   return (
-    <div className='flex items-center justify-center min-h-screen bg-background'>
-      <Card className='w-full max-w-md p-8 bg-[#1A1C1E] text-white'>
-        <CardContent className='flex flex-col items-center space-y-6'>
-          {/* Placeholder for logo */}
-          <div className='w-16 h-16 bg-[#27292B] rounded-full flex items-center justify-center'>
-            <span className='text-2xl'>Logo</span>
+    <div className='flex dotted-background items-center justify-center min-h-screen min-w-[400px] px-4 py-12 relative'>
+      <div className='absolute inset-0 lg:hidden'>
+        <img src='https://picsum.photos/1080/1920' alt='Background Image' className='w-full h-full object-cover opacity-20' />
+      </div>
+      <Card className='flex items-center max-w-md rounded-lg shadow-lg overflow-hidden z-10'>
+        <div className='flex flex-col justify-center mx-auto w-full max-w-md p-8'>
+          <div className='text-center'>
+            <div className='w-16 h-16 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4'>
+              <FiMail className='w-8 h-8 text-primary' />
+            </div>
+            <h4 className='text-2xl font-semibold text-card-foreground'>Please verify your email</h4>
+            <p className='font-light mt-2 text-muted-foreground'>
+              We just sent an email to {email}.<br />
+              Click the link in the email to verify your account.
+            </p>
+            <div className='mt-6 space-y-2'>
+              <Button onClick={handleResendEmail} className='w-full font-bold bg-primary' disabled={isResending}>
+                {isResending ? 'Sending...' : 'Resend email'}
+              </Button>
+              <Button onClick={handleUpdateEmail} className='w-full font-bold' variant='outline'>
+                Update email
+              </Button>
+            </div>
+            {resendError && (
+              <div className='mt-4 flex items-center justify-center text-sm text-error'>
+                <FiAlertCircle className='flex-shrink-0 mr-2' />
+                <p>{resendError}</p>
+              </div>
+            )}
+            {resendSuccess && (
+              <div className='mt-4 flex items-center justify-center text-sm text-primary'>
+                <FiCheckCircle className='flex-shrink-0 mr-2' />
+                <p>Verification email sent. Check your inbox.</p>
+              </div>
+            )}
           </div>
-
-          <h2 className='text-2xl font-bold text-center'>Please verify your email</h2>
-
-          <p className='text-center text-gray-400'>
-            We just sent an email to {email}.<br />
-            Click the link in the email to verify your account.
-          </p>
-
-          <div className='flex space-x-4 w-full'>
-            <FeedbackButton
-              className='flex-1 bg-white text-black hover:bg-gray-200'
-              onClickAsync={handleResendEmail}
-              loadingText='Sending...'
-              successText='Email Sent'
-              errorText='Failed to Send'
-            >
-              Resend email
-            </FeedbackButton>
-
-            <FeedbackButton className='flex-1 bg-[#27292B] hover:bg-[#3A3C3E]' onClick={handleUpdateEmail}>
-              Update email
-            </FeedbackButton>
-          </div>
-        </CardContent>
+        </div>
       </Card>
     </div>
   );
