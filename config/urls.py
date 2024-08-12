@@ -34,6 +34,7 @@ urlpatterns = [
     # Email verification
     path('core/auth/account-confirm-email/', lambda request: redirect('https://localhost:3000/verify-email'), name='account_email_verification_sent'),
     path('core/auth/account-confirm-email/<str:key>/', views.CustomConfirmEmailView.as_view(), name='account_confirm_email'),
+    path('core/auth/registration/resend-email/', views.ResendEmailVerificationView.as_view(), name='account_resend_email_verification'),
 ]
 
 if settings.DEBUG:
