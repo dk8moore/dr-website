@@ -7,7 +7,6 @@ from daphne.cli import CommandLineInterface
 from daphne.server import Server
 import threading
 from custom_logging import get_colored_console_handler
-from custom_access_log import ColoredAccessLogGenerator
 import logging
 
 class ReloadHandler(FileSystemEventHandler):
@@ -86,7 +85,6 @@ def run_daphne():
         cli.run([
             "-e", "ssl:8000:privateKey=ssl/localhost.key:certKey=ssl/localhost.crt",
             "--access-log", "-",
-            # "--access-log-class", "custom_access_log.ColoredAccessLogGenerator",
             "config.asgi:application"
         ])
 

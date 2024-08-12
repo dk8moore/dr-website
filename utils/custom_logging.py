@@ -13,14 +13,14 @@ class ColoredFormatter(logging.Formatter):
     }
 
     def format(self, record):
-        levelname = record.levelname[:5].ljust(5)  # Truncate to 5 characters and pad
+        levelname = record.levelname[:4].ljust(4)  # Truncate to 5 characters and pad
         asctime = self.formatTime(record, self.datefmt)
-        module = record.module[:8].ljust(8)  # Truncate or pad to 8 characters
+        module = record.module[:12].ljust(12)  # Truncate or pad to 8 characters
         message = record.getMessage()
 
         level_color = self.COLORS.get(record.levelname, '')
 
-        formatted_msg = f"{level_color}{levelname} {asctime} {Fore.MAGENTA}{module}{Style.RESET_ALL} - {level_color}{message}{Style.RESET_ALL}"
+        formatted_msg = f"{level_color}{levelname} {Style.RESET_ALL}{asctime} {Fore.MAGENTA}{module}{Style.RESET_ALL} - {level_color}{message}{Style.RESET_ALL}"
 
         return formatted_msg
 
