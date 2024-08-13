@@ -34,9 +34,11 @@ export class AuthAPI {
   async login(credentials: LoginCredentials): Promise<{ success: boolean; data?: AuthTokens; error?: string; needsVerification?: boolean }> {
     try {
       const response = await this.api.post<AuthTokens>('/auth/login/', credentials);
-      if (response.data.access && response.data.refresh) {
+      if (response.data.access) {
         localStorage.setItem('access_token', response.data.access);
-        localStorage.setItem('refresh_token', response.data.refresh);
+        if (response.data.refresh) {
+          localStorage.setItem('refresh_token', response.data.refresh);
+        }
         return { success: true, data: response.data };
       } else {
         return { success: false, error: 'Invalid response from server' };

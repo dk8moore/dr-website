@@ -58,7 +58,7 @@ export function LoginForm() {
     try {
       const response = await api.auth.login(formData);
 
-      if (response.data?.access && response.data?.refresh) {
+      if (response.success) {
         await checkAuthStatus(); // Check auth status immediately after login
         authLogin();
         logger.info('User logged in successfully');
