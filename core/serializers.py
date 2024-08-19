@@ -10,14 +10,13 @@ user_credentials_fields = ['email', 'password']
 user_info_fields = ['username', 'first_name', 'last_name', 'bio', 'birth_date', 'profile_picture', 'phone_number', 'address']
 
 class CustomRegisterSerializer(RegisterSerializer):
-    first_name = serializers.CharField(required=True)
-    last_name = serializers.CharField(required=True)
+    first_name = serializers.CharField(required=False)
+    last_name = serializers.CharField(required=False)
 
-    def get_cleaned_data(self):
-        data = super().get_cleaned_data()
-        data['first_name'] = self.validated_data.get('first_name', '')
-        data['last_name'] = self.validated_data.get('last_name', '')
-        return data
+    def custom_signup(self, request, user):
+        user.first_name = self.validated_data.get('first_name', '')
+        user.last_name = self.validated_data.get('last_name', '')
+        user.save()
 
 class CustomUserDetailsSerializer(UserDetailsSerializer):
     class Meta(UserDetailsSerializer.Meta):
