@@ -59,6 +59,12 @@ clean:
 	find . -name '*.pyo' -exec rm {} +
 	find . -name '__pycache__' -exec rm -r {} +
 
+# Backend testing
+
+test:
+	# Run Django tests
+	python manage.py test core.tests
+
 # Frontend setup
 
 fe-install:
@@ -73,6 +79,12 @@ fe-clean:
 	# Remove frontend build artifacts
 	rm -rf frontend/build
 	rm -rf frontend/node_modules
+
+# Frontend testing
+
+fe-test:
+	# Run React tests
+	cd frontend && npm test
 
 # Boilerplate git setup (for derived projects)
 

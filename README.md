@@ -1,6 +1,6 @@
 # Django + React SaaS Boilerplate
 
-This project is a boilerplate for building SaaS applications with Django and React, featuring real-time notifications using Django Channels and WebSockets, SSL support for development.
+This project is a boilerplate for building SaaS applications with Django and React, featuring real-time notifications using Django Channels and WebSockets, SSL support for development, backend and frontend critical testing.
 
 ## Requirements
 
@@ -19,7 +19,7 @@ This project is a boilerplate for building SaaS applications with Django and Rea
 - **Frontend**: React application setup for dynamic user interfaces, styled with Tailwind CSS.
 - **Payment Integration**: Stripe integration for payment processing.
 - **SSL Support**: Includes SSL certificates for secure development environment.
-- **Hot Reloading**: Backend supports hot reloading for faster development.
+- **Critical tests**: Basic backend and frontend tests for critical routines.
 
 ## Setup
 
@@ -173,9 +173,11 @@ _For production environments, it's recommended to use a more secure configuratio
 - **Start the backend server without SSL**: `make run-nossl`
 - **Start the backend server without WebSocket support**: `make run-nows`
 - **Clean backend project**: `make clean`
+- **Run backend tests**: `make test`
 - **Install frontend requirements**: `make fe-install`
 - **Start the frontend server**: `make fe-run`
 - **Clean frontend project**: `make fe-clean`
+- **Run backend tests**: `make fe-test`
 - **Set up boilerplate remote**: `make bp-remote`
 - **Update from boilerplate**: `make bp-pull`
 - **Print tree structure to file**: `make tree`
