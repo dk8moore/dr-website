@@ -69,8 +69,19 @@ export class AuthAPI {
     logger.log('User logged out successfully');
   }
 
+  isTokenValid(token: string): boolean {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const expiry = payload.exp * 1000; // convert to milliseconds
+      return Date.now() < expiry;
+    } catch (e) {
+      return false;
+    }
+  }
+
   isAuthenticated(): boolean {
-    return !!localStorage.getItem('access_token');
+    const token = localStorage.getItem('access_token');
+    return token ? this.isTokenValid(token) : false;
   }
 
   async refreshToken(): Promise<string | null> {
