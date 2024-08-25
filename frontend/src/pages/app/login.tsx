@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '@api';
-import { useAuth } from '@/lib/use-auth';
-import { logger } from '@/lib/logger';
+import { useAuth } from '@lib/use-auth';
+import { logger } from '@lib/logger';
 
 import { Button } from '@ui/button';
 import { Input, PasswordInput } from '@ui/input';
@@ -27,31 +27,25 @@ export function LoginForm() {
   const navigate = useNavigate();
   const { login: authLogin, checkAuthStatus } = useAuth();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
-    // Clear error state when user starts typing
-    if (isError) {
-      setIsError(false);
-      setErrorMessage('');
-    }
-  };
-
-  const handleResendVerification = async () => {
-    try {
-      const response = await api.auth.resendVerificationEmail(formData.email);
-      if (response.success) {
-        setSuccessMessage('Verification email sent. Check your inbox.');
-        setIsSuccess(true);
-      } else {
-        setErrorMessage(response.error || 'Failed to resend verification email. Please try again.');
-        setIsError(true);
+  useEffect(() => {
+    const checkExistingToken = async () => {
+      const token = localStorage.getItem('access_token');
+      if (token) {
+        try {
+          const isValid = await api.auth.isTokenValid(token);
+          if (isValid) {
+            await checkAuthStatus();
+            navigate('/dashboard');
+          }
+        } catch (error) {
+          // Token is invalid, clear it
+          api.auth.clearAuthTokens();
+        }
       }
-    } catch (error) {
-      logger.error('Failed to resend verification email:', error);
-      setErrorMessage('An error occurred. Please try again.');
-      setIsError(true);
-    }
-  };
+    };
+
+    checkExistingToken();
+  }, [navigate, checkAuthStatus]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -77,6 +71,32 @@ export function LoginForm() {
       setIsError(true);
       setIsShaking(true);
       setErrorMessage('An error occurred during login. Please try again.');
+    }
+  };
+
+  const handleResendVerification = async () => {
+    try {
+      const response = await api.auth.resendVerificationEmail(formData.email);
+      if (response.success) {
+        setSuccessMessage('Verification email sent. Check your inbox.');
+        setIsSuccess(true);
+      } else {
+        setErrorMessage(response.error || 'Failed to resend verification email. Please try again.');
+        setIsError(true);
+      }
+    } catch (error) {
+      logger.error('Failed to resend verification email:', error);
+      setErrorMessage('An error occurred. Please try again.');
+      setIsError(true);
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+    // Clear error state when user starts typing
+    if (isError) {
+      setIsError(false);
+      setErrorMessage('');
     }
   };
 

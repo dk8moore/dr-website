@@ -33,6 +33,14 @@ export class AuthAPI {
 
   async login(credentials: LoginCredentials): Promise<{ success: boolean; data?: AuthTokens; error?: string; needsVerification?: boolean }> {
     try {
+      // First, check if we have a valid token
+      const currentToken = localStorage.getItem('access_token');
+      if (currentToken && this.isTokenValid(currentToken)) {
+        // If we have a valid token, consider the user as already logged in
+        return { success: true, data: { access: currentToken, refresh: localStorage.getItem('refresh_token') || '' } };
+      }
+
+      // If no valid token, proceed with login request
       const response = await this.api.post<AuthTokens>('/auth/login/', credentials);
       if (response.data.access) {
         localStorage.setItem('access_token', response.data.access);
@@ -44,6 +52,13 @@ export class AuthAPI {
         return { success: false, error: 'Invalid response from server' };
       }
     } catch (error: any) {
+      // If the error is due to an expired token, clear it and retry the login
+      if (error.response?.status === 401 && localStorage.getItem('access_token')) {
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+        return this.login(credentials); // Retry login without the expired token
+      }
+
       logger.error('Login error:', error);
       if (error.response?.data?.non_field_errors?.includes('E-mail is not verified.')) {
         return { success: false, error: 'Email not verified', needsVerification: true };
@@ -100,6 +115,10 @@ export class AuthAPI {
       }
     }
     return null;
+  }
+
+  public clearAuthTokens() {
+    this.clearTokens(); // This calls the private method passed in the constructor
   }
 
   async verifyEmail(key: string): Promise<ApiResponse> {
