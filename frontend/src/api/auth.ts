@@ -74,6 +74,9 @@ export class AuthAPI {
       return { success: true, message: 'Please check your email to verify your account.' };
     } catch (error: any) {
       logger.error('Signup error:', error);
+      if (error.response?.data?.email) {
+        return { success: false, error: error.response.data.email };
+      }
       return { success: false, error: error.response?.data?.detail || 'An error occurred during signup' };
     }
   }

@@ -4,6 +4,7 @@ from dj_rest_auth.serializers import UserDetailsSerializer
 from django.core.validators import validate_email
 from django.contrib.auth.password_validation import validate_password
 from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.db import IntegrityError
 from .models import User
 
 user_credentials_fields = ['email', 'password']
@@ -12,6 +13,16 @@ user_info_fields = ['username', 'first_name', 'last_name', 'bio', 'birth_date', 
 class CustomRegisterSerializer(RegisterSerializer):
     first_name = serializers.CharField(required=False)
     last_name = serializers.CharField(required=False)
+
+    def save(self, request):
+        try:
+            user = super().save(request)
+            user.first_name = self.validated_data.get('first_name', '')
+            user.last_name = self.validated_data.get('last_name', '')
+            user.save()
+            return user
+        except IntegrityError:
+            raise serializers.ValidationError({'email': 'This email address is already in use.'})
 
     def custom_signup(self, request, user):
         user.first_name = self.validated_data.get('first_name', '')
