@@ -1,11 +1,24 @@
 import os
 import sys
 import time
+from pathlib import Path
+
+# Add the project root directory to the Python path
+project_root = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(project_root))
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
+
+import django
+django.setup()
+
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from daphne.cli import CommandLineInterface
 from daphne.server import Server
+from django.core.management import execute_from_command_line
 import threading
+import logging
 from custom_logging import get_colored_console_handler
 import logging
 
@@ -61,6 +74,9 @@ def configure_logging():
 
 def run_daphne():
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
+
+    # Collect static files
+    execute_from_command_line(["", "collectstatic", "--noinput"])
 
     # Configure logging and set Daphne's logger
     logger = configure_logging()
