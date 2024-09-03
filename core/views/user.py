@@ -160,7 +160,7 @@ class UserPasswordResetView(APIView):
                     "uid": urlsafe_base64_encode(force_bytes(user.pk)),
                     "user": user,
                     'token': default_token_generator.make_token(user),
-                    'protocol': 'http',  # Use 'https' for production
+                    'protocol': 'https',
                 }
                 email = render_to_string(email_template_name, c)
                 send_mail(subject, email, settings.DEFAULT_FROM_EMAIL, [user.email], fail_silently=False)
