@@ -15,26 +15,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from django.shortcuts import redirect
-from django.urls import path, include
-from dj_rest_auth.views import PasswordResetConfirmView
-from django.views.generic import TemplateView
-from core import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('core/', include('core.urls')),
-    path('', TemplateView.as_view(template_name='index.html'), name='app'),
-    # Auth
-    path('core/auth/', include('dj_rest_auth.urls')),
-    path('core/auth/registration/', include('dj_rest_auth.registration.urls')),
-    path('core/auth/password/reset/confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
-    # Email verification
-    path('core/auth/account-confirm-email/', lambda request: redirect('https://localhost:3000/verify-email'), name='account_email_verification_sent'),
-    path('core/auth/account-confirm-email/<str:key>/', views.CustomConfirmEmailView.as_view(), name='account_confirm_email'),
-    path('core/auth/registration/resend-email/', views.ResendEmailVerificationView.as_view(), name='account_resend_email_verification'),
 ]
 
 if settings.DEBUG:

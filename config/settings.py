@@ -126,7 +126,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Rest Framework settings
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
     ),
 }
 
@@ -135,22 +135,12 @@ REST_USE_JWT = True
 JWT_AUTH_COOKIE = 'my-app-auth'
 JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
 
-SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
-    'ROTATE_REFRESH_TOKENS': False,
-    'BLACKLIST_AFTER_ROTATION': True,
-    'AUTH_HEADER_TYPES': ('Bearer',),
-    'USER_ID_FIELD': 'id',
-    'USER_ID_CLAIM': 'user_id',
-    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
-}
-
 REST_AUTH = {
     'USE_JWT': True,
     'JWT_AUTH_COOKIE': 'my-app-auth',
     'JWT_AUTH_REFRESH_COOKIE': 'my-refresh-token',
     'REGISTER_SERIALIZER': 'core.serializers.CustomRegisterSerializer',
+    'USER_DETAILS_SERIALIZER': 'core.serializers.CustomUserDetailsSerializer',
 }
 
 # Redis
@@ -185,8 +175,8 @@ ACCOUNT_EMAIL_SUBJECT_PREFIX = 'Welcome to the Boilerplate'
 # Login and logout URL configuration
 LOGIN_REDIRECT_URL = '/dashboard/'
 ACCOUNT_SIGNUP_REDIRECT_URL = '/dashboard/'
-ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = 'https://localhost:3000/email-verified'
-ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = 'https://localhost:3000/email-verified'
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/email-verified/'
+# ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/email-verified/'
 
 # User model
 AUTH_USER_MODEL = 'core.User'
