@@ -5,8 +5,8 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
-from .models import User
-from .serializers import UserSerializer
+from ..models import User
+from ..serializers import UserSerializer
 import json
 
 import stripe
