@@ -106,4 +106,4 @@ bp-pull:
 
 tree:
 	# Print the directory tree to a file
-	tree -a -I '.venv|venv|__pycache__|node_modules|.git|.vscode|.DS_Store' --dirsfirst > tree.txt
+	tree -a -I '.venv|venv|__pycache__|node_modules|.git|.vscode|.DS_Store|staticfiles' --dirsfirst > tree.txt
