@@ -8,7 +8,7 @@ import ExampleRoutes from '@page/app/examples/example';
 import AppRoutes from '@page/app/app';
 import reportWebVitals from '@/reportWebVitals';
 
-import '@style/index.css';
+import '@style/global.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
