@@ -1,6 +1,6 @@
 'use client';
 
-/* From Shadcn UI => https://ui.shadcn.com/docs/components/sidebar */
+/* From Shadcn UI => https://ui.shadcn.com/docs/components/sidebar. Follow tutorial for create a sidebar. */
 
 import * as React from 'react';
 import { Slot } from '@radix-ui/react-slot';
