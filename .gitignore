@@ -1,0 +1,53 @@
+# Django specific
+*.log
+*.pot
+*.pyc
+__pycache__/
+db.sqlite3
+media
+staticfiles
+
+# Environments
+.env
+venv/
+ENV/
+saas/
+env/
+.venv/
+env.bak/
+venv.bak/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# macOS
+.DS_Store
+
+# Linux
+*~
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# PyCharm
+.idea/
+
+# VS Code
+.vscode/
+
+# MySQL
+*.sql
+
+# PostgreSQL
+*.sql
+
+# SSL
+ssl
+frontend/ssl
+
+# Other
+tree.txt
+desc.txt
