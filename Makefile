@@ -102,6 +102,23 @@ bp-pull:
 	git merge boilerplate/main --allow-unrelated-histories
 	@echo "Update from Boilerplate completed successfully."
 
+bp-push:
+	# Push changes to the remote
+	@echo "This will push your changes to the original Boilerplate repository."
+	@echo "IMPORTANT: Make sure you:"
+	@echo "  1. Are on a specific branch created for boilerplate modifications"
+	@echo "  2. Have only committed changes that are generic and beneficial for all users"
+	@echo "  3. Have tested these changes thoroughly"
+	@echo "Current branch: $$(git rev-parse --abbrev-ref HEAD)"
+	@read -p "Are you sure you want to push to the Boilerplate? [y/N] " confirm && [[ $$confirm == [yY] || $$confirm == [yY][eE][sS] ]] || exit 1
+	@if [ "$$(git rev-parse --abbrev-ref HEAD)" = "main" ]; then \
+		echo "ERROR: You are on the main branch. Please create a specific branch for boilerplate changes."; \
+		exit 1; \
+	fi
+	@echo "Pushing changes to Boilerplate repository..."
+	git push boilerplate "$$(git rev-parse --abbrev-ref HEAD):main"
+	@echo "Changes pushed to Boilerplate successfully."
+
 # Other
 
 tree:
