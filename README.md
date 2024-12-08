@@ -180,6 +180,7 @@ _For production environments, it's recommended to use a more secure configuratio
 - **Run backend tests**: `make fe-test`
 - **Set up boilerplate remote**: `make bp-remote`
 - **Update from boilerplate**: `make bp-pull`
+- **Push changes to boilerplate**: `make bp-push`
 - **Print tree structure to file**: `make tree`
 
 ## SSL Certificates for Local Development
